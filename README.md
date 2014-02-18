@@ -1,4 +1,0 @@
-mam-gestion
-===========
-
-Mam Gestion
