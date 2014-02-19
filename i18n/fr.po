@@ -1,0 +1,386 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* mam_gestion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140205-002759\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-19 23:00+0000\n"
+"PO-Revision-Date: 2014-02-19 23:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mam_gestion
+#: help:mam.am,date_embauche:0
+msgid "Date dembauche de lassistante maternelle"
+msgstr "Date dembauche de lassistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.presence_e,mange_gouter:0
+msgid "Mange au gouter"
+msgstr "Mange au gouter"
+
+#. module: mam_gestion
+#: field:mam.presence_e,date_fin:0
+msgid "Fin de présence"
+msgstr "Fin de présence"
+
+#. module: mam_gestion
+#: help:mam.enfant,recommandations:0
+msgid "Recommandations générales pour lenfant"
+msgstr "Recommandations générales pour lenfant"
+
+#. module: mam_gestion
+#: model:ir.ui.menu,name:mam_gestion.menu_contact_item
+#: field:mam.enfant,contact_ids:0
+msgid "Contacts"
+msgstr "Contacts"
+
+#. module: mam_gestion
+#: field:mam.enfant,allergies:0
+msgid "Allergies"
+msgstr "Allergies"
+
+#. module: mam_gestion
+#: selection:mam.presence_e,type:0
+msgid "Présence normale"
+msgstr "Présence normale"
+
+#. module: mam_gestion
+#: view:mam.am:0
+msgid "am"
+msgstr "am"
+
+#. module: mam_gestion
+#: help:mam.am,nom:0
+msgid "Nom de lassistante maternelle"
+msgstr "Nom de lassistante maternelle"
+
+#. module: mam_gestion
+#: help:mam.contact,nom:0
+msgid "Nom du contact"
+msgstr "Nom du contact"
+
+#. module: mam_gestion
+#: help:mam.contact,tel_fixe:0
+msgid "Téléphone fixe du contact"
+msgstr "Téléphone fixe du contact"
+
+#. module: mam_gestion
+#: model:ir.ui.menu,name:mam_gestion.menu_rub_mam
+#: model:ir.ui.menu,name:mam_gestion.menu_top_mam
+msgid "MAM"
+msgstr "MAM"
+
+#. module: mam_gestion
+#: help:mam.am,num_ss:0
+msgid "Numéro de Sécurité Sociale de lassistante maternelle"
+msgstr "Numéro de Sécurité Sociale de lassistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.enfant,am_id:0
+msgid "Assistante maternelle de référence"
+msgstr "Assistante maternelle de référence"
+
+#. module: mam_gestion
+#: field:mam.am,date_embauche:0
+msgid "Date dembauche"
+msgstr "Date dembauche"
+
+#. module: mam_gestion
+#: model:ir.actions.act_window,name:mam_gestion.action_am
+#: model:ir.model,name:mam_gestion.model_mam_am
+msgid "Assistante maternelle"
+msgstr "Assistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.am,date_agrement:0
+msgid "Date dernier agrément"
+msgstr "Date dernier agrément"
+
+#. module: mam_gestion
+#: selection:mam.presence_e,type:0
+msgid "Malade longue durée"
+msgstr "Malade longue durée"
+
+#. module: mam_gestion
+#: field:mam.am,date_naiss:0
+#: field:mam.enfant,date_naiss:0
+msgid "Date de naissance"
+msgstr "Date de naissance"
+
+#. module: mam_gestion
+#: field:mam.am,nom:0
+#: field:mam.contact,nom:0
+#: field:mam.enfant,nom:0
+msgid "Nom"
+msgstr "Nom"
+
+#. module: mam_gestion
+#: help:mam.enfant,am_id:0
+msgid "Assistante maternelle de référence pour lenfant"
+msgstr "Assistante maternelle de référence pour lenfant"
+
+#. module: mam_gestion
+#: field:mam.contact,enfant_ids:0
+msgid "Enfants associés"
+msgstr "Enfants associés"
+
+#. module: mam_gestion
+#: help:mam.presence_e,mange_midi:0
+msgid "Prise du repas du midi"
+msgstr "Prise du repas du midi"
+
+#. module: mam_gestion
+#: field:mam.am,prenom:0
+#: field:mam.contact,prenom:0
+#: field:mam.enfant,prenom:0
+msgid "Prénom"
+msgstr "Prénom"
+
+#. module: mam_gestion
+#: field:mam.presence_e,est_reel:0
+msgid "Présence/absence réelle"
+msgstr "Présence/absence réelle"
+
+#. module: mam_gestion
+#: field:mam.am,adresse:0
+#: field:mam.contact,adresse:0
+msgid "Adresse"
+msgstr "Adresse"
+
+#. module: mam_gestion
+#: help:mam.enfant,allergies:0
+msgid "Allergies de lenfant"
+msgstr "Allergies de lenfant"
+
+#. module: mam_gestion
+#: model:ir.actions.act_window,name:mam_gestion.action_presence_e
+msgid "Prevision"
+msgstr "Prevision"
+
+#. module: mam_gestion
+#: help:mam.am,nb_agrements:0
+msgid "Nombre dagréments total de lassistante maternelle"
+msgstr "Nombre dagréments total de lassistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.am,nb_agrements:0
+msgid "Nombre dagréments"
+msgstr "Nombre dagréments"
+
+#. module: mam_gestion
+#: field:mam.am,num_ss:0
+msgid "Numéro de Sécurité Sociale"
+msgstr "Numéro de Sécurité Sociale"
+
+#. module: mam_gestion
+#: model:ir.model,name:mam_gestion.model_mam_presence_e
+msgid "Presence de l'enfant"
+msgstr "Presence de l'enfant"
+
+#. module: mam_gestion
+#: model:ir.ui.menu,name:mam_gestion.menu_am_item
+msgid "Ass. Mat."
+msgstr "Ass. Mat."
+
+#. module: mam_gestion
+#: view:mam.contact:0
+msgid "contact"
+msgstr "contact"
+
+#. module: mam_gestion
+#: help:mam.presence_e,est_reel:0
+msgid "Décoché = présence prévisionnelle"
+msgstr "Décoché = présence prévisionnelle"
+
+#. module: mam_gestion
+#: field:mam.presence_e,commentaire:0
+msgid "Commentaire journée"
+msgstr "Commentaire journée"
+
+#. module: mam_gestion
+#: field:mam.enfant,recommandations:0
+msgid "Recommandations générales"
+msgstr "Recommandations générales"
+
+#. module: mam_gestion
+#: selection:mam.presence_e,type:0
+msgid "Absent"
+msgstr "Absent"
+
+#. module: mam_gestion
+#: help:mam.contact,prenom:0
+msgid "Prénom du contact"
+msgstr "Prénom du contact"
+
+#. module: mam_gestion
+#: help:mam.presence_e,date_debut:0
+msgid "Date/heure de début de présence de lenfant"
+msgstr "Date/heure de début de présence de lenfant"
+
+#. module: mam_gestion
+#: help:mam.contact,tel_mobile:0
+msgid "Téléphone mobile du contact"
+msgstr "Téléphone mobile du contact"
+
+#. module: mam_gestion
+#: help:mam.presence_e,mange_gouter:0
+msgid "Prise du gouter"
+msgstr "Prise du gouter"
+
+#. module: mam_gestion
+#: field:mam.am,tel_fixe:0
+#: field:mam.contact,tel_fixe:0
+msgid "Téléphone fixe"
+msgstr "Téléphone fixe"
+
+#. module: mam_gestion
+#: help:mam.am,tel_mobile:0
+msgid "Téléphone mobile de lassistante maternelle"
+msgstr "Téléphone mobile de lassistante maternelle"
+
+#. module: mam_gestion
+#: view:mam.presence_e:0
+msgid "Previsions"
+msgstr "Previsions"
+
+#. module: mam_gestion
+#: field:mam.presence_e,date_debut:0
+msgid "Début de présence"
+msgstr "Début de présence"
+
+#. module: mam_gestion
+#: field:mam.am,num_sal:0
+msgid "Numéro de salarié"
+msgstr "Numéro de salarié"
+
+#. module: mam_gestion
+#: model:ir.actions.act_window,name:mam_gestion.action_contact
+#: model:ir.model,name:mam_gestion.model_mam_contact
+msgid "Contact"
+msgstr "Contact"
+
+#. module: mam_gestion
+#: help:mam.enfant,nom:0
+msgid "Nom de lenfant"
+msgstr "Nom de lenfant"
+
+#. module: mam_gestion
+#: view:mam.presence_e:0
+msgid "presence_e"
+msgstr "presence_e"
+
+#. module: mam_gestion
+#: help:mam.am,num_sal:0
+msgid "Numéro de salarié de lassistante maternelle"
+msgstr "Numéro de salarié de lassistante maternelle"
+
+#. module: mam_gestion
+#: selection:mam.presence_e,type:0
+msgid "Malade (avec certif)"
+msgstr "Malade (avec certif)"
+
+#. module: mam_gestion
+#: model:ir.actions.act_window,name:mam_gestion.action_enfant
+#: model:ir.model,name:mam_gestion.model_mam_enfant
+#: field:mam.presence_e,enfant_id:0
+msgid "Enfant"
+msgstr "Enfant"
+
+#. module: mam_gestion
+#: help:mam.am,date_agrement:0
+msgid "Date de la dernière décision dagrément de lassistante maternelle"
+msgstr "Date de la dernière décision dagrément de lassistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.presence_e,type:0
+msgid "Type"
+msgstr "Type"
+
+#. module: mam_gestion
+#: view:mam.enfant:0
+msgid "enfant"
+msgstr "enfant"
+
+#. module: mam_gestion
+#: model:ir.ui.menu,name:mam_gestion.menu_presence_e
+msgid "Presence"
+msgstr "Presence"
+
+#. module: mam_gestion
+#: help:mam.am,tel_fixe:0
+msgid "Téléphone fixe de lassistante maternelle"
+msgstr "Téléphone fixe de lassistante maternelle"
+
+#. module: mam_gestion
+#: model:ir.ui.menu,name:mam_gestion.menu_enfant_item
+msgid "Enfants"
+msgstr "Enfants"
+
+#. module: mam_gestion
+#: help:mam.presence_e,enfant_id:0
+msgid "Enfant concerné par la présence"
+msgstr "Enfant concerné par la présence"
+
+#. module: mam_gestion
+#: help:mam.contact,adresse:0
+msgid "Adresse complète du contact"
+msgstr "Adresse complète du contact"
+
+#. module: mam_gestion
+#: field:mam.am,tel_mobile:0
+#: field:mam.contact,tel_mobile:0
+msgid "Téléphone mobile"
+msgstr "Téléphone mobile"
+
+#. module: mam_gestion
+#: help:mam.presence_e,date_fin:0
+msgid "Date/heure de fin de présence de lenfant"
+msgstr "Date/heure de fin de présence de lenfant"
+
+#. module: mam_gestion
+#: help:mam.enfant,date_naiss:0
+msgid "Date de naissance de lenfant"
+msgstr "Date de naissance de lenfant"
+
+#. module: mam_gestion
+#: help:mam.am,adresse:0
+msgid "Adresse complète de lassistante maternelle"
+msgstr "Adresse complète de lassistante maternelle"
+
+#. module: mam_gestion
+#: field:mam.presence_e,mange_midi:0
+msgid "Mange le midi"
+msgstr "Mange le midi"
+
+#. module: mam_gestion
+#: help:mam.am,prenom:0
+msgid "Prénom de lassistante maternelle"
+msgstr "Prénom de lassistante maternelle"
+
+#. module: mam_gestion
+#: help:mam.enfant,prenom:0
+msgid "Prénom de lenfant"
+msgstr "Prénom de lenfant"
+
+#. module: mam_gestion
+#: help:mam.am,date_naiss:0
+msgid "Date de naissance de lassistante maternelle"
+msgstr "Date de naissance de lassistante maternelle"
+
+#. module: mam_gestion
+#: selection:mam.presence_e,type:0
+msgid "Absent car manque Ass. Mat."
+msgstr "Absent car manque Ass. Mat."
+
+#. module: mam_gestion
+#: help:mam.presence_e,commentaire:0
+msgid "Commentaire sur la présence ou labsence"
+msgstr "Commentaire sur la présence ou labsence"
+
