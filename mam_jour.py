@@ -25,6 +25,5 @@ class mam_jour(osv.Model):
 
 
 
-
 mam_jour()
 
