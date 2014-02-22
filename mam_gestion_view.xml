@@ -225,8 +225,8 @@
 	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_today_e_tree"/>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
-	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_today" action="action_presence_e_tree"/>
-	<menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e"/>
+	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_today" action="action_presence_e"/>
+	<menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/>
 
 
 
