@@ -18,7 +18,7 @@ class mam_jour(osv.Model):
             string="Full Name",
             store=None,
             #select=True,
-        )
+        ),
     }
 
     

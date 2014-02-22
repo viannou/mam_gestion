@@ -19,7 +19,7 @@ class mam_am(osv.Model):
             string="Nom Complet",
             store=None,
             #select=True,
-        )
+        ),
         'date_naiss': fields.date('Date de naissance',required=True, help='Date de naissance de l''assistante maternelle'),
         'date_embauche': fields.date('Date d''embauche',required=True, help='Date d''embauche de l''assistante maternelle'),
         'num_sal': fields.char('Numéro de salarié',size=50,required=True, help='Numéro de salarié de l''assistante maternelle'),
