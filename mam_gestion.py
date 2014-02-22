@@ -61,7 +61,7 @@ class mam_presence_e(osv.Model):
 		'est_reel': fields.boolean('Présence/absence réelle', help='Décoché = présence prévisionnelle'), # REEL, PREV, POSS
 		'type': fields.selection((('PRE','Présence normale'), ('MAL','Malade (avec certif)'), ('MAB','Malade longue durée'), ('ABS','Absent'), ('AMA','Absent car manque Ass. Mat.')), 'Type'), # MAL, MAB, ABS, AMA
 		'date_debut': fields.datetime('Début de présence',required=True, help='Date/heure de début de présence de l''enfant'),
-		'date_fin': fields.datetime('Fin de présence',required=True, help='Date/heure de fin de présence de l''enfant'),
+		'date_fin': fields.datetime('Fin de présence', help='Date/heure de fin de présence de l''enfant'),
 		'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
 		'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
 		'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
