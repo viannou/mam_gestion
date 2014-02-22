@@ -48,7 +48,7 @@
 				</notebook>
 				<separator string="Aujour'hui"/> 
 				<group col="7" colspan="5">
-					<field name="nom"/>
+					<field name="today_presence_ids"/>
 					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
 				</group>
 			</form>
