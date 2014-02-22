@@ -2,7 +2,7 @@
 <openerp>
 <data>
 
-<!--enfant-->
+<!--enfant -->
 	<record model="ir.ui.view" id="view_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
