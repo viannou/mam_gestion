@@ -29,10 +29,10 @@
 					<page string="Aujourd'hui">
 						<field colspan="4" name="presence_ids" nolabel="1"> 
 							<tree> 
-								<field name="date_debut"/>
+								<!-- <field name="date_debut"/>
 								<field name="date_fin"/>
 								<field name="mange_midi"/>
-								<field name="type"/>
+								<field name="type"/> -->
 							</tree> 
 						</field> 
 					</page>
