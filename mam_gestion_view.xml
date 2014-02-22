@@ -25,7 +25,7 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
-				<field name="nomprenom" class="oe_inline"/>
+				<!-- <field name="nomprenom" class="oe_inline"/> -->
 				<notebook colspan="4"> 
 					<page string="General"> 
 <!-- 						<separator string="Description"/>  -->
