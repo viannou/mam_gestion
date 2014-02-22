@@ -2,6 +2,13 @@
 from osv import fields,osv
 
 class mam_jour(osv.Model):
+	def _get_fullname(self, cr, uid, ids, name, args, context=None):
+		"""Test de field function"""
+		result = dict()
+		for id in ids:
+			result[id] = "ah " + id
+		return result
+
 	_name = 'mam.jour'
 	_description = "Jour"
 	_columns = {
@@ -15,14 +22,6 @@ class mam_jour(osv.Model):
 	}
 	_rec_name = 'prenom'
 
-	def _get_fullname(self, cr, uid, ids, name, args, context=None):
-		"""Test de field function"""
-		result = dict()
-		for id in ids:
-			result[id] = "ah " + id
-		return result
-
-
-
+	
 mam_jour()
 
