@@ -25,7 +25,7 @@ class mam_enfant(osv.Model):
         'contact_ids': fields.many2many('mam.contact','mam_enfant_contact_rel','contact_id','enfant_id',string="Contacts"),
         'allergies': fields.text('Allergies', help='Allergies de l''enfant'),
         'recommandations': fields.text('Recommandations générales', help='Recommandations générales pour l''enfant'),
-        'presence_ids': fields.one2many('mam.presence', 'enfant_id', 'Liste des présences', help='Liste des présences de l''enfant'),
+        'presence_ids': fields.one2many('mam.presence_e', 'enfant_id', 'Liste des présences', help='Liste des présences de l''enfant'),
 
 #liste des contrats
     }
