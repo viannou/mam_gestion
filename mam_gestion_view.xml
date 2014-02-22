@@ -25,22 +25,17 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
-				<header>
-					<field name="nomprenom"/>
-				</header>
-				<sheet>
-					<field name="nom"/>
-					<field name="prenom"/>
-				</sheet>
-				<field name="date_naiss"/>
-				<field name="am_id"/>
-				<field name="contact_ids"/>
-				<field name="allergies"/>
-				<field name="recommandations"/>
+				<field name="nomprenom" class="oe_inline"/>
 				<notebook colspan="4"> 
 					<page string="General"> 
-						<separator string="Description"/> 
-						<field name="nom" colspan="4" nolabel="1"/>
+<!-- 						<separator string="Description"/>  -->
+						<field name="nom"/>
+						<field name="prenom"/>
+						<field name="date_naiss"/>
+						<field name="am_id"/>
+						<field name="contact_ids"/>
+						<field name="allergies"/>
+						<field name="recommandations"/>
 					</page> 
 					<page string="Contacts"> 
 						<field colspan="4" name="contact_ids" nolabel="1"> 
@@ -52,6 +47,10 @@
 					</page>
 					<page string="Sponsors"> 
 						<field name="am_id" colspan="4" nolabel="1"/> 
+							<tree> 
+								<field name="nom"/>
+								<field name="prenom"/>
+							</tree> 
 					</page> 
 				</notebook> 
 			</form>
