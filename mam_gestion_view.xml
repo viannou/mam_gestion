@@ -54,7 +54,7 @@
 		<field name="priority" eval="3"/>
 		<field name="arch" type="xml">
 			<tree string="enfant">
-				<field name="nom"/>
+				<field name="nom" context="{'form_view_ref' : 'view_today_enfant_form', 'tree_view_ref' : 'view_today_enfant_tree'}"/>
 				<field name="prenom"/>
 			</tree>
 		</field>
