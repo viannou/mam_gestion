@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
+from datetime import datetime,date
 
 class mam_enfant(osv.Model):
     _name = 'mam.enfant'
