@@ -3,22 +3,6 @@
 <data>
 
 <!--enfant-->
-	<record model="ir.ui.view" id="view_enfant_form">
-		<field name="name">enfant.form</field>
-		<field name="model">mam.enfant</field>
-		<field name="priority" eval="2"/>
-		<field name="arch" type="xml">
-			<form string="enfant">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="date_naiss"/>
-				<field name="am_id"/>
-				<field name="contact_ids"/>
-				<field name="allergies"/>
-				<field name="recommandations"/>
-			</form>
-		</field>
-	</record>
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
@@ -35,8 +19,41 @@
 			</tree>
 		</field>
 	</record>
+	<record model="ir.ui.view" id="view_enfant_form">
+		<field name="name">enfant.form</field>
+		<field name="model">mam.enfant</field>
+		<field name="priority" eval="2"/>
+		<field name="arch" type="xml">
+			<form string="enfant">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="am_id"/>
+				<field name="contact_ids"/>
+				<field name="allergies"/>
+				<field name="recommandations"/>
+				<notebook colspan="4"> 
+					<page string="General"> 
+						<separator string="Description"/> 
+						<field name="nom" colspan="4" nolabel="1"/>
+					</page> 
+					<page string="Contacts"> 
+						<field colspan="4" name="contact_ids" nolabel="1"> 
+							<tree> 
+								<field name="nom"/>
+								<field name="prenom"/>
+							</tree> 
+						</field> 
+					</page>
+					<page string="Sponsors"> 
+						<field name="am_id" colspan="4" nolabel="1"/> 
+					</page> 
+				</notebook> 
+			</form>
+		</field>
+	</record>
 <!--today enfant-->
-	<record model="ir.ui.view" id="view_today_enfant_form">
+<!-- 	<record model="ir.ui.view" id="view_today_enfant_form">
 		<field name="name">today_enfant.form</field>
 		<field name="model">mam.enfant</field>
 		<field name="priority" eval="4"/>
@@ -59,27 +76,8 @@
 			</tree>
 		</field>
 	</record>
-
+ -->
 <!--am-->
-	<record model="ir.ui.view" id="view_am_form">
-		<field name="name">am.form</field>
-		<field name="model">mam.am</field>
-		<field name="arch" type="xml">
-			<form string="am">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="date_naiss"/>
-				<field name="date_embauche"/>
-				<field name="num_sal"/>
-				<field name="num_ss"/>
-				<field name="adresse"/>
-				<field name="tel_fixe"/>
-				<field name="tel_mobile"/>
-				<field name="date_agrement"/>
-				<field name="nb_agrements"/>
-			</form>
-		</field>
-	</record>
 	<record model="ir.ui.view" id="view_am_tree">
 		<field name="name">am.tree</field>
 		<field name="model">mam.am</field>
@@ -99,22 +97,27 @@
 			</tree>
 		</field>
 	</record>
-
-<!--contact-->
-	<record model="ir.ui.view" id="view_contact_form">
-		<field name="name">contact.form</field>
-		<field name="model">mam.contact</field>
+	<record model="ir.ui.view" id="view_am_form">
+		<field name="name">am.form</field>
+		<field name="model">mam.am</field>
 		<field name="arch" type="xml">
-			<form string="contact">
+			<form string="am">
 				<field name="nom"/>
 				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
 				<field name="adresse"/>
 				<field name="tel_fixe"/>
 				<field name="tel_mobile"/>
-<!--				<field name="enfant_ids"/>-->
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
 			</form>
 		</field>
 	</record>
+
+<!--contact-->
 	<record model="ir.ui.view" id="view_contact_tree">
 		<field name="name">contact.tree</field>
 		<field name="model">mam.contact</field>
@@ -129,8 +132,38 @@
 			</tree>
 		</field>
 	</record>
+	<record model="ir.ui.view" id="view_contact_form">
+		<field name="name">contact.form</field>
+		<field name="model">mam.contact</field>
+		<field name="arch" type="xml">
+			<form string="contact">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+<!--				<field name="enfant_ids"/>-->
+			</form>
+		</field>
+	</record>
 
 <!--presence_e-->
+	<record model="ir.ui.view" id="view_presence_e_tree">
+		<field name="name">presence_e.tree</field>
+		<field name="model">mam.presence_e</field>
+		<field name="arch" type="xml">
+			<tree string="presence_e">
+				<field name="enfant_id"/>
+				<field name="est_reel"/>
+				<field name="type"/>
+				<field name="date_debut"/>
+				<field name="date_fin"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="commentaire"/>
+			</tree>
+		</field>
+	</record>
 	<record model="ir.ui.view" id="view_presence_e_calendar">
 		<field name="name">presence_e.calendar</field>
 		<field name="model">mam.presence_e</field>
@@ -154,22 +187,6 @@
 				<field name="mange_gouter"/>
 				<field name="commentaire"/>
 			</form>
-		</field>
-	</record>
-	<record model="ir.ui.view" id="view_presence_e_tree">
-		<field name="name">presence_e.tree</field>
-		<field name="model">mam.presence_e</field>
-		<field name="arch" type="xml">
-			<tree string="presence_e">
-				<field name="enfant_id"/>
-				<field name="est_reel"/>
-				<field name="type"/>
-				<field name="date_debut"/>
-				<field name="date_fin"/>
-				<field name="mange_midi"/>
-				<field name="mange_gouter"/>
-				<field name="commentaire"/>
-			</tree>
 		</field>
 	</record>
 
@@ -201,32 +218,31 @@
 		<field name="view_mode">tree,calendar,form</field>
 	</record>
 
-	<record model="ir.actions.act_window" id="action_today_e_form">
-		<field name="sequence" eval="2" />
-		<!-- <field name="name">Aujourd'hui - Enfants</field> -->
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">form</field>
-		<field name="view_id" ref="view_today_enfant_form"/>
-	</record>
-	<record model="ir.actions.act_window" id="action_today_e_tree">
+<!-- 	<record model="ir.actions.act_window" id="action_today_e_tree">
 		<field name="sequence" eval="1" />
-		<!-- <field name="name">Aujourd'hui - Enfants</field> -->
 		<field name="res_model">mam.enfant</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree</field>
 		<field name="view_id" ref="view_today_enfant_tree"/>
 	</record>
-
+	<record model="ir.actions.act_window" id="action_today_e_form">
+		<field name="sequence" eval="2" />
+		<field name="res_model">mam.enfant</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="view_today_enfant_form"/>
+	</record>
+ -->
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem name="Aujourd'hui" id="menu_rub_today" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_today_e_tree"/>
+	<!-- <menuitem name="Aujourd'hui" id="menu_rub_today" parent="menu_top_mam" action="action_enfant"/> -->
+
+	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
-	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_today" action="action_presence_e"/>
-	<menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/>
+	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/>
+	<!-- <menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/> -->
 
 
 
