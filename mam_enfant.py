@@ -10,6 +10,14 @@ class mam_enfant(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= record.prenom + " " + record.nom
         return result
+    def _get_today_info(self, cr, uid, ids, name, args, context=None):
+        """toutes les infos d'aujourd'hui"""
+        result = dict()
+        for enfant in self.browse(cr, uid, ids, context=context):
+            result[enfant.id] = dict()
+            for presence in enfant.presence_ids:
+                result[enfant.id]['today_presence_ids'].append(presence.id)
+        return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom de l''enfant'),
         'prenom': fields.char('Prénom',size=50,required=True, help='Prénom de l''enfant'),
@@ -36,12 +44,4 @@ class mam_enfant(osv.Model):
         ),
     }
     _rec_name = 'nomprenom'
-    def _get_today_info(self, cr, uid, ids, name, args, context=None):
-        """toutes les infos d'aujourd'hui"""
-        result = dict()
-        for enfant in self.browse(cr, uid, ids, context=context):
-            result[enfant.id] = dict()
-            for presence in enfant.presence_ids:
-                result[enfant.id]['today_presence_ids'].append(presence.id)
-        return result
 mam_enfant()
