@@ -4,9 +4,22 @@ from osv import fields,osv
 class mam_am(osv.Model):
 	_name = 'mam.am'
 	_description = "Assistante maternelle"
+	def _get_nomprenom(self, cr, uid, ids, name, args, context=None):
+		"""nom affichable de l'am"""
+		result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.prenom + " " + record.nom
+		return result
 	_columns = {
 		'nom': fields.char('Nom',size=50,required=True, help='Nom de l''assistante maternelle'),
 		'prenom': fields.char('Prénom',size=50,required=True, help='Prénom de l''assistante maternelle'),
+        'nomprenom': fields.function(
+            _get_nomprenom,
+            type="char",
+            string="Nom Complet",
+            store=None,
+            #select=True,
+		)
 		'date_naiss': fields.date('Date de naissance',required=True, help='Date de naissance de l''assistante maternelle'),
 		'date_embauche': fields.date('Date d''embauche',required=True, help='Date d''embauche de l''assistante maternelle'),
 		'num_sal': fields.char('Numéro de salarié',size=50,required=True, help='Numéro de salarié de l''assistante maternelle'),
@@ -17,7 +30,7 @@ class mam_am(osv.Model):
 		'date_agrement': fields.date('Date dernier agrément',required=True, help='Date de la dernière décision d''agrément de l''assistante maternelle'),
 		'nb_agrements': fields.char('Nombre d''agréments',size=50,required=True, help='Nombre d''agréments total de l''assistante maternelle'),
 	}
-	_rec_name = 'prenom'
+	_rec_name = 'nomprenom'
 mam_am()
 
 class mam_enfant(osv.Model):
