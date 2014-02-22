@@ -32,7 +32,6 @@
 						<field name="prenom"/>
 						<field name="date_naiss"/>
 						<field name="am_id"/>
-						<field name="contact_ids"/>
 						<field name="allergies"/>
 						<field name="recommandations"/>
 					</page> 
@@ -45,9 +44,13 @@
 						</field> 
 					</page>
 					<page string="Presences">
-						<field name="presence_ids"/>
+						<field name="presence_ids" nolabel="1"/>
 					</page>
-				</notebook> 
+				</notebook>
+				<group col="7" colspan="5">
+					<field name="nom"/>
+					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
+				</group>
 			</form>
 		</field>
 	</record>
