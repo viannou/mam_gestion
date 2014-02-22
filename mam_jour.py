@@ -21,7 +21,7 @@ class mam_jour(osv.Model):
             result[id] = "ah " + id
         return result
 
-		
+
 
 mam_jour()
 
