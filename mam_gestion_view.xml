@@ -46,9 +46,9 @@
 						<field name="presence_ids" nolabel="1"/>
 					</page>
 				</notebook>
-				<separator string="Aujour'hui"/> 
+				<separator string="Aujourd'hui"/> 
 				<group col="7" colspan="5">
-					<field name="today_presence_ids"/>
+					<field name="today_presence_ids" nolabel="1"/>
 					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
 				</group>
 			</form>
