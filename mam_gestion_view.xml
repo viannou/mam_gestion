@@ -46,11 +46,8 @@
 						</field> 
 					</page>
 					<page string="Sponsors"> 
-						<field name="am_id" colspan="4" nolabel="1"/> 
-							<tree> 
-								<field name="nom"/>
-								<field name="prenom"/>
-							</tree> 
+						<field name="nom"/>
+						<field name="prenom"/>
 					</page> 
 				</notebook> 
 			</form>
