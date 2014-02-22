@@ -20,7 +20,6 @@ class mam_jour(osv.Model):
             #select=True,
 		)
 	}
-	_rec_name = 'prenom'
 
 	
 mam_jour()
