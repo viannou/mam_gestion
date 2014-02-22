@@ -36,9 +36,22 @@ mam_am()
 class mam_enfant(osv.Model):
     _name = 'mam.enfant'
     _description = "Enfant"
+    def _get_nomprenom(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de l'enfant"""
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.prenom + " " + record.nom
+        return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom de l''enfant'),
         'prenom': fields.char('Prénom',size=50,required=True, help='Prénom de l''enfant'),
+        'nomprenom': fields.function(
+            _get_nomprenom,
+            type="char",
+            string="Nom Complet",
+            store=None,
+            #select=True,
+        ),
         'date_naiss': fields.date('Date de naissance',required=True, help='Date de naissance de l''enfant'),
         'am_id': fields.many2one('mam.am','Assistante maternelle de référence',required=True, help='Assistante maternelle de référence pour l''enfant'),
 #liste des contacts
@@ -48,7 +61,7 @@ class mam_enfant(osv.Model):
         'recommandations': fields.text('Recommandations générales', help='Recommandations générales pour l''enfant'),
 #liste des contrats
     }
-    _rec_name = 'prenom'
+    _rec_name = 'nomprenom'
 mam_enfant()
 
 class mam_contact(osv.Model):
