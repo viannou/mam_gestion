@@ -5,7 +5,7 @@ class mam_enfant(osv.Model):
     _name = 'mam.enfant'
     _description = "Enfant"
     def _get_nomprenom(self, cr, uid, ids, name, args, context=None):
-        """nom affichable de l'enfant"""
+        """nom affichable de l'enfant """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= record.prenom + " " + record.nom
