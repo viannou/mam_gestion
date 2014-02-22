@@ -18,8 +18,8 @@ class mam_enfant(osv.Model):
             result[enfant.id] = dict()
             result[enfant.id]['today_presence_ids'] = list()
             for presence in enfant.presence_ids:
-                print "1: " + datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date()
-                print "2: " + date.today()
+                print "1: " + str(datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date())
+                print "2: " + str(date.today())
                 if datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
         return result
