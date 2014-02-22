@@ -2,11 +2,12 @@
 <openerp>
 <data>
 
-<!--enfant -->
+<!--enfant-->
 	<record model="ir.ui.view" id="view_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
+		<field name="priority" eval="1"/>
 			<form string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
@@ -22,6 +23,7 @@
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
+		<field name="priority" eval="1"/>
 			<tree string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
@@ -30,6 +32,30 @@
 				<field name="contact_ids"/>
 				<field name="allergies"/>
 				<field name="recommandations"/>
+			</tree>
+		</field>
+	</record>
+<!--today enfant-->
+	<record model="ir.ui.view" id="view_today_enfant_form">
+		<field name="name">enfant.form</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+		<field name="priority" eval="1"/>
+			<form string="enfant">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_today_enfant_tree">
+		<field name="name">enfant.tree</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+		<field name="priority" eval="1"/>
+			<tree string="enfant">
+				<field name="nom"/>
+				<field name="prenom"/>
 			</tree>
 		</field>
 	</record>
@@ -147,27 +173,6 @@
 		</field>
 	</record>
 
-<!--jour-->
-	<record model="ir.ui.view" id="view_jour_form">
-		<field name="name">jour.form</field>
-		<field name="model">mam.jour</field>
-		<field name="arch" type="xml">
-			<form string="jour">
-				<field name="fullname"/>
-			</form>
-		</field>
-	</record>
-	<record model="ir.ui.view" id="view_jour_tree">
-		<field name="name">jour.tree</field>
-		<field name="model">mam.jour</field>
-		<field name="arch" type="xml">
-			<tree string="jour">
-				<field name="fullname"/>
-			</tree>
-		</field>
-	</record>
-
-
 	<record model="ir.actions.act_window" id="action_enfant">
 		<field name="name">Enfant</field>
 		<field name="res_model">mam.enfant</field>
@@ -196,21 +201,32 @@
 		<field name="view_mode">tree,calendar,form</field>
 	</record>
 
-	<record model="ir.actions.act_window" id="action_jour">
-		<field name="name">Prevision</field>
-		<field name="res_model">mam.jour</field>
+	<record model="ir.actions.act_window" id="action_today_e_form">
+		<field name="sequence" eval="2" />
+		<!-- <field name="name">Aujourd'hui - Enfants</field> -->
+		<field name="res_model">mam.presence_e</field>
 		<field name="view_type">form</field>
-		<field name="view_mode">tree,calendar,form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="view_today_enfant_form"/>
+	</record>
+	<record model="ir.actions.act_window" id="action_today_e_tree">
+		<field name="sequence" eval="1" />
+		<!-- <field name="name">Aujourd'hui - Enfants</field> -->
+		<field name="res_model">mam.presence_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="view_today_enfant_tree"/>
 	</record>
 
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
+	<menuitem name="Aujourd'hui" id="menu_rub_today" parent="menu_top_mam" action="action_enfant"/>
+	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_today_e_tree"/>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
-	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/>
-	<menuitem name="Jour" id="menu_jour" parent="menu_rub_mam" action="action_jour"/>
+	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_today" action="action_presence_e_tree"/>
+	<menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e"/>
 
 
 
