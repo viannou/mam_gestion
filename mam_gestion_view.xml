@@ -45,10 +45,6 @@
 							</tree> 
 						</field> 
 					</page>
-					<page string="Sponsors"> 
-						<field name="nom"/>
-						<field name="prenom"/>
-					</page> 
 				</notebook> 
 			</form>
 		</field>
