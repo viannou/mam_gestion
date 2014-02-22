@@ -6,8 +6,8 @@
 	<record model="ir.ui.view" id="view_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
+		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
-		<field name="priority" eval="1"/>
 			<form string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
@@ -22,8 +22,8 @@
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
-		<field name="arch" type="xml">
 		<field name="priority" eval="1"/>
+		<field name="arch" type="xml">
 			<tree string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
@@ -39,8 +39,8 @@
 	<record model="ir.ui.view" id="view_today_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
+		<field name="priority" eval="4"/>
 		<field name="arch" type="xml">
-		<field name="priority" eval="1"/>
 			<form string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
@@ -51,8 +51,8 @@
 	<record model="ir.ui.view" id="view_today_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
+		<field name="priority" eval="3"/>
 		<field name="arch" type="xml">
-		<field name="priority" eval="1"/>
 			<tree string="enfant">
 				<field name="nom"/>
 				<field name="prenom"/>
