@@ -1,2 +1,2 @@
-import mam_gestion
+import mam_gestion, mam_jour
 

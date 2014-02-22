@@ -147,6 +147,26 @@
 		</field>
 	</record>
 
+<!--jour-->
+	<record model="ir.ui.view" id="view_jour_form">
+		<field name="name">jour.form</field>
+		<field name="model">mam.jour</field>
+		<field name="arch" type="xml">
+			<form string="jour">
+				<field name="fullname"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_jour_tree">
+		<field name="name">jour.tree</field>
+		<field name="model">mam.jour</field>
+		<field name="arch" type="xml">
+			<tree string="jour">
+				<field name="fullname"/>
+			</tree>
+		</field>
+	</record>
+
 
 	<record model="ir.actions.act_window" id="action_enfant">
 		<field name="name">Enfant</field>
@@ -176,6 +196,13 @@
 		<field name="view_mode">tree,calendar,form</field>
 	</record>
 
+	<record model="ir.actions.act_window" id="action_jour">
+		<field name="name">Prevision</field>
+		<field name="res_model">mam.jour</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,calendar,form</field>
+	</record>
+
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
@@ -183,6 +210,7 @@
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/>
+	<menuitem name="Jour" id="menu_jour" parent="menu_rub_mam" action="action_jour"/>
 
 
 
