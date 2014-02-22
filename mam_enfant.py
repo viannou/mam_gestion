@@ -26,8 +26,22 @@ class mam_enfant(osv.Model):
         'allergies': fields.text('Allergies', help='Allergies de l''enfant'),
         'recommandations': fields.text('Recommandations générales', help='Recommandations générales pour l''enfant'),
         'presence_ids': fields.one2many('mam.presence_e', 'enfant_id', 'Liste des présences', help='Liste des présences de l''enfant'),
-
-#liste des contrats
+        'today_presence_ids': fields.function(
+            _get_today_info,
+            string="Présences aujourd'hui",
+            type="one2many",
+            obj="mam.presence_e",
+            field="enfant_id",
+            multi=True,
+        ),
     }
     _rec_name = 'nomprenom'
+    def _get_today_info(self, cr, uid, ids, name, args, context=None):
+        """toutes les infos d'aujourd'hui"""
+        result = dict()
+        for enfant in self.browse(cr, uid, ids, context=context):
+            result[enfant.id] = dict()
+            for presence in enfant.presence_ids:
+                result[enfant.id]['today_presence_ids'].append(presence.id)
+        return result
 mam_enfant()

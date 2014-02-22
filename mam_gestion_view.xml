@@ -27,13 +27,12 @@
 			<form string="enfant">
 				<notebook colspan="4"> 
 					<page string="General"> 
-<!-- 						<separator string="Description"/>  -->
 						<field name="nom"/>
-						<field name="prenom"/>
 						<field name="date_naiss"/>
+						<field name="prenom"/>
 						<field name="am_id"/>
-						<field name="allergies"/>
 						<field name="recommandations"/>
+						<field name="allergies"/>
 					</page> 
 					<page string="Contacts"> 
 						<field colspan="4" name="contact_ids" nolabel="1"> 
@@ -47,6 +46,7 @@
 						<field name="presence_ids" nolabel="1"/>
 					</page>
 				</notebook>
+				<separator string="Aujour'hui"/> 
 				<group col="7" colspan="5">
 					<field name="nom"/>
 					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
