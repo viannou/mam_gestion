@@ -15,12 +15,12 @@ class mam_jour(osv.Model):
 	}
 	_rec_name = 'prenom'
 
-    def _get_fullname(self, cr, uid, ids, name, args, context=None):
-        """Test de field function"""
-        result = dict()
-        for id in ids:
-            result[id] = "ah " + id
-        return result
+	def _get_fullname(self, cr, uid, ids, name, args, context=None):
+		"""Test de field function"""
+		result = dict()
+		for id in ids:
+			result[id] = "ah " + id
+		return result
 
 
 
