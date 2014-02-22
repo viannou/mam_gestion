@@ -25,8 +25,17 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
-				<!-- <field name="nomprenom" class="oe_inline"/> -->
 				<notebook colspan="4"> 
+					<page string="Aujourd'hui">
+						<field colspan="4" name="presence_ids" nolabel="1"> 
+							<tree> 
+								<field name="date_debut"/>
+								<field name="date_fin"/>
+								<field name="mange_midi"/>
+								<field name="type"/>
+							</tree> 
+						</field> 
+					</page>
 					<page string="General"> 
 <!-- 						<separator string="Description"/>  -->
 						<field name="nom"/>
