@@ -15,6 +15,7 @@ class mam_enfant(osv.Model):
         result = dict()
         for enfant in self.browse(cr, uid, ids, context=context):
             result[enfant.id] = dict()
+            result[enfant.id]['today_presence_ids'] = list()
             for presence in enfant.presence_ids:
                 result[enfant.id]['today_presence_ids'].append(presence.id)
         return result
