@@ -18,7 +18,7 @@ class mam_enfant(osv.Model):
             result[enfant.id] = dict()
             result[enfant.id]['today_presence_ids'] = list()
             for presence in enfant.presence_ids:
-                if datetime.strptime(presence.date_debut.strftime,'%Y-%m-%d %H:%M:%S').date() == date.today():
+                if datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
         return result
     _columns = {
