@@ -37,7 +37,7 @@
 	</record>
 <!--today enfant-->
 	<record model="ir.ui.view" id="view_today_enfant_form">
-		<field name="name">enfant.form</field>
+		<field name="name">today_enfant.form</field>
 		<field name="model">mam.enfant</field>
 		<field name="priority" eval="4"/>
 		<field name="arch" type="xml">
@@ -49,7 +49,7 @@
 		</field>
 	</record>
 	<record model="ir.ui.view" id="view_today_enfant_tree">
-		<field name="name">enfant.tree</field>
+		<field name="name">today_enfant.tree</field>
 		<field name="model">mam.enfant</field>
 		<field name="priority" eval="3"/>
 		<field name="arch" type="xml">
