@@ -21,7 +21,6 @@ class mam_enfant(osv.Model):
             result[enfant.id]['today_mange_midi'] = False
             result[enfant.id]['today_mange_gouter'] = False
             for presence in enfant.presence_ids:
-                print "dte debut", presence.date_debut
                 date_debut = datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S')
                 if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
@@ -95,5 +94,12 @@ class mam_enfant(osv.Model):
             inverse = not enfant.today_mange_midi
             for presence in enfant.today_presence_ids:
                 self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_midi':inverse})
+        return True
+    def clique_mange_gouter(self, cr, uid, ids, context=None):
+        """coche ou décoche mange gouter """
+        for enfant in self.browse(cr, uid, ids, context=context):
+            inverse = not enfant.today_mange_gouter
+            for presence in enfant.today_presence_ids:
+                self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_gouter':inverse})
         return True
 mam_enfant()
