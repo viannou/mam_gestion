@@ -92,7 +92,7 @@ class mam_enfant(osv.Model):
     def clique_mange_midi(self, cr, uid, ids, context=None):
         """coche ou décoche mange midi """
         for enfant in self.browse(cr, uid, ids, context=context):
-            inverse = ! enfant.today_mange_midi
+            inverse = not enfant.today_mange_midi
             for presence in today_presence_ids:
                 self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_midi':inverse})
         return True
