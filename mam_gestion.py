@@ -74,14 +74,3 @@ mam_presence_e()
 #    return res
 
 
-#class mam_rel_enfant_contact(osv.Model):
-#    _name = 'mam.rel_enfant_contact'
-#    _description = "Relation Enfants - Contacts"
-#    _columns = {
-#        'enfant_id': fields.many2one('mam.enfant','Enfant', help='Enfant en relation avec le contact'),
-#        'contact_id': fields.many2one('mam.contact','Contact', help='Contact en relation avec l''enfant'),
-#        'relation': fields.selection((('pere','Père'), ('maman','Mère'), ('parent','Parent'), ('ami','Ami des parents'), ('medecin','Medecin')), 'Relation'),
-##type de relation
-#    }
-#mam_rel_enfant_contact()
-

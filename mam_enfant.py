@@ -82,6 +82,12 @@ class mam_enfant(osv.Model):
             type="boolean",
             multi=True,
         ),
+        'today_resume': fields.function(
+            _get_today_info,
+            string="Résumé",
+            type="char",
+            multi=True,
+        ),
     }
     _rec_name = 'nomprenom'
     def clique_presence_debut(self, cr, uid, ids, context=None):
