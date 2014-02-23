@@ -66,6 +66,6 @@ class mam_enfant(osv.Model):
         """ajoute une présence """
         print "clique_presence_debut"
         for enfant in self.browse(cr, uid, ids, context=context):
-            print("enfant " + enfant.id)
+            print("enfant ", enfant.id)
         return True
 mam_enfant()
