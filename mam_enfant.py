@@ -18,6 +18,8 @@ class mam_enfant(osv.Model):
             result[enfant.id] = dict()
             result[enfant.id]['today_presence_ids'] = list()
             result[enfant.id]['today_est_present'] = False
+            result[enfant.id]['today_mange_midi'] = False
+            result[enfant.id]['today_mange_gouter'] = False
             for presence in enfant.presence_ids:
                 print "dte debut", presence.date_debut
                 date_debut = datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S')
@@ -27,6 +29,10 @@ class mam_enfant(osv.Model):
                         if presence.date_fin is False or datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
                             result[enfant.id]['today_est_present'] = True
                             result[enfant.id]['today_cur_presence'] = presence.id
+                    if presence.mange_midi:
+                        result[enfant.id]['today_mange_midi'] = True
+                    if presence.mange_gouter:
+                        result[enfant.id]['today_mange_gouter'] = True
         return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom de l''enfant'),
@@ -83,9 +89,11 @@ class mam_enfant(osv.Model):
         for enfant in self.browse(cr, uid, ids, context=context):
             self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence.id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
-    # def clique_mange_midi(self, cr, uid, ids, context=None):
-        # """coche ou décoche mange midi """
-        # for enfant in self.browse(cr, uid, ids, context=context):
-            # self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence.id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
-        # return True
+    def clique_mange_midi(self, cr, uid, ids, context=None):
+        """coche ou décoche mange midi """
+        for enfant in self.browse(cr, uid, ids, context=context):
+            inverse = ! enfant.today_mange_midi
+            for presence in today_presence_ids:
+                self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_midi':inverse})
+        return True
 mam_enfant()
