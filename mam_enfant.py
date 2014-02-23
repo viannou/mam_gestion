@@ -24,10 +24,9 @@ class mam_enfant(osv.Model):
                 if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
                     if date_debut < datetime.now():
-                        if presence.date_fin is False:
+                        if presence.date_fin is False or datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
                             result[enfant.id]['today_est_present'] = True
-                        elif datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
-                            result[enfant.id]['today_est_present'] = True
+                            result[enfant.id]['today_cur_presence_id'] = presence.id
         return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom de l''enfant'),
