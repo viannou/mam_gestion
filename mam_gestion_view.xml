@@ -32,7 +32,7 @@
 					<button name="clique_presence_debut" string="Arrivée" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
 					<button name="clique_presence_fin" string="Départ" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', False)]}"/>
 					<button name="clique_mange_midi" string="Mange midi" type="object"/>
-					<button name="clique_mange_midi" string="Mange midi" type="object"/>
+					<button name="clique_mange_gouter" string="Mange gouter" type="object"/>
 				</group>
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
