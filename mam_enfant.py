@@ -1,7 +1,6 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date
-from pprint import pprint
 
 class mam_enfant(osv.Model):
     _name = 'mam.enfant'
@@ -20,12 +19,10 @@ class mam_enfant(osv.Model):
             result[enfant.id]['today_presence_ids'] = list()
             result[enfant.id]['today_est_present'] = False
             for presence in enfant.presence_ids:
-                pprint(presence)
                 date_debut = datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S')
                 if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
                     if date_debut < datetime.now():
-                        pprint(presence)
                         if presence.date_fin is False:
                             result[enfant.id]['today_est_present'] = True
                         elif datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
@@ -66,8 +63,9 @@ class mam_enfant(osv.Model):
     }
     _rec_name = 'nomprenom'
     def clique_presence_debut(self, cr, uid, ids, context=None):
-        """nom affichable de l'enfant """
-        result = {}
+        """ajoute une présence """
         print "clique_presence_debut"
+        for enfant in self.browse(cr, uid, ids, context=context):
+            print "enfant " + enfant.id
         return True
 mam_enfant()
