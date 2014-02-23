@@ -68,8 +68,7 @@ class mam_enfant(osv.Model):
         for enfant in self.browse(cr, uid, ids, context=context):
             print context
             print"enfant ", enfant.id
-            print self.pool.get('mam.presence_e')
-            # enfant.presence_ids.append({'date_debut':'2013-01-01 01:01:01'})
+            self.pool.get('mam.presence_e').create(cr, uid, {'date_debut':'2013-01-01 01:01:01'})
 
         return True
     def clique_presence_fin(self, cr, uid, ids, context=None):
