@@ -26,13 +26,13 @@
 		<field name="arch" type="xml">
 			<form string="enfant">
 				<group col="2" colspan="2">
+					<button name="clique_presence_debut" string="Arrivée" type="object" colspan="1" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
+					<button name="clique_presence_fin" string="Départ" type="object" colspan="1" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', False)]}"/>
+					<button name="clique_mange_midi" string="Mange midi" type="object" colspan="1" />
+					<button name="clique_mange_gouter" string="Mange gouter" type="object" colspan="1" />
 					<separator string="Aujourd'hui" colspan="2"/> 
 					<field name="today_est_present" colspan="2"/>
 					<field name="today_presence_ids" colspan="2" nolabel="1"/>
-					<button name="clique_presence_debut" string="Arrivée" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
-					<button name="clique_presence_fin" string="Départ" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', False)]}"/>
-					<button name="clique_mange_midi" string="Mange midi" type="object"/>
-					<button name="clique_mange_gouter" string="Mange gouter" type="object"/>
 				</group>
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
