@@ -65,4 +65,11 @@ class mam_enfant(osv.Model):
         ),
     }
     _rec_name = 'nomprenom'
+    def _clique_presence_debut(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de l'enfant """
+        result = {}
+        print "_clique_presence_debut"
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.prenom + " " + record.nom
+        return
 mam_enfant()

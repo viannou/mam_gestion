@@ -28,6 +28,7 @@
 					<separator string="Aujourd'hui"/> 
 					<field name="today_est_present"/>
 					<field name="today_presence_ids" nolabel="1"/>
+					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
 				</group>
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
