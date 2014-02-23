@@ -60,7 +60,7 @@ class mam_enfant(osv.Model):
             field="enfant_id",
             multi=True,
         ),
-        'today_cur_presence_id': fields.function(
+        'today_cur_presence': fields.function(
             _get_today_info,
             string="Présence en ce moment",
             type="many2one",
@@ -80,7 +80,7 @@ class mam_enfant(osv.Model):
         """termine une présence """
         for enfant in self.browse(cr, uid, ids, context=context):
             print "enfant ", enfant.id
-            print "pres_id ", enfant.today_cur_presence_id
-            self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence_id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            print "pres_id ", enfant.today_cur_presence.id
+            self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence.id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
 mam_enfant()
