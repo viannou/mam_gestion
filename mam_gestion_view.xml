@@ -27,13 +27,15 @@
 			<form string="enfant">
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
-						<page string="General" col="2">
-							<field name="prenom"/>
-							<field name="date_naiss"/>
-							<field name="nom"/>
-							<field name="am_id"/>
-							<field name="recommandations"/>
-							<field name="allergies"/>
+						<page string="General">
+							<group col="2" colspan="4">
+								<field name="prenom"/>
+								<field name="date_naiss"/>
+								<field name="nom"/>
+								<field name="am_id"/>
+								<field name="recommandations"/>
+								<field name="allergies"/>
+							</group>
 						</page> 
 						<page string="Contacts">
 							<field name="contact_ids" nolabel="1"> 
