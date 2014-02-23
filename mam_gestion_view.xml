@@ -27,7 +27,7 @@
 			<form string="enfant">
 					<separator string="Aujourd'hui"/> 
 					<field name="today_est_present"/>
-					<button name="clique_presence_debut" string="Link" type="object"/>
+					<!-- <button name="clique_presence_debut" string="Link" type="object"/> -->
 					<field name="today_presence_ids" nolabel="1"/>
 				</group>
 				<group col="2" colspan="2">
