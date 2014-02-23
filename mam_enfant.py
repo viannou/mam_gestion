@@ -20,6 +20,7 @@ class mam_enfant(osv.Model):
             result[enfant.id]['today_presence_ids'] = list()
             result[enfant.id]['today_est_present'] = False
             for presence in enfant.presence_ids:
+                pprint(presence)
                 date_debut = datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S')
                 if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
