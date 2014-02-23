@@ -17,11 +17,15 @@ class mam_enfant(osv.Model):
         for enfant in self.browse(cr, uid, ids, context=context):
             result[enfant.id] = dict()
             result[enfant.id]['today_presence_ids'] = list()
+            result[enfant.id]['today_est_present'] = False
             for presence in enfant.presence_ids:
-                print "1: " + str(datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date())
-                print "2: " + str(datetime.now())
-                if datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S').date() == date.today():
+                date_debut = datetime.strptime(presence.date_debut,'%Y-%m-%d %H:%M:%S')
+                date_fin = datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S')
+
+                if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
+                    if date_debut < datetime.now() and (date_fin is None or date_fin > datetime.now())
+                        result[enfant.id]['today_est_present'] = True
         return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom de l''enfant'),
@@ -47,6 +51,21 @@ class mam_enfant(osv.Model):
             field="enfant_id",
             multi=True,
         ),
+        'today_est_present': fields.function(
+            _get_today_info,
+            string="Présent en ce moment",
+            type="boolean",
+            obj="mam.presence_e",
+            field="enfant_id",
+            multi=True,
+        ),
     }
     _rec_name = 'nomprenom'
+    def _clique_presence_debut(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de l'enfant """
+        result = {}
+        print "_clique_presence_debut"
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.prenom + " " + record.nom
+        return
 mam_enfant()
