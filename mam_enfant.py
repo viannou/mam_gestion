@@ -93,7 +93,7 @@ class mam_enfant(osv.Model):
         """coche ou décoche mange midi """
         for enfant in self.browse(cr, uid, ids, context=context):
             inverse = not enfant.today_mange_midi
-            for presence in today_presence_ids:
+            for presence in enfant.today_presence_ids:
                 self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_midi':inverse})
         return True
 mam_enfant()
