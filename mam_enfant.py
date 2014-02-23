@@ -80,6 +80,7 @@ class mam_enfant(osv.Model):
         """termine une présence """
         for enfant in self.browse(cr, uid, ids, context=context):
             print "enfant ", enfant.id
+            print "pres_id ", enfant.today_cur_presence_id
             self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence_id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
 mam_enfant()
