@@ -25,7 +25,7 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
-				<group cols="2" colspan="2">
+				<group col="2" colspan="2">
 					<notebook> 
 						<page string="General"> 
 							<field name="prenom"/>
@@ -48,7 +48,7 @@
 						</page>
 					</notebook>
 				</group>
-				<group cols="2" colspan="2">
+				<group col="2" colspan="2">
 					<separator string="Aujourd'hui"/> 
 					<field name="today_est_present"/>
 					<field name="today_presence_ids" nolabel="1"/>
