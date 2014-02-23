@@ -61,6 +61,14 @@ class mam_enfant(osv.Model):
             field="enfant_id",
             multi=True,
         ),
+        'today_cur_presence_id': fields.function(
+            _get_today_info,
+            string="Présence en ce moment",
+            type="many2one",
+            obj="mam.presence_e",
+            #field="enfant_id",
+            multi=True,
+        ),
     }
     _rec_name = 'nomprenom'
     def clique_presence_debut(self, cr, uid, ids, context=None):
