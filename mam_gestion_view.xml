@@ -25,6 +25,7 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
+				<group col="2" colspan="2">
 					<separator string="Aujourd'hui" colspan="2"/> 
 					<field name="today_est_present" colspan="2"/>
 					<field name="today_presence_ids" colspan="2" nolabel="1"/>
