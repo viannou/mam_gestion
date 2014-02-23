@@ -71,5 +71,5 @@ class mam_enfant(osv.Model):
         print "_clique_presence_debut"
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= record.prenom + " " + record.nom
-        return
+        return True
 mam_enfant()
