@@ -9,8 +9,8 @@
 		<field name="priority" eval="1"/>
 		<field name="arch" type="xml">
 			<tree string="enfant">
-				<field name="nom"/>
 				<field name="prenom"/>
+				<field name="nom"/>
 				<field name="date_naiss"/>
 				<field name="am_id"/>
 				<field name="contact_ids"/>
@@ -26,7 +26,7 @@
 		<field name="arch" type="xml">
 			<form string="enfant">
 				<group col="2" colspan="2">
-					<notebook> 
+					<notebook  colspan="2"> 
 						<page string="General"> 
 							<field name="prenom"/>
 							<field name="date_naiss"/>
@@ -49,7 +49,7 @@
 					</notebook>
 				</group>
 				<group col="2" colspan="2">
-					<separator string="Aujourd'hui"/> 
+					<separator string="Aujourd'hui" colspan="2"/> 
 					<field name="today_est_present"/>
 					<field name="today_presence_ids" nolabel="1"/>
 					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
