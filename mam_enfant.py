@@ -65,9 +65,4 @@ class mam_enfant(osv.Model):
         ),
     }
     _rec_name = 'nomprenom'
-    def clique_presence_debut(self, cr, uid, ids, context=None):
-        """nom affichable de l'enfant """
-        result = {}
-        print "clique_presence_debut"
-        return True
 mam_enfant()
