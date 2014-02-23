@@ -68,7 +68,7 @@ class mam_enfant(osv.Model):
         for enfant in self.browse(cr, uid, ids, context=context):
             print context
             print "enfant ", enfant.id
-            self.pool.get('mam.presence_e').create(cr, uid, {'enfant_id':enfant.id, 'date_debut':datetime.now()})
+            self.pool.get('mam.presence_e').create(cr, uid, {'enfant_id':enfant.id, 'date_debut':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
     def clique_presence_fin(self, cr, uid, ids, context=None):
         """termine une présence """
