@@ -56,8 +56,6 @@ class mam_enfant(osv.Model):
             _get_today_info,
             string="Présent en ce moment",
             type="boolean",
-            obj="mam.presence_e",
-            field="enfant_id",
             multi=True,
         ),
         'today_cur_presence': fields.function(
@@ -65,7 +63,12 @@ class mam_enfant(osv.Model):
             string="Présence en ce moment",
             type="many2one",
             obj="mam.presence_e",
-            #field="enfant_id",
+            multi=True,
+        ),
+        'today_mange_midi': fields.function(
+            _get_today_info,
+            string="Mange aujourd'hui",
+            type="boolean",
             multi=True,
         ),
     }
@@ -73,14 +76,16 @@ class mam_enfant(osv.Model):
     def clique_presence_debut(self, cr, uid, ids, context=None):
         """ajoute une présence """
         for enfant in self.browse(cr, uid, ids, context=context):
-            print "enfant ", enfant.id
             self.pool.get('mam.presence_e').create(cr, uid, {'enfant_id':enfant.id, 'date_debut':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
     def clique_presence_fin(self, cr, uid, ids, context=None):
         """termine une présence """
         for enfant in self.browse(cr, uid, ids, context=context):
-            print "enfant ", enfant.id
-            print "pres_id ", enfant.today_cur_presence.id
             self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence.id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return True
+    # def clique_mange_midi(self, cr, uid, ids, context=None):
+        # """coche ou décoche mange midi """
+        # for enfant in self.browse(cr, uid, ids, context=context):
+            # self.pool.get('mam.presence_e').write(cr, uid, enfant.today_cur_presence.id, {'date_fin':datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        # return True
 mam_enfant()
