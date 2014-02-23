@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date
+from pprint import pprint
 
 class mam_enfant(osv.Model):
     _name = 'mam.enfant'
@@ -23,7 +24,7 @@ class mam_enfant(osv.Model):
                 if date_debut.date() == date.today():
                     result[enfant.id]['today_presence_ids'].append(presence.id)
                     if date_debut < datetime.now():
-                        print presence
+                        pprint presence
                         if presence.date_fin is None:
                             result[enfant.id]['today_est_present'] = True
                         elif datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
