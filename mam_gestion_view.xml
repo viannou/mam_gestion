@@ -29,7 +29,7 @@
 					<separator string="Aujourd'hui" colspan="2"/> 
 					<field name="today_est_present" colspan="2"/>
 					<field name="today_presence_ids" colspan="2" nolabel="1"/>
-					<!-- <button string="Link" name="button_link" type="object" icon="terp-dolar_ok!"/> -->
+					<button name="clique_presence_debut" string="Link" type="object"/>
 				</group>
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
@@ -56,7 +56,6 @@
 						</page>
 					</notebook>
 				</group>
-				<group col="2" colspan="2">
 			</form>
 		</field>
 	</record>
