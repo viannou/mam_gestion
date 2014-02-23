@@ -16,6 +16,7 @@
 				<field name="contact_ids"/>
 				<field name="allergies"/>
 				<field name="recommandations"/>
+				<button name="clique_presence_debut" string="Link" type="object"/>
 			</tree>
 		</field>
 	</record>
