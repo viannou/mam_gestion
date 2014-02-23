@@ -26,7 +26,7 @@ class mam_enfant(osv.Model):
                     result[enfant.id]['today_presence_ids'].append(presence.id)
                     if date_debut < datetime.now():
                         pprint(presence)
-                        if presence.date_fin is None:
+                        if presence.date_fin is False:
                             result[enfant.id]['today_est_present'] = True
                         elif datetime.strptime(presence.date_fin,'%Y-%m-%d %H:%M:%S') > datetime.now():
                             result[enfant.id]['today_est_present'] = True
