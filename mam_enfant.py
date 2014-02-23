@@ -67,9 +67,10 @@ class mam_enfant(osv.Model):
         print "clique_presence_debut"
         for enfant in self.browse(cr, uid, ids, context=context):
             print context
-            print("enfant ", enfant.id)
-            enfant.presence_ids.append({'date_debut':'2013-01-01 01:01:01'})
-            print enfant.presence_ids
+            print"enfant ", enfant.id
+            print self.pool.get('mam.presence_e')
+            # enfant.presence_ids.append({'date_debut':'2013-01-01 01:01:01'})
+
         return True
     def clique_presence_fin(self, cr, uid, ids, context=None):
         """termine une présence """
