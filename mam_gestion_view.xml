@@ -80,16 +80,16 @@
 		<field name="arch" type="xml">
 			<tree string="jour_e">
 				<field name="date"/>
-				<field name="enfant_id"/>
+<!-- 				<field name="enfant_id"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="frais_montant"/>
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
-			</tree>
+ -->			</tree>
 		</field>
 	</record>
-	<record model="ir.ui.view" id="view_jour_e_form">
+<!-- 	<record model="ir.ui.view" id="view_jour_e_form">
 		<field name="name">jour_e.form</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
@@ -104,7 +104,7 @@
 			</form>
 		</field>
 	</record>
-	<record model="ir.actions.act_window" id="action_jour_e">
+ -->	<record model="ir.actions.act_window" id="action_jour_e">
 		<field name="name">Presences des enfants</field>
 		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
