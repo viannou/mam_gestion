@@ -68,7 +68,7 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<tree string="jour_e">
-				<field name="mange_midi"/>
+				<field name="jour"/>
 			</tree>
 		</field>
 	</record>
@@ -77,7 +77,7 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<form string="jour_e">
-				<field name="mange_midi"/>
+				<field name="jour"/>
 			</form>
 		</field>
 	</record>
