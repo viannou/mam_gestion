@@ -134,7 +134,7 @@
 	</record>
 	<record model="ir.actions.act_window" id="action_am">
 		<field name="name">Assistante maternelle</field>
-		<field name="res_model">mam.am</field>
+		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
