@@ -180,10 +180,10 @@
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
-	<menuitem name="Jours" id="menu_jour_item" parent="menu_rub_mam" action="action_jour"/>
-	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
-	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
+	<menuitem sequence="4" name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
+	<menuitem sequence="6" name="Jours" id="menu_jour_item" parent="menu_rub_mam" action="action_jour"/>
+	<menuitem sequence="8" name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
+	<menuitem sequence="10" name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
 </data>
 </openerp>
