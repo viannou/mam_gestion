@@ -3,32 +3,22 @@
 <data>
 
 
-<!--contact-->
-	<record model="ir.ui.view" id="view_contact_tree">
-		<field name="name">contact.tree</field>
-		<field name="model">mam.contact</field>
+<!-- jour_e -->
+	<record model="ir.ui.view" id="view_jour_e_tree">
+		<field name="name">mam.jour_e.tree</field>
+		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
-			<tree string="contact">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="adresse"/>
-				<field name="tel_fixe"/>
-				<field name="tel_mobile"/>
-				<field name="enfant_ids"/>
+			<tree string="Jour">
+				<field name="jour"/>
 			</tree>
 		</field>
 	</record>
-	<record model="ir.ui.view" id="view_contact_form">
-		<field name="name">contact.form</field>
-		<field name="model">mam.contact</field>
+	<record model="ir.ui.view" id="view_jour_e_form">
+		<field name="name">mam.jour_e.form</field>
+		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
-			<form string="contact">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="adresse"/>
-				<field name="tel_fixe"/>
-				<field name="tel_mobile"/>
-<!--				<field name="enfant_ids"/>-->
+			<form string="Jour">
+				<field name="jour"/>
 			</form>
 		</field>
 	</record>
@@ -36,7 +26,7 @@
 
 	<record model="ir.actions.act_window" id="action_am">
 		<field name="name">Assistante maternelle</field>
-		<field name="res_model">mam.contact</field>
+		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>

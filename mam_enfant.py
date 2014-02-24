@@ -119,7 +119,7 @@ mam_enfant()
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
-    _description = "Détail jour"
+    _description = "Detail jour"
     _columns = {
         'jour': fields.date('Jour',required=True, help='La date'),
         # 'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
