@@ -65,33 +65,53 @@
 			</form>
 		</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_enfant">
+		<field name="name">Enfant</field>
+		<field name="res_model">mam.enfant</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 
-<!--today enfant-->
-<!-- 	<record model="ir.ui.view" id="view_today_enfant_form">
-		<field name="name">today_enfant.form</field>
-		<field name="model">mam.enfant</field>
-		<field name="priority" eval="4"/>
+<!-- jour_e -->
+	<record model="ir.ui.view" id="view_jour_e_tree">
+		<field name="name">jour_e.tree</field>
+		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
-			<form string="enfant">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="date_naiss"/>
-			</form>
-		</field>
-	</record>
-	<record model="ir.ui.view" id="view_today_enfant_tree">
-		<field name="name">today_enfant.tree</field>
-		<field name="model">mam.enfant</field>
-		<field name="priority" eval="3"/>
-		<field name="arch" type="xml">
-			<tree string="enfant">
-				<field name="nom" context="{'form_view_ref' : 'view_today_enfant_form', 'tree_view_ref' : 'view_today_enfant_tree'}"/>
-				<field name="prenom"/>
+			<tree string="jour_e">
+				<field name="date"/>
+				<field name="enfant_id"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="frais_montant"/>
+				<field name="frais_libelle"/>
+				<field name="commentaire"/>
 			</tree>
 		</field>
 	</record>
- -->
+	<record model="ir.ui.view" id="view_jour_e_form">
+		<field name="name">jour_e.form</field>
+		<field name="model">mam.jour_e</field>
+		<field name="arch" type="xml">
+			<form string="jour_e">
+				<field name="date"/>
+				<field name="enfant_id"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="frais_montant"/>
+				<field name="frais_libelle"/>
+				<field name="commentaire"/>
+			</form>
+		</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_jour_e">
+		<field name="name">Présences des enfants</field>
+		<field name="res_model">mam.jour_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	<menuitem name="Présences des enfants" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
+
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
 		<field name="name">am.tree</field>
@@ -131,6 +151,12 @@
 			</form>
 		</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_am">
+		<field name="name">Assistante maternelle</field>
+		<field name="res_model">mam.am</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 
 <!--contact-->
@@ -161,6 +187,12 @@
 <!--				<field name="enfant_ids"/>-->
 			</form>
 		</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_contact">
+		<field name="name">Contact</field>
+		<field name="res_model">mam.contact</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
 	</record>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
@@ -207,26 +239,6 @@
 		</field>
 	</record>
  -->
-	<record model="ir.actions.act_window" id="action_enfant">
-		<field name="name">Enfant</field>
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-	<record model="ir.actions.act_window" id="action_am">
-		<field name="name">Assistante maternelle</field>
-		<field name="res_model">mam.am</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-	<record model="ir.actions.act_window" id="action_contact">
-		<field name="name">Contact</field>
-		<field name="res_model">mam.contact</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
 
 <!-- 	<record model="ir.actions.act_window" id="action_presence_e">
 		<field name="name">Prevision</field>
