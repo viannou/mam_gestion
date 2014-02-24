@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
+import mam_enfant, mam_presence
 
 class mam_am(osv.Model):
     _name = 'mam.am'

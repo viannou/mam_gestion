@@ -1,12 +1,14 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date
+import mam_gestion, mam_enfant
+
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Détail jour"
     _columns = {
-        'jour': fields.date('Date',required=True, help='La date'),
+        'jour': fields.date('Jour',required=True, help='La date'),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
