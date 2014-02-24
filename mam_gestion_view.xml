@@ -25,7 +25,7 @@
 		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
-				<group col="4" colspan="2">
+<!-- 				<group col="4" colspan="2">
 					<separator string="Aujourd'hui" colspan="4"/> 
 					<field name="today_est_present" colspan="4"/>
 					<button name="clique_presence_debut" string="Arrivée" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
@@ -33,7 +33,7 @@
 					<button name="clique_mange_midi" string="Mange midi" type="object"/>
 					<button name="clique_mange_gouter" string="Mange gouter" type="object"/>
 					<field name="today_presence_ids" colspan="4" nolabel="1"/>
-				</group>
+				</group> -->
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
 						<page string="General">
@@ -54,9 +54,9 @@
 								</tree> 
 							</field> 
 						</page>
-						<page string="Historique">
+<!-- 						<page string="Historique">
 							<field name="presence_ids" nolabel="1"/>
-						</page>
+						</page> -->
 					</notebook>
 				</group>
 			</form>
@@ -158,7 +158,7 @@
 	</record>
 
 <!--presence_e-->
-	<record model="ir.ui.view" id="view_presence_e_tree">
+<!-- 	<record model="ir.ui.view" id="view_presence_e_tree">
 		<field name="name">presence_e.tree</field>
 		<field name="model">mam.presence_e</field>
 		<field name="arch" type="xml">
@@ -199,7 +199,7 @@
 			</form>
 		</field>
 	</record>
-
+ -->
 	<record model="ir.actions.act_window" id="action_enfant">
 		<field name="name">Enfant</field>
 		<field name="res_model">mam.enfant</field>
@@ -221,12 +221,12 @@
 		<field name="view_mode">tree,form</field>
 	</record>
 
-	<record model="ir.actions.act_window" id="action_presence_e">
+<!-- 	<record model="ir.actions.act_window" id="action_presence_e">
 		<field name="name">Prevision</field>
 		<field name="res_model">mam.presence_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,calendar,form</field>
-	</record>
+	</record> -->
 
 <!-- 	<record model="ir.actions.act_window" id="action_today_e_tree">
 		<field name="sequence" eval="1" />
@@ -251,7 +251,7 @@
 	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
-	<menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/>
+	<!-- <menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/> -->
 	<!-- <menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/> -->
 
 
