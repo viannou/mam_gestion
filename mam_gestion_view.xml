@@ -75,20 +75,20 @@
 
 <!-- jour_e -->
 	<record model="ir.ui.view" id="view_jour_e_tree">
-		<field name="name">jour_e.tree</field>
+		<field name="name">joure.tree</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<tree string="jour_e">
-				<field name="jour"/>
+				<field name="mange_midi"/>
 			</tree>
 		</field>
 	</record>
 	<record model="ir.ui.view" id="view_jour_e_form">
-		<field name="name">jour_e.form</field>
+		<field name="name">joure.form</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<form string="jour_e">
-				<field name="jour"/>
+				<field name="mange_midi"/>
 			</form>
 		</field>
 	</record>
