@@ -105,12 +105,12 @@
 		</field>
 	</record>
 	<record model="ir.actions.act_window" id="action_jour_e">
-		<field name="name">Pr&#201;sences des enfants</field>
+		<field name="name">Presences des enfants</field>
 		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
-	<menuitem name="Pr&#201;sences des enfants" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
+	<menuitem name="Presences des enfants" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
 
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
