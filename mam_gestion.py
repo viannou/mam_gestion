@@ -74,4 +74,3 @@ mam_contact()
 #    res['description'] = 'initial value test'
 #    return res
 
-

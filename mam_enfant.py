@@ -131,3 +131,4 @@ class mam_jour_e(osv.Model):
     }
     # _rec_name = 'jour'
 mam_jour_e()
+
