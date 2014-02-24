@@ -6,7 +6,6 @@
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
-		<field name="priority" eval="1"/>
 		<field name="arch" type="xml">
 			<tree string="enfant">
 				<field name="prenom"/>
@@ -22,7 +21,6 @@
 	<record model="ir.ui.view" id="view_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
-		<field name="priority" eval="2"/>
 		<field name="arch" type="xml">
 			<form string="enfant">
 <!-- 				<group col="4" colspan="2">
