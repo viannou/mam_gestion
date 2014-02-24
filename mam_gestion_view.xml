@@ -2,6 +2,65 @@
 <openerp>
 <data>
 
+<!--enfant-->
+	<record model="ir.ui.view" id="view_enfant_tree">
+		<field name="name">enfant.tree</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+			<tree string="enfant">
+				<field name="prenom"/>
+				<field name="nom"/>
+				<field name="date_naiss"/>
+				<field name="am_id"/>
+				<field name="contact_ids"/>
+				<field name="allergies"/>
+				<field name="recommandations"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_enfant_form">
+		<field name="name">enfant.form</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+			<form string="enfant">
+<!-- 				<group col="4" colspan="2">
+					<separator string="Aujourd'hui" colspan="4"/> 
+					<field name="today_est_present" colspan="4"/>
+					<button name="clique_presence_debut" string="Arrivee" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
+					<button name="clique_presence_fin" string="Depart" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', False)]}"/>
+					<button name="clique_mange_midi" string="Mange midi" type="object"/>
+					<button name="clique_mange_gouter" string="Mange gouter" type="object"/>
+					<field name="today_presence_ids" colspan="4" nolabel="1"/>
+				</group> -->
+				<group col="2" colspan="2">
+					<notebook  colspan="2"> 
+						<page string="General">
+							<group col="2" colspan="4">
+								<field name="prenom"/>
+								<field name="nom"/>
+								<field name="date_naiss"/>
+								<field name="am_id"/>
+								<field name="recommandations"/>
+								<field name="allergies"/>
+							</group>
+						</page> 
+						<page string="Contacts">
+							<field name="contact_ids" nolabel="1"> 
+								<tree> 
+									<field name="nom"/>
+									<field name="prenom"/>
+								</tree> 
+							</field> 
+						</page>
+<!-- 						<page string="Historique">
+							<field name="presence_ids" nolabel="1"/>
+						</page> -->
+					</notebook>
+				</group>
+			</form>
+		</field>
+	</record>
+
 
 <!-- jour_e -->
 	<record model="ir.ui.view" id="view_jour_e_tree">
@@ -23,17 +82,108 @@
 		</field>
 	</record>
 
+<!--am-->
+	<record model="ir.ui.view" id="view_am_tree">
+		<field name="name">am.tree</field>
+		<field name="model">mam.am</field>
+		<field name="arch" type="xml">
+			<tree string="am">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_am_form">
+		<field name="name">am.form</field>
+		<field name="model">mam.am</field>
+		<field name="arch" type="xml">
+			<form string="am">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
+			</form>
+		</field>
+	</record>
 
+<!--contact-->
+	<record model="ir.ui.view" id="view_contact_tree">
+		<field name="name">contact.tree</field>
+		<field name="model">mam.contact</field>
+		<field name="arch" type="xml">
+			<tree string="contact">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="enfant_ids"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_contact_form">
+		<field name="name">contact.form</field>
+		<field name="model">mam.contact</field>
+		<field name="arch" type="xml">
+			<form string="contact">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+<!--				<field name="enfant_ids"/>-->
+			</form>
+		</field>
+	</record>
+
+
+	<record model="ir.actions.act_window" id="action_enfant">
+		<field name="name">Enfant</field>
+		<field name="res_model">mam.enfant</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 	<record model="ir.actions.act_window" id="action_am">
-		<field name="name">Assistante maternelle</field>
+		<field name="name">Jour</field>
 		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_am">
+		<field name="name">Assistante maternelle</field>
+		<field name="res_model">mam.am</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_contact">
+		<field name="name">Contact</field>
+		<field name="res_model">mam.contact</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 
-	<menuitem name="MAM" id="menu_top_mam" action="action_am"/>
-	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_am"/>
+	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
+	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
+	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
+	<menuitem name="Jours" id="menu_jour_item" parent="menu_rub_mam" action="action_jour"/>
 	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
+	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
 </data>
 </openerp>
