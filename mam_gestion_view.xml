@@ -79,17 +79,7 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<tree string="jour_e">
-				<field name="nom"/>
-				<field name="prenom"/>
-				<field name="date_naiss"/>
-				<field name="date_embauche"/>
-				<field name="num_sal"/>
-				<field name="num_ss"/>
-				<field name="adresse"/>
-				<field name="tel_fixe"/>
-				<field name="tel_mobile"/>
-				<field name="date_agrement"/>
-				<field name="nb_agrements"/>
+				<field name="jour"/>
 			</tree>
 		</field>
 	</record>
@@ -109,7 +99,17 @@
 		<field name="model">mam.am</field>
 		<field name="arch" type="xml">
 			<tree string="am">
-				<field name="jour"/>
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
 			</tree>
 		</field>
 	</record>
