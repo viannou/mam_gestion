@@ -74,7 +74,7 @@
 	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 
 <!-- jour_e -->
-	<record model="ir.ui.view" id="view_am_tree">
+<!-- 	<record model="ir.ui.view" id="view_am_tree">
 		<field name="name">jour_e.tree</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
@@ -98,7 +98,7 @@
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
-	<menuitem name="Jour" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
+ -->	<menuitem name="Jour" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
 
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
