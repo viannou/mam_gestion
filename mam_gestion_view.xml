@@ -2,9 +2,6 @@
 <openerp>
 <data>
 
-	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
-	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
-
 <!--enfant-->
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
@@ -65,14 +62,6 @@
 			</form>
 		</field>
 	</record>
-	<record model="ir.actions.act_window" id="action_enfant">
-		<field name="name">Enfant</field>
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
-
 <!-- jour_e -->
 	<record model="ir.ui.view" id="view_jour_e_tree">
 		<field name="name">joure.tree</field>
@@ -132,13 +121,6 @@
 			</form>
 		</field>
 	</record>
-	<record model="ir.actions.act_window" id="action_am">
-		<field name="name">Assistante maternelle</field>
-		<field name="res_model">mam.jour_e</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 
 <!--contact-->
 	<record model="ir.ui.view" id="view_contact_tree">
@@ -169,13 +151,6 @@
 			</form>
 		</field>
 	</record>
-	<record model="ir.actions.act_window" id="action_contact">
-		<field name="name">Contact</field>
-		<field name="res_model">mam.contact</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
 <!--presence_e-->
 <!-- 	<record model="ir.ui.view" id="view_presence_e_tree">
@@ -250,6 +225,31 @@
 	<!-- <menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/> -->
 
 
+	<record model="ir.actions.act_window" id="action_enfant">
+		<field name="name">Enfant</field>
+		<field name="res_model">mam.enfant</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="action_am">
+		<field name="name">Assistante maternelle</field>
+		<field name="res_model">mam.jour_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_contact">
+		<field name="name">Contact</field>
+		<field name="res_model">mam.contact</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
+	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
+	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
+	<menuitem name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
+	<menuitem name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
 </data>
 </openerp>
