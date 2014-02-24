@@ -89,7 +89,7 @@
 			</tree>
 		</field>
 	</record>
- --><!-- 	<record model="ir.ui.view" id="view_jour_e_form">
+  	<record model="ir.ui.view" id="view_jour_e_form">
 		<field name="name">jour_e.form</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
@@ -104,13 +104,13 @@
 			</form>
 		</field>
 	</record>
- -->	<record model="ir.actions.act_window" id="action_jour_e">
+	<record model="ir.actions.act_window" id="action_jour_e">
 		<field name="name">Presences des enfants</field>
 		<field name="res_model">mam.jour_e</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
-	<menuitem name="Presences des enfants" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
+ -->	<menuitem name="Presences des enfants" id="menu_jour_e_item" parent="menu_rub_mam" action="action_jour_e"/>
 
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
