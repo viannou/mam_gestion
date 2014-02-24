@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 <data>
 
@@ -60,6 +60,7 @@
 			</form>
 		</field>
 	</record>
+
 
 <!-- jour_e -->
 	<record model="ir.ui.view" id="view_jour_e_tree">
