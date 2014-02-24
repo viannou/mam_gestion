@@ -63,7 +63,7 @@
 
 <!-- jour_e -->
 	<record model="ir.ui.view" id="view_jour_e_tree">
-		<field name="name">jour_e.tree</field>
+		<field name="name">mam.jour_e.tree</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<tree string="Jour">
@@ -71,8 +71,8 @@
 			</tree>
 		</field>
 	</record>
-<!-- 	<record model="ir.ui.view" id="view_jour_e_form">
-		<field name="name">jour_e.form</field>
+	<record model="ir.ui.view" id="view_jour_e_form">
+		<field name="name">mam.jour_e.form</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<form string="Jour">
@@ -80,7 +80,7 @@
 			</form>
 		</field>
 	</record>
- -->
+
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
 		<field name="name">am.tree</field>
