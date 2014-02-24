@@ -73,6 +73,45 @@
 	</record>
 	<menuitem name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 
+<!-- jour_e -->
+	<record model="ir.ui.view" id="view_jour_e_tree">
+		<field name="name">jour_e.tree</field>
+		<field name="model">mam.jour_e</field>
+		<field name="arch" type="xml">
+			<tree string="jour_e">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_jour_e_form">
+		<field name="name">jour_e.form</field>
+		<field name="model">mam.jour_e</field>
+		<field name="arch" type="xml">
+			<form string="jour_e">
+				<field name="nom"/>
+				<field name="prenom"/>
+				<field name="date_naiss"/>
+				<field name="date_embauche"/>
+				<field name="num_sal"/>
+				<field name="num_ss"/>
+				<field name="adresse"/>
+				<field name="tel_fixe"/>
+				<field name="tel_mobile"/>
+				<field name="date_agrement"/>
+				<field name="nb_agrements"/>
+			</form>
+		</field>
+	</record>
 
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
