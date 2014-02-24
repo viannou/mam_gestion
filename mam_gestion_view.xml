@@ -2,7 +2,6 @@
 <openerp>
 <data>
 
-<!--enfant-->
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
@@ -23,15 +22,6 @@
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
 			<form string="enfant">
-<!-- 				<group col="4" colspan="2">
-					<separator string="Aujourd'hui" colspan="4"/> 
-					<field name="today_est_present" colspan="4"/>
-					<button name="clique_presence_debut" string="Arrivee" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', True)]}"/>
-					<button name="clique_presence_fin" string="Depart" type="object" confirm="True" icon="gtk-execute" attrs="{'invisible':[('today_est_present', '==', False)]}"/>
-					<button name="clique_mange_midi" string="Mange midi" type="object"/>
-					<button name="clique_mange_gouter" string="Mange gouter" type="object"/>
-					<field name="today_presence_ids" colspan="4" nolabel="1"/>
-				</group> -->
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
 						<page string="General">
@@ -52,9 +42,6 @@
 								</tree> 
 							</field> 
 						</page>
-<!-- 						<page string="Historique">
-							<field name="presence_ids" nolabel="1"/>
-						</page> -->
 					</notebook>
 				</group>
 			</form>
@@ -151,84 +138,11 @@
 		</field>
 	</record>
 
-<!--presence_e-->
-<!-- 	<record model="ir.ui.view" id="view_presence_e_tree">
-		<field name="name">presence_e.tree</field>
-		<field name="model">mam.presence_e</field>
-		<field name="arch" type="xml">
-			<tree string="presence_e">
-				<field name="enfant_id"/>
-				<field name="est_reel"/>
-				<field name="type"/>
-				<field name="date_debut"/>
-				<field name="date_fin"/>
-				<field name="mange_midi"/>
-				<field name="mange_gouter"/>
-				<field name="commentaire"/>
-			</tree>
-		</field>
-	</record>
-	<record model="ir.ui.view" id="view_presence_e_calendar">
-		<field name="name">presence_e.calendar</field>
-		<field name="model">mam.presence_e</field>
-		<field name="arch" type="xml">
-			<calendar string="Previsions" mode="week" date_start="date_debut" date_stop="date_fin" color="enfant_id">
-				<field name="enfant_id"/>
-			</calendar>
-		</field>
-	</record>
-	<record model="ir.ui.view" id="view_presence_e_form">
-		<field name="name">presence_e.form</field>
-		<field name="model">mam.presence_e</field>
-		<field name="arch" type="xml">
-			<form string="presence_e">
-				<field name="enfant_id"/>
-				<field name="est_reel"/>
-				<field name="type"/>
-				<field name="date_debut"/>
-				<field name="date_fin"/>
-				<field name="mange_midi"/>
-				<field name="mange_gouter"/>
-				<field name="commentaire"/>
-			</form>
-		</field>
-	</record>
- -->
-
-<!-- 	<record model="ir.actions.act_window" id="action_presence_e">
-		<field name="name">Prevision</field>
-		<field name="res_model">mam.presence_e</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,calendar,form</field>
-	</record> -->
-
-<!-- 	<record model="ir.actions.act_window" id="action_today_e_tree">
-		<field name="sequence" eval="1" />
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree</field>
-		<field name="view_id" ref="view_today_enfant_tree"/>
-	</record>
-	<record model="ir.actions.act_window" id="action_today_e_form">
-		<field name="sequence" eval="2" />
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">form</field>
-		<field name="view_id" ref="view_today_enfant_form"/>
-	</record>
- -->
-
-	<!-- <menuitem name="Aujourd'hui" id="menu_rub_today" parent="menu_top_mam" action="action_enfant"/> -->
-
-	<!-- <menuitem name="Presence" id="menu_presence_e" parent="menu_rub_mam" action="action_presence_e"/> -->
-	<!-- <menuitem name="Aujourd'hui" id="menu_today_e" parent="menu_rub_today" action="action_today_e_tree"/> -->
-
-
 	<record model="ir.actions.act_window" id="action_enfant">
 		<field name="name">Enfant</field>
 		<field name="res_model">mam.enfant</field>
 		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
+		<field name="view_mode">tree,form</field>f
 	</record>
 
 	<record model="ir.actions.act_window" id="action_am">
