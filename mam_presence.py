@@ -17,3 +17,38 @@ class mam_jour_e(osv.Model):
     _rec_name = 'jour'
 mam_jour_e()
 
+class mam_jour_type(osv.Model):
+    _name = 'mam.jour_type'
+    _description = "Jours type de presence"
+    _columns = {
+        'name': fields.text('Nom jour type',required=True, help='Nom jour type de presence'),
+        'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
+        'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
+        'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
+    }
+mam_jour_type()
+
+class mam_presence_type(osv.Model):
+    _name = 'mam.presence_type'
+    _description = "Jours type de presence"
+    def _get_libelle(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = strftime("%H:%M:%S", record.heure_debut) + " - " + strftime("%H:%M:%S", record.heure_fin)
+        return result
+    _columns = {
+        'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
+        'heure_debut': fields.time('Heure début', help='Heure de début'),
+        'heure_fin': fields.time('Heure fin', help='Heure de fin'),
+        'libelle': fields.function(
+            _get_libelle,
+            type="char",
+            string="Libelle",
+            store=None,
+            #select=True,
+        ),
+    }
+    _rec_name = 'jour'
+mam_presence_type()
+
