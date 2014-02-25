@@ -131,7 +131,7 @@
 			</form>
 		</field>
 	</record>
-	<record model="ir.actions.act_window" id="action_jour">
+	<record model="ir.actions.act_window" id="action_jour_type">
 		<field name="name">JourType</field>
 		<field name="res_model">mam.jour_type</field>
 		<field name="view_type">form</field>
