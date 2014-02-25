@@ -109,6 +109,28 @@
 		<field name="view_mode">tree,form</field>
 	</record>
 
+<!-- presence_type -->
+	<record model="ir.ui.view" id="view_presence_type_tree">
+		<field name="name">mam.presence_type.tree</field>
+		<field name="model">mam.presence_type</field>
+		<field name="arch" type="xml">
+			<tree string="PresenceType">
+				<field name="jour_type_id"/>
+				<field name="libelle"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.ui.view" id="view_presence_type_form">
+		<field name="name">mam.presence_type.form</field>
+		<field name="model">mam.presence_type</field>
+		<field name="arch" type="xml">
+			<form string="PresenceType">
+				<field name="jour_type_id"/>
+				<field name="heure_debut" widget="float_time"/>
+				<field name="heure_fin" widget="float_time"/>
+			</form>
+		</field>
+	</record>
 <!-- jour_type -->
 	<record model="ir.ui.view" id="view_jour_type_tree">
 		<field name="name">mam.jour_type.tree</field>
