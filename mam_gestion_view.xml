@@ -60,6 +60,12 @@
 			</form>
 		</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_enfant">
+		<field name="name">Enfant</field>
+		<field name="res_model">mam.enfant</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 
 
 <!-- jour_e -->
@@ -69,6 +75,12 @@
 		<field name="arch" type="xml">
 			<tree string="Jour">
 				<field name="jour"/>
+				<field name="enfant_id"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="frais_montant"/>
+				<field name="frais_libelle"/>
+				<field name="commentaire"/>
 			</tree>
 		</field>
 	</record>
@@ -78,8 +90,20 @@
 		<field name="arch" type="xml">
 			<form string="Jour">
 				<field name="jour"/>
+				<field name="enfant_id"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="frais_montant"/>
+				<field name="frais_libelle"/>
+				<field name="commentaire"/>
 			</form>
 		</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_jour">
+		<field name="name">Jour</field>
+		<field name="res_model">mam.jour_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
 	</record>
 
 <!--am-->
@@ -121,6 +145,12 @@
 			</form>
 		</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_am">
+		<field name="name">Assistante maternelle</field>
+		<field name="res_model">mam.am</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 
 <!--contact-->
 	<record model="ir.ui.view" id="view_contact_tree">
@@ -151,32 +181,13 @@
 			</form>
 		</field>
 	</record>
-
-
-	<record model="ir.actions.act_window" id="action_enfant">
-		<field name="name">Enfant</field>
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-	<record model="ir.actions.act_window" id="action_jour">
-		<field name="name">Jour</field>
-		<field name="res_model">mam.jour_e</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-	<record model="ir.actions.act_window" id="action_am">
-		<field name="name">Assistante maternelle</field>
-		<field name="res_model">mam.am</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
 	<record model="ir.actions.act_window" id="action_contact">
 		<field name="name">Contact</field>
 		<field name="res_model">mam.contact</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
+
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
