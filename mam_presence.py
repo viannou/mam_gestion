@@ -32,22 +32,56 @@ mam_jour_type()
 class mam_presence_type(osv.Model):
     _name = 'mam.presence_type'
     _description = "Jours type de presence"
-    def _get_libelle(self, cr, uid, ids, name, args, context=None):
+    def _get_lib_date(self, cr, uid, ids, name, args, context=None):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            result[record.id] = ("{:05.2f}".format(record.heure_debut) + " - " + "{:05.2f}".format(record.heure_fin)).replace(".",":")
+            result[record.id][heure_debut] = datetime.strptime("{:05.2f}".format(record.heure_debut_f),"%H.%M")
+            result[record.id][heure_fin] = datetime.strptime("{:05.2f}".format(record.heure_fin_f),"%H.%M")
+            result[record.id][libelle] = "{:%H:%M}".format(result[record.id][heure_debut]) + " - " + "{:%H:%M}".format(result[record.id][heure_fin])
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
-        'heure_debut': fields.float('Heure début', help='Heure de début'),
-        'heure_fin': fields.float('Heure fin', help='Heure de fin'),
-        'libelle': fields.function(
-            _get_libelle,
+        'heure_debut_f': fields.float('Heure début', help='Heure de début'),
+        'heure_fin_f': fields.float('Heure fin', help='Heure de fin'),
+        "heure_debut": fields.function(
+            _get_lib_date,
+            type="datetime",
+            string="Heure début non affiche",
+            store={
+                "mam.presence_type": (
+                    lambda self, cr, uid, ids, c={}: ids,
+                    ["heure_debut_f", "heure_fin_f"],
+                    10
+                ),
+            },
+            multi='modif_date',
+        ),
+        "heure_fin": fields.function(
+            _get_lib_date,
+            type="datetime",
+            string="Heure fin non affiche",
+            store={
+                "mam.presence_type": (
+                    lambda self, cr, uid, ids, c={}: ids,
+                    ["heure_debut_f", "heure_fin_f"],
+                    10
+                ),
+            },
+            multi='modif_date',
+        ),
+        "libelle": fields.function(
+            _get_lib_date,
             type="char",
             string="Libelle",
-            store=None,
-            #select=True,
+            store={
+                "mam.presence_type": (
+                    lambda self, cr, uid, ids, c={}: ids,
+                    ["heure_debut_f", "heure_fin_f"],
+                    10
+                ),
+            },
+            multi='modif_date',
         ),
     }
     _rec_name = 'libelle'
