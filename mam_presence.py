@@ -36,6 +36,7 @@ class mam_presence_type(osv.Model):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = {}
             result[record.id][heure_debut] = datetime.strptime("{:05.2f}".format(record.heure_debut_f),"%H.%M")
             result[record.id][heure_fin] = datetime.strptime("{:05.2f}".format(record.heure_fin_f),"%H.%M")
             result[record.id][libelle] = "{:%H:%M}".format(result[record.id][heure_debut]) + " - " + "{:%H:%M}".format(result[record.id][heure_fin])
