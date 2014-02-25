@@ -20,9 +20,18 @@ mam_jour_e()
 class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
     _description = "Jours type de presence"
+    def _get_creneaux(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res = ()
+            for presence_type in record.presence_type_ids:
+                res.append(presence_type.name)
+            result[record.id] = " | ".join(res)
+        return result
     _columns = {
         'name': fields.function(
-            _get_lib_date,
+            _get_creneaux,
             type="char",
             string="Créneaux",
             store={'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 10),},
@@ -45,9 +54,6 @@ class mam_presence_type(osv.Model):
             result[record.id]['heure_debut'] = datetime.strptime(record.heure_debut_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['name'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
-            print result[record.id]['heure_debut']
-            print result[record.id]['heure_fin']
-            print result[record.id]['name']
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
