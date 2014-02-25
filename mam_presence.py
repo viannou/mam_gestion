@@ -24,7 +24,7 @@ class mam_jour_type(osv.Model):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            res = ()
+            res = []
             for presence_type in record.presence_type_ids:
                 res.append(presence_type.name)
             result[record.id] = " | ".join(res)
