@@ -36,7 +36,7 @@ class mam_presence_type(osv.Model):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            result[record.id] = strftime("%H:%M:%S", record.heure_debut) + " - " + strftime("%H:%M:%S", record.heure_fin)
+            result[record.id] = ("{:05.2f}".format(record.heure_debut) + " - " + "{:05.2f}".format(record.heure_fin)).replace(".",":")
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
