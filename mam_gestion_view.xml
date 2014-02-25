@@ -53,7 +53,10 @@
 							</field> 
 						</page>
 						<page string="Historique">
-							<field name="jour_ids" nolabel="1"/>
+							<field name="jour_e_ids" nolabel="1"/>
+						</page>
+						<page string="Jours types">
+							<field name="jour_types_ids" nolabel="1"/>
 						</page>
 					</notebook>
 				</group>
