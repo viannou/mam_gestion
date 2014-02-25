@@ -37,17 +37,14 @@ class mam_presence_type(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            print record.heure_debut_f
-            print "{:05.2f}".format(record.heure_debut_f)
-            print datetime.strptime("{:05.2f}".format(record.heure_debut_f),"%H.%M")
-            result[record.id]['heure_debut'] = datetime.strptime("{:05.2f}".format(record.heure_debut_f),"%H.%M")
-            result[record.id]['heure_fin'] = datetime.strptime("{:05.2f}".format(record.heure_fin_f),"%H.%M")
+            result[record.id]['heure_debut'] = datetime.strptime(record.heure_debut_c.replace("h",":").replace(" ",":"),"%H:%M")
+            result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
-        'heure_debut_f': fields.float('Heure début',required=True, help='Heure de début'),
-        'heure_fin_f': fields.float('Heure fin',required=True, help='Heure de fin'),
+        'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
+        'heure_fin_c': fields.char('Heure fin',required=True, help='Heure de fin'),
         "heure_debut": fields.function(
             _get_lib_date,
             type="datetime",

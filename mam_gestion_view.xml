@@ -116,6 +116,8 @@
 		<field name="arch" type="xml">
 			<tree string="PresenceType">
 				<field name="libelle"/>
+				<field name="heure_debut_c" widget="float_time"/>
+				<field name="heure_fin_c" widget="float_time"/>
 			</tree>
 		</field>
 	</record>
@@ -124,8 +126,8 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<form string="PresenceType">
-				<field name="heure_debut_f" widget="float_time"/>
-				<field name="heure_fin_f" widget="float_time"/>
+				<field name="heure_debut_c" widget="float_time"/>
+				<field name="heure_fin_c" widget="float_time"/>
 			</form>
 		</field>
 	</record>
