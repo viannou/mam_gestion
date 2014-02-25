@@ -21,7 +21,12 @@ class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
     _description = "Jours type de presence"
     _columns = {
-        'name': fields.char('Nom jour type',required=True, help='Nom jour type de presence'),
+        'name': fields.function(
+            _get_lib_date,
+            type="char",
+            string="Créneaux",
+            store={'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 10),},
+        ),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
