@@ -26,7 +26,7 @@ class mam_jour_type(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             res = []
             for presence_type in record.presence_type_ids:
-                if presence_type.presence_type.name:
+                if presence_type.name:
                     res.append(presence_type.name)
                     print "a ",presence_type.name
             print "b ",res
