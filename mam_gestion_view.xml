@@ -115,7 +115,7 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<tree string="PresenceType">
-				<field name="libelle"/>
+				<field name="name"/>
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
 			</tree>
@@ -137,11 +137,11 @@
 		<field name="model">mam.jour_type</field>
 		<field name="arch" type="xml">
 			<tree string="JourType">
-				<field name="name"/>
 				<field name="enfant_id"/>
+				<field name="name"/>
+				<field name="presence_type_ids"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
-				<field name="presence_type_ids"/>
 			</tree>
 		</field>
 	</record>

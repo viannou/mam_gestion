@@ -62,14 +62,13 @@ class mam_presence_type(osv.Model):
             store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 10),},
             multi='modif_date',
         ),
-        "libelle": fields.function(
+        "name": fields.function(
             _get_lib_date,
             type="char",
-            string="Libelle",
+            string="Créneau",
             store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 10),},
             multi='modif_date',
         ),
     }
-    _rec_name = 'libelle'
 mam_presence_type()
 
