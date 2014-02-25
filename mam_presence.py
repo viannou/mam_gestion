@@ -25,6 +25,7 @@ class mam_jour_type(osv.Model):
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
+        'presence_type_ids': fields.one2many('mam.presence_type', 'jour_type_id', 'Liste des présences du jour type', help='Liste des présences du jour type de l''enfant'),
     }
 mam_jour_type()
 

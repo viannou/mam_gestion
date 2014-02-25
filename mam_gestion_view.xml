@@ -119,6 +119,7 @@
 				<field name="enfant_id"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
+				<field name="presence_type_ids"/>
 			</tree>
 		</field>
 	</record>
