@@ -115,7 +115,6 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<tree string="PresenceType">
-				<field name="jour_type_id"/>
 				<field name="libelle"/>
 			</tree>
 		</field>
@@ -125,7 +124,6 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<form string="PresenceType">
-				<field name="jour_type_id"/>
 				<field name="heure_debut_f" widget="float_time"/>
 				<field name="heure_fin_f" widget="float_time"/>
 			</form>
