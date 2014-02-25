@@ -49,7 +49,7 @@ class mam_enfant(osv.Model):
         'allergies': fields.text('Allergies', help='Allergies de l''enfant'),
         'recommandations': fields.text('Recommandations générales', help='Recommandations generales pour l''enfant'),
         'jour_e_ids': fields.one2many('mam.jour_e', 'enfant_id', 'Liste des jours', help='Liste des jours de presences de l''enfant'),
-        'jour_type_ids': fields.one2many('mam.jour_type', 'jour_type_id', 'Liste des jours types', help='Liste des jours types de l''enfant'),
+        'jour_type_ids': fields.one2many('mam.jour_type', 'enfant_id', 'Liste des jours types', help='Liste des jours types de l''enfant'),
         # 'today_presence_ids': fields.function(
             # _get_today_info,
             # string="Présences aujourd'hui",
