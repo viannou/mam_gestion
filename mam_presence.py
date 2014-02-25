@@ -49,6 +49,6 @@ class mam_presence_type(osv.Model):
             #select=True,
         ),
     }
-    _rec_name = 'jour'
+    _rec_name = 'libelle'
 mam_presence_type()
 
