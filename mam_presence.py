@@ -27,6 +27,8 @@ class mam_jour_type(osv.Model):
             res = []
             for presence_type in record.presence_type_ids:
                 res.append(presence_type.name)
+                print "a ",presence_type.name
+            print "b ",res
             result[record.id] = " | ".join(res)
         return result
     _columns = {
