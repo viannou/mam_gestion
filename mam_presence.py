@@ -21,7 +21,7 @@ class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
     _description = "Jours type de presence"
     _columns = {
-        'name': fields.text('Nom jour type',required=True, help='Nom jour type de presence'),
+        'name': fields.char('Nom jour type',required=True, help='Nom jour type de presence'),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
