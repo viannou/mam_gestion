@@ -57,7 +57,7 @@ class mam_presence_type(osv.Model):
             result[record.id]['heure_debut'] = datetime.strptime(record.heure_debut_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['name'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
-            print "rec ",record.id]
+            print "rec ",record.id
             print ": ",result[record.id]['name']
         return result
     _columns = {
