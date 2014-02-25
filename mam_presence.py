@@ -26,8 +26,9 @@ class mam_jour_type(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             res = []
             for presence_type in record.presence_type_ids:
-                res.append(presence_type.name)
-                print "a ",presence_type.name
+                if presence.presence_type.name:
+                    res.append(presence_type.name)
+                    print "a ",presence_type.name
             print "b ",res
             result[record.id] = "\n".join(res)
         return result
@@ -65,24 +66,24 @@ class mam_presence_type(osv.Model):
             _get_lib_date,
             type="datetime",
             string="Heure début non affiche",
-            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 15),
-                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 15),},
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 5),
+                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 5),},
             multi='modif_date',
         ),
         "heure_fin": fields.function(
             _get_lib_date,
             type="datetime",
             string="Heure fin non affiche",
-            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 15),
-                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 15),},
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 5),
+                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 5),},
             multi='modif_date',
         ),
         "name": fields.function(
             _get_lib_date,
             type="char",
             string="Créneau",
-            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 15),
-                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 15),},
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 5),
+                'mam.jour_type': (lambda self, cr, uid, ids, c={}: ids, ["presence_type_ids"], 5),},
             multi='modif_date',
         ),
     }
