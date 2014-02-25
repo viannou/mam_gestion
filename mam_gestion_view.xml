@@ -52,9 +52,9 @@
 								</tree> 
 							</field> 
 						</page>
-<!-- 						<page string="Historique">
-							<field name="presence_ids" nolabel="1"/>
-						</page> -->
+						<page string="Historique">
+							<field name="jour_ids" nolabel="1"/>
+						</page>
 					</notebook>
 				</group>
 			</form>
