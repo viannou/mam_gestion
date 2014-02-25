@@ -29,7 +29,7 @@ class mam_jour_type(osv.Model):
                 res.append(presence_type.name)
                 print "a ",presence_type.name
             print "b ",res
-            result[record.id] = " | ".join(res)
+            result[record.id] = "\n".join(res)
         return result
     _columns = {
         'name': fields.function(
