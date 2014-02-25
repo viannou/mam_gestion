@@ -49,39 +49,21 @@ class mam_presence_type(osv.Model):
             _get_lib_date,
             type="datetime",
             string="Heure début non affiche",
-            store={
-                "mam.presence_type": (
-                    lambda self, cr, uid, ids, c={}: ids,
-                    ["heure_debut_f", "heure_fin_f"],
-                    10
-                ),
-            },
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 10),},
             multi='modif_date',
         ),
         "heure_fin": fields.function(
             _get_lib_date,
             type="datetime",
             string="Heure fin non affiche",
-            store={
-                "mam.presence_type": (
-                    lambda self, cr, uid, ids, c={}: ids,
-                    ["heure_debut_f", "heure_fin_f"],
-                    10
-                ),
-            },
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 10),},
             multi='modif_date',
         ),
         "libelle": fields.function(
             _get_lib_date,
             type="char",
             string="Libelle",
-            store={
-                "mam.presence_type": (
-                    lambda self, cr, uid, ids, c={}: ids,
-                    ["heure_debut_f", "heure_fin_f"],
-                    10
-                ),
-            },
+            store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, ["heure_debut_c", "heure_fin_c"], 10),},
             multi='modif_date',
         ),
     }
