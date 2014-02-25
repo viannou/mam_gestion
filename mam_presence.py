@@ -39,8 +39,8 @@ class mam_presence_type(osv.Model):
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
-        'heure_debut': fields.time('Heure début', help='Heure de début'),
-        'heure_fin': fields.time('Heure fin', help='Heure de fin'),
+        'heure_debut': fields.float('Heure début', help='Heure de début'),
+        'heure_fin': fields.float('Heure fin', help='Heure de fin'),
         'libelle': fields.function(
             _get_libelle,
             type="char",
