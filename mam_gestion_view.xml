@@ -157,6 +157,12 @@
 			</form>
 		</field>
 	</record>
+	<record model="ir.actions.act_window" id="action_jour_tpye">
+		<field name="name">Jours Types</field>
+		<field name="res_model">mam.jour_type</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
 
 <!--am-->
 	<record model="ir.ui.view" id="view_am_tree">
@@ -245,6 +251,7 @@
 	<menuitem name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="4" name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
 	<menuitem sequence="6" name="Jours" id="menu_jour_item" parent="menu_rub_mam" action="action_jour_e"/>
+	<menuitem sequence="7" name="Jours Types" id="menu_jour_item" parent="menu_rub_mam" action="action_jour_tpye"/>
 	<menuitem sequence="8" name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem sequence="10" name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
