@@ -138,7 +138,7 @@
 		<field name="arch" type="xml">
 			<tree string="JourType">
 				<field name="enfant_id"/>
-				<field name="name"/>
+				<field name="libelle"/>
 				<field name="presence_type_ids"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
@@ -150,7 +150,7 @@
 		<field name="model">mam.jour_type</field>
 		<field name="arch" type="xml">
 			<form string="JourType">
-				<field name="name"/>
+				<field name="libelle"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="presence_type_ids"/>
