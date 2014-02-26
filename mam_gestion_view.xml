@@ -91,6 +91,9 @@
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
 			</tree>
+			<footer>
+				<button name="action_creer_jours" type="object" string="Creer jours" class="oe_highlight"/>
+			</footer>
 		</field>
 	</record>
 	<record model="ir.ui.view" id="view_jour_e_form">
