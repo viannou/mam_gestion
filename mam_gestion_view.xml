@@ -260,7 +260,7 @@
 		<field name="name">Creer des jours</field>
 		<field name="model_id" ref="model_mam_jour_e"/>
 		<field name="state">code</field>
-		<field name="code">action = obj.action_creer_jours()</field>
+		<field name="code">action = object.action_creer_jours()</field>
 	</record>
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
@@ -271,7 +271,7 @@
 	<menuitem sequence="8" name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem sequence="10" name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 	<menuitem sequence="20" name="Actions" id="menu_rub_actions" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem sequence="24" name="Creer des jours" id="menu_creer_jours" parent="menu_rub_mam" action="action_creer_jours"/>
+	<menuitem sequence="24" name="Creer des jours" id="menu_creer_jours" parent="menu_rub_actions" action="action_creer_jours"/>
 
 </data>
 </openerp>
