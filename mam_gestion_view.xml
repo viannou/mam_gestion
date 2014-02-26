@@ -255,7 +255,7 @@
 
 
 <!-- actions -->
-	<record id="action_creer_jours" model="ir.actions.server">
+<!-- 	<record id="action_creer_jours" model="ir.actions.server">
 		<field name="type">ir.actions.server</field>
 		<field name="name">Creer des jours</field>
 		<field name="model_id" ref="model_mam_jour_e"/>
@@ -270,6 +270,29 @@
 		<field name="key">action</field>
 		<field name="model">mam.jour_e</field>
 	</record>
+ -->
+	<record model="ir.actions.server" id="action_creer_jours">
+		<field name="type">ir.actions.server</field>
+		<field name="name">Creer des jours</field>
+		<field name="state">code</field>
+		<field name="model_id" ref="model_mam_jour_e"/>
+		<field name="code">
+# Set the value of the `action` variable to return a custom action to
+# be executed by the client. 'object' is initialized based on the 'active_id' in the context
+action = object.action_creer_jours()
+		</field>
+	</record>
+	<record id="value_context_contextual_action_runjob" model="ir.values">
+		<field name="model_id" ref="model_mam_jour_e" />
+		<field name="name">Advanced Export</field>
+		<field name="key2">client_action_multi</field>
+		<field name="value" eval="'ir.actions.server,%d' % ref('action_creer_jours')"/>
+		<field name="key">action</field>
+		<field name="model">mam.jour_e</field>
+	</record>
+
+
+
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="1" name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
