@@ -56,7 +56,13 @@
 							<field name="jour_e_ids" nolabel="1"/>
 						</page>
 						<page string="Jours types">
-							<field name="jour_type_ids" nolabel="1" options="{'create': false, 'create_edit': false, 'm2o_dialog': false}"/>
+							<field name="jour_type_ids" nolabel="1"> 
+								<tree> 
+									<field name="libelle"/>
+									<field name="mange_midi"/>
+									<field name="mange_gouter"/>
+								</tree> 
+							</field> 
 						</page>
 					</notebook>
 				</group>
