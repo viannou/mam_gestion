@@ -262,6 +262,13 @@
 		<field name="state">code</field>
 		<field name="code">action = object.action_creer_jours()</field>
 	</record>
+	<record id="value_action_creer_jours" model="ir.values">
+		<field name="name">Creer des jours</field>
+		<field name="key2">client_action_multi</field>
+		<field name="value" eval="'ir.actions.server,%d' % ref('action_creer_jours')"/>
+		<field name="key">action</field>
+		<field name="model">mam.jour_e</field>
+	</record>
 
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="1" name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
