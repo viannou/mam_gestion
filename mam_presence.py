@@ -52,10 +52,12 @@ class mam_jour_type(osv.Model):
             print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
             #jour_e_ids = jour_type.enfant_id.jour_e_ids
             for date_d in (date.today() + timedelta(n) for n in range(2)):
-                print d
-                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('product_id','=', prod_id) ], context=context)
+                print date_d
+                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('jour','=', date_d) ], context=context)
                 if jours_e_ids:
                     print "ah ", jours_e_ids[0]
+                else:
+                    print "oh non"
         return True
 mam_jour_type()
 
