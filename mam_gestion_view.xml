@@ -56,7 +56,7 @@
 							<field name="jour_e_ids" nolabel="1"/>
 						</page>
 						<page string="Jours types">
-							<field name="jour_type_ids" nolabel="1" options="{'create': false, 'create_edit': false}"/>
+							<field name="jour_type_ids" nolabel="1" options="{'create': false, 'create_edit': false, 'm2o_dialog': false}"/>
 						</page>
 					</notebook>
 				</group>
