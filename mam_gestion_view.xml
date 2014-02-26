@@ -264,6 +264,7 @@
 	</record>
 	<record id="value_action_creer_jours" model="ir.values">
 		<field name="name">Creer des jours</field>
+		<field name="model_id" ref="model_mam_jour_e"/>
 		<field name="key2">client_action_multi</field>
 		<field name="value" eval="'ir.actions.server,%d' % ref('action_creer_jours')"/>
 		<field name="key">action</field>
