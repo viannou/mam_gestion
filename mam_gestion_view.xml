@@ -115,7 +115,7 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<tree string="PresenceType">
-				<field name="name"/>
+				<field name="libelle"/>
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
 			</tree>
