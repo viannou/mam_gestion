@@ -45,6 +45,12 @@ class mam_jour_type(osv.Model):
         'presence_type_ids': fields.one2many('mam.presence_type', 'jour_type_id', 'Liste des présences du jour type', help='Liste des présences du jour type de l''enfant'),
     }
     _rec_name = 'libelle'
+    def action_creer_jours(self, cr, uid, ids, context=None):
+        # for enfant in self.browse(cr, uid, ids, context=context):
+            # print enfant.id, enfant.nomprenom, context
+        for jour_type in self.browse(cr, uid, ids, context=context):
+            print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
+        return True
 mam_jour_type()
 
 class mam_presence_type(osv.Model):

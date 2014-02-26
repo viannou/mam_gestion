@@ -62,8 +62,7 @@
 									<field name="mange_midi"/>
 									<field name="mange_gouter"/>
 								</tree> 
-							</field> 
-							<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/>
+							</field>
 						</page>
 					</notebook>
 				</group>
@@ -162,6 +161,7 @@
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="presence_type_ids"/>
+				<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/>
 			</form>
 		</field>
 	</record>

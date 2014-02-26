@@ -115,11 +115,5 @@ class mam_enfant(osv.Model):
             # for presence in enfant.today_presence_ids:
                 # self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_gouter':inverse})
         # return True
-    def action_creer_jours(self, cr, uid, ids, context=None):
-        for enfant in self.browse(cr, uid, ids, context=context):
-            print enfant.id, enfant.nomprenom, context
-        # for jour_type in self.browse(cr, uid, ids, context=context):
-            # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom
-        return True
 mam_enfant()
 
