@@ -28,8 +28,6 @@ class mam_jour_type(osv.Model):
             for presence_type in record.presence_type_ids:
                 if presence_type.libelle:
                     res.append(presence_type.libelle)
-                    print "a ",presence_type.libelle
-            print "b ",res
             result[record.id] = "   \n".join(res)
         return result
     _columns = {
@@ -47,10 +45,17 @@ class mam_jour_type(osv.Model):
     }
     _rec_name = 'libelle'
     def action_creer_jours(self, cr, uid, ids, context=None):
+        """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         # for enfant in self.browse(cr, uid, ids, context=context):
             # print enfant.id, enfant.nomprenom, context
         for jour_type in self.browse(cr, uid, ids, context=context):
             print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
+            #jour_e_ids = jour_type.enfant_id.jour_e_ids
+            for date_d in (date.today() + timedelta(n) for n in range(2)):
+                print d
+                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('product_id','=', prod_id) ], context=context)
+                if jours_e_ids:
+                    print "ah ", jours_e_ids[0]
         return True
 mam_jour_type()
 
@@ -65,8 +70,6 @@ class mam_presence_type(osv.Model):
             result[record.id]['heure_debut'] = datetime.strptime(record.heure_debut_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
-            print "rec ",record.id
-            print ": ",result[record.id]['libelle']
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
