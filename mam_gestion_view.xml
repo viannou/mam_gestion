@@ -279,7 +279,7 @@
 		<field name="code">
 # Set the value of the `action` variable to return a custom action to
 # be executed by the client. 'object' is initialized based on the 'active_id' in the context
-action = object.action_creer_jours()
+action = obj.action_creer_jours()
 		</field>
 	</record>
 	<record id="value_context_contextual_action_runjob" model="ir.values">
