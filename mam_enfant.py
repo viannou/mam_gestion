@@ -118,5 +118,6 @@ class mam_enfant(osv.Model):
     def action_creer_jours(self, cr, uid, ids, context=None):
         for enfant in self.pool.get('mam.enfant').browse(cr, uid, ids, context=context):
             print enfant.id, enfant.nomprenom
+        return True
 mam_enfant()
 
