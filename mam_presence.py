@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
-from datetime import datetime,date
+from datetime import datetime,date,timedelta
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
