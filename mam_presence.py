@@ -26,14 +26,14 @@ class mam_jour_type(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             res = []
             for presence_type in record.presence_type_ids:
-                if presence_type.name:
-                    res.append(presence_type.name)
-                    print "a ",presence_type.name
+                if presence_type.libelle:
+                    res.append(presence_type.libelle)
+                    print "a ",presence_type.libelle
             print "b ",res
             result[record.id] = "\n".join(res)
         return result
     _columns = {
-        'name': fields.function(
+        'libelle': fields.function(
             _get_creneaux,
             type="char",
             string="Créneaux",
@@ -44,6 +44,7 @@ class mam_jour_type(osv.Model):
         'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
         'presence_type_ids': fields.one2many('mam.presence_type', 'jour_type_id', 'Liste des présences du jour type', help='Liste des présences du jour type de l''enfant'),
     }
+    _rec_name = 'libelle'
 mam_jour_type()
 
 class mam_presence_type(osv.Model):
@@ -56,9 +57,9 @@ class mam_presence_type(osv.Model):
             result[record.id] = {}
             result[record.id]['heure_debut'] = datetime.strptime(record.heure_debut_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
-            result[record.id]['name'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
+            result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
             print "rec ",record.id
-            print ": ",result[record.id]['name']
+            print ": ",result[record.id]['libelle']
         return result
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
@@ -78,7 +79,7 @@ class mam_presence_type(osv.Model):
             store={'mam.presence_type': (lambda self, cr, uid, ids, c={}: ids, [], 5),},
             multi='modif_date',
         ),
-        "name": fields.function(
+        "libelle": fields.function(
             _get_lib_date,
             type="char",
             string="Créneau",
@@ -86,5 +87,6 @@ class mam_presence_type(osv.Model):
             multi='modif_date',
         ),
     }
+    _rec_name = 'libelle'
 mam_presence_type()
 
