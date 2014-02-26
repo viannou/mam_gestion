@@ -64,6 +64,9 @@
 								</tree> 
 							</field> 
 						</page>
+						<page string="Actions">
+							<button name="action_creer_jours" type="object" string="Creer jours" class="oe_highlight"/>
+						</page>
 					</notebook>
 				</group>
 			</form>
@@ -91,9 +94,6 @@
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
 			</tree>
-			<footer>
-				<button name="action_creer_jours" type="object" string="Creer jours" class="oe_highlight"/>
-			</footer>
 		</field>
 	</record>
 	<record model="ir.ui.view" id="view_jour_e_form">
@@ -274,7 +274,7 @@
 		<field name="model">mam.jour_e</field>
 	</record>
  -->
-	<record model="ir.actions.server" id="action_creer_jours">
+<!-- 	<record model="ir.actions.server" id="action_creer_jours">
 		<field name="type">ir.actions.server</field>
 		<field name="name">Creer des jours</field>
 		<field name="state">code</field>
@@ -293,7 +293,7 @@ action = obj.action_creer_jours()
 		<field name="key">action</field>
 		<field name="model">mam.jour_e</field>
 	</record>
-
+ -->
 
 
 
@@ -304,8 +304,6 @@ action = obj.action_creer_jours()
 	<menuitem sequence="7" name="Jours Types" id="menu_jour_type_item" parent="menu_rub_mam" action="action_jour_type"/>
 	<menuitem sequence="8" name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem sequence="10" name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
-	<menuitem sequence="20" name="Actions" id="menu_rub_actions" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem sequence="24" name="Creer des jours" id="menu_creer_jours" parent="menu_rub_actions" action="action_creer_jours"/>
 
 </data>
 </openerp>

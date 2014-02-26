@@ -15,9 +15,6 @@ class mam_jour_e(osv.Model):
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
     }
     _rec_name = 'jour'
-    def action_creer_jours(self, cr, uid, ids, context=None):
-        for enfant in self.pool.get('mam.enfant').browse(cr, uid, ids, context=context):
-            print enfant.id, enfant.name
 mam_jour_e()
 
 class mam_jour_type(osv.Model):
