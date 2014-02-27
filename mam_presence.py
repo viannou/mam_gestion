@@ -99,6 +99,7 @@ class mam_presence_type(osv.Model):
         except:
             return False
     def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
+        print heure_debut_c, heure_fin_c
         res = self.verif_heures(heure_debut_c, heure_fin_c)
         if res:
             return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
