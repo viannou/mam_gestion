@@ -6,6 +6,7 @@ import re
 def verif_heures(hdebut, hfin):
     try:
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
+        print m.groups()
         if matchObj:
             print matchObj.group(0), matchObj.group(1), matchObj.group(2)
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
@@ -13,7 +14,7 @@ def verif_heures(hdebut, hfin):
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         print "hdebut: ", hdebut
-        print "hfin: ", hdebut
+        print "hfin: ", hfin
         return [hdebut,hfin]
     except:
         return False
