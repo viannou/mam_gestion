@@ -92,7 +92,6 @@ class mam_presence_type(osv.Model):
         if res:
             return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
         return False
-            return {}
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
