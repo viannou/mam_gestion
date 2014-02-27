@@ -300,7 +300,7 @@ action = obj.action_creer_jours()
 			<tree string="enfant">
 				<field name="prenom"/>
 				<field name="nom"/>
-				<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfant" class="oe_highlight"/>
+				<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfant"  icon="gtk-execute"/>
 			</tree>
 		</field>
 	</record>
