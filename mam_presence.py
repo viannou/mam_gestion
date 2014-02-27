@@ -3,6 +3,19 @@ from osv import fields,osv
 from datetime import datetime,date,timedelta
 import re
 
+def verif_heures(hdebut, hfin):
+    try:
+        matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hdebut)
+        if matchObj:
+            hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
+        matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hfin)
+        if matchObj:
+            hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
+        return [hdebut,hfin]
+    except:
+        return False
+
+
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Detail jour"
@@ -87,17 +100,6 @@ class mam_presence_type(osv.Model):
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
         return result
-    def verif_heures(hdebut, hfin):
-        try:
-            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hdebut)
-            if matchObj:
-                hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hfin)
-            if matchObj:
-                hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-            return [hdebut,hfin]
-        except:
-            return False
     def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
         print heure_debut_c, heure_fin_c
         res = self.verif_heures(heure_debut_c, heure_fin_c)
