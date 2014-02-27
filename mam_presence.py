@@ -77,6 +77,7 @@ mam_jour_type()
 class mam_presence_type(osv.Model):
     _name = 'mam.presence_type'
     _description = "Presence type"
+    _rec_name = 'libelle'
     def _get_lib_date(self, cr, uid, ids, name, args, context=None):
         """nom affichable de la presence """
         result = {}
@@ -87,21 +88,11 @@ class mam_presence_type(osv.Model):
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
-        try:
-            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_debut_c)
-            if matchObj:
-                print matchObj.group(1)+":"+matchObj.group(2)
-                v = {'heure_debut_c': "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))}
-                print v
-            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_fin_c)
-            if matchObj:
-                print matchObj.group(1)+":"+matchObj.group(2)
-                v.update({'heure_fin_c': "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))})
-                print v
-            return {'value': v}
-        except:
+        res = verif_heures(heure_debut_c, heure_fin_c)
+        if res:
+            return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
+        return False
             return {}
-            # raise osv.except_osv(('Erreur'), ('Veuillez entrer des heures valides comme 8:30 ou 15h10  ' ) )
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
@@ -129,6 +120,23 @@ class mam_presence_type(osv.Model):
             multi='modif_date',
         ),
     }
-    _rec_name = 'libelle'
+    def verif_heures(hdebut, hfin):
+        try:
+            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hdebut)
+            if matchObj:
+                hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
+            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hfin)
+            if matchObj:
+                hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
+            return [hdebut,hfin]
+        except:
+            return False
+    def check_heures(self, cr, uid, ids, context=None):
+        reads = self.read(cr, uid, ids, ['heure_debut_c', 'heure_fin_c'], context=context)
+        for records in reads:
+            if not verif_heures(records['heure_debut_c'],records['heure_fin_c']):
+                return False
+        return True
+    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut_c', 'heure_fin_c']),]
 mam_presence_type()
 
