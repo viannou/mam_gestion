@@ -7,6 +7,7 @@ def verif_heures(hdebut, hfin):
     try:
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
+            print matchObj.group(0), matchObj.group(1), matchObj.group(2)
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
@@ -54,7 +55,7 @@ class mam_jour_type(osv.Model):
             for presence_type in record.presence_type_ids:
                 if presence_type.libelle:
                     res.append(presence_type.libelle)
-            result[record.id] = "   \n".join(res)
+            result[record.id] = "\n+  ".join(res)
         return result
     _columns = {
         'libelle': fields.function(
