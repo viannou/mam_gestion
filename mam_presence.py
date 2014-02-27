@@ -91,12 +91,12 @@ class mam_presence_type(osv.Model):
             matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_debut_c)
             if matchObj:
                 print matchObj.group(1)+":"+matchObj.group(2)
-                v = {'heure_debut_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")}
+                v = {'heure_debut_c': "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))}
                 print v
             matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_fin_c)
             if matchObj:
                 print matchObj.group(1)+":"+matchObj.group(2)
-                v = {'heure_fin_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")}
+                v = {'heure_fin_c': "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))}
                 print v.update({'heure_fin_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")})
             return {'value': v}
         except:
