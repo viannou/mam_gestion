@@ -100,7 +100,8 @@ class mam_presence_type(osv.Model):
                 print v.update({'heure_fin_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")})
             return {'value': v}
         except:
-            raise osv.except_osv(('Erreur'), ('Veuillez entrer des heures valides comme 8:30 ou 15h10  ' ) )
+            return {}
+            # raise osv.except_osv(('Erreur'), ('Veuillez entrer des heures valides comme 8:30 ou 15h10  ' ) )
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
