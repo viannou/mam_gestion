@@ -121,7 +121,7 @@ class mam_enfant(osv.Model):
             print enfant.id, enfant.nomprenom, context
             for date_d in (date.today() + timedelta(n) for n in range(2)):
                 print date_d
-                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('jour','=', date_d) ], context={'enfant_id': enfant.id})
+                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
                 if jours_e_ids:
                     print "ah ", jours_e_ids[0]
                 else:
