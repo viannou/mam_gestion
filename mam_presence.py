@@ -101,11 +101,10 @@ class mam_presence_type(osv.Model):
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
-        print heure_debut_c, heure_fin_c
         res = verif_heures(heure_debut_c, heure_fin_c)
         if res:
             return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
-        return False
+        return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
