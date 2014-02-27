@@ -125,7 +125,7 @@ class mam_enfant(osv.Model):
                 jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
                 if not jours_e_ids: # le jour de l'enfant n'existe pas encore
                     print "creation enfant ", enfant.nomprenom, " date ", date_d 
-                    jour_e.create(cr, uid,{ 'our': date_d,'enfant_id' : enfant.id,})
+                    jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
                     
 
 
