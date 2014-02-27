@@ -4,19 +4,20 @@ from datetime import datetime,date,timedelta
 import re
 
 def verif_heures(hdebut, hfin):
-    # try:
+    try:
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
-            print matchObj.group(0), matchObj.group(1), matchObj.group(2)
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
+        else:
+            return False
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-        print "hdebut: ", hdebut
-        print "hfin: ", hfin
+        else:
+            return False
         return [hdebut,hfin]
-    # except:
-        # return False
+    except:
+        return False
 
 
 class mam_jour_e(osv.Model):
