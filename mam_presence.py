@@ -5,10 +5,10 @@ import re
 
 def verif_heures(hdebut, hfin):
     try:
-        matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hdebut)
+        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-        matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", hfin)
+        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         return [hdebut,hfin]
