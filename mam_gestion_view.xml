@@ -120,7 +120,7 @@
 		<field name="name">mam.presence_type.tree</field>
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
-			<tree string="PresenceType">
+			<tree string="PresenceType" editable='bottom'>
 				<field name="libelle"/>
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
@@ -134,7 +134,7 @@
 			<form string="PresenceType">
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
-			</form>
+<!-- <field name="bpl_company_id" readonly="1" on_change="on_change_company(bpl_company_id)" /> -->
 		</field>
 	</record>
 <!-- jour_type -->
