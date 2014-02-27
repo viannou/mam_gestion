@@ -135,6 +135,7 @@
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
 <!-- <field name="bpl_company_id" readonly="1" on_change="on_change_company(bpl_company_id)" /> -->
+			</form>
 		</field>
 	</record>
 <!-- jour_type -->
