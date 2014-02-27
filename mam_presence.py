@@ -17,17 +17,17 @@ class mam_jour_e(osv.Model):
     _rec_name = 'jour'
 mam_jour_e()
 
-class mam_presence_e(osv.Model):
-    _name = 'mam.presence_e'
-    _description = "Detail presence"
-    _columns = {
-        'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence'),
-        'heure_debut': fields.time('Heure debut',required=True, help='L heure de debut'),
-        'heure_fin': fields.time('Heure fin',required=True, help='L heure de fin'),
-# ajouter le type de présence
-    }
-    # _rec_name = 'jour'
-mam_presence_e()
+# class mam_presence_e(osv.Model):
+    # _name = 'mam.presence_e'
+    # _description = "Detail presence"
+    # _columns = {
+        # 'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence'),
+        # 'heure_debut': fields.datetime('Heure debut',required=True, help='L heure de debut'),
+        # 'heure_fin': fields.datetime('Heure fin',required=True, help='L heure de fin'),
+# # ajouter le type de présence
+    # }
+    # # _rec_name = 'jour'
+# mam_presence_e()
 
 class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
