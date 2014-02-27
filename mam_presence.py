@@ -99,7 +99,7 @@ class mam_presence_type(osv.Model):
         except:
             return False
     def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
-        res = verif_heures(heure_debut_c, heure_fin_c)
+        res = self.verif_heures(heure_debut_c, heure_fin_c)
         if res:
             return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
         return False
@@ -133,7 +133,7 @@ class mam_presence_type(osv.Model):
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut_c', 'heure_fin_c'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut_c'],records['heure_fin_c']):
+            if not self.verif_heures(records['heure_debut_c'],records['heure_fin_c']):
                 return False
         return True
     _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut_c', 'heure_fin_c']),]
