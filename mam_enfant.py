@@ -121,11 +121,12 @@ class mam_enfant(osv.Model):
             print enfant.id, enfant.nomprenom, context
             for date_d in (date.today() + timedelta(n) for n in range(2)):
                 print date_d
-                jours_e_ids = self.pool.get('mam.jour_e').search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
-                if jours_e_ids:
-                    print "ah ", jours_e_ids[0]
-                else:
-                    print "oh non"
+                jour_e = self.pool.get('mam.jour_e')
+                jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
+                if not jours_e_ids: # le jour de l'enfant n'existe pas encore
+                    print "creation enfant ", enfant.nomprenom, " date ", date_d 
+                    jour_e.create(cr, uid,{ 'our': date_d,'enfant_id' : enfant.id,})
+                    
 
 
         # for jour_type in self.browse(cr, uid, ids, context=context):
