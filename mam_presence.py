@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date,timedelta
+import re
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
@@ -85,6 +86,21 @@ class mam_presence_type(osv.Model):
             result[record.id]['heure_fin'] = datetime.strptime(record.heure_fin_c.replace("h",":").replace(" ",":"),"%H:%M")
             result[record.id]['libelle'] = "{:%H:%M}".format(result[record.id]['heure_debut']) + " - " + "{:%H:%M}".format(result[record.id]['heure_fin'])
         return result
+    def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
+        try:
+            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_debut_c)
+            if matchObj:
+                print matchObj.group(1)+":"+matchObj.group(2)
+                v = {'heure_debut_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")}
+                print v
+            matchObj = re.match( r"(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?", heure_fin_c)
+            if matchObj:
+                print matchObj.group(1)+":"+matchObj.group(2)
+                v = {'heure_fin_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")}
+                print v.update({'heure_fin_c': datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M")})
+            return {'value': v}
+        except ValueError:
+            raise osv.except_osv(_('Heures invalides'), _('Veuillez entrer des heures valides comme 8:30 ou 15h10'))
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),

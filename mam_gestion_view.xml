@@ -122,8 +122,8 @@
 		<field name="arch" type="xml">
 			<tree string="PresenceType" editable='bottom'>
 				<field name="libelle"/>
-				<field name="heure_debut_c"/>
-				<field name="heure_fin_c"/>
+				<field name="heure_debut_c" on_change="on_change_heure(heure_debut_c,heure_fin_c )"/>
+				<field name="heure_fin_c" on_change="on_change_heure(heure_debut_c,heure_fin_c )"/>
 			</tree>
 		</field>
 	</record>
@@ -134,7 +134,6 @@
 			<form string="PresenceType">
 				<field name="heure_debut_c"/>
 				<field name="heure_fin_c"/>
-<!-- <field name="bpl_company_id" readonly="1" on_change="on_change_company(bpl_company_id)" /> -->
 			</form>
 		</field>
 	</record>
