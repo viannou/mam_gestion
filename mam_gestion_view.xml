@@ -152,10 +152,10 @@
 				<field name="enfant_id"/>
 				<field name="jour"/>
 				<field name="frais_montant"/>
-				<group expand="1" string="Group By...">
+<!-- 				<group expand="1" string="Group By...">
 					<filter string="Date" domain="[]" context="{'group_by':'jour'}"/>
 					<filter string="Enfant" domain="[]" context="{'group_by':'enfant_id'}"/>
-				</group>
+				</group> -->
 			</search>
 		</field>
 	</record>
