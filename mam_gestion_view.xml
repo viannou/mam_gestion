@@ -230,7 +230,7 @@
 								<form> 
 									<field name="prenom"/>
 									<field name="nom"/>
-								</tree> 
+								</form> 
 							</field>
 						</page>
 <!-- 						<page string="Technique">
