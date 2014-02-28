@@ -10,7 +10,7 @@ def verif_heures(hdebut, hfin):
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
             return False
-        if hfin == "" :
+        if hfin == None or hfin == "" :
             return [hdebut,""]
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
