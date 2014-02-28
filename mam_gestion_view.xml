@@ -216,20 +216,29 @@
 				<group col="2" colspan="2">
 					<notebook  colspan="2"> 
 						<page string="General">
-							<group col="2" colspan="4">
+							<group col="4" colspan="4">
 								<field name="enfant_id"/>
 								<field name="libelle"/>
 								<field name="mange_midi"/>
 								<field name="mange_gouter"/>
 								<field name="presence_type_ids"/>
-								<!-- <button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/> -->
 							</group>
 						</page> 
 						<page string="Affecter jours types aux jours">
 							<field name="enfant_id" nolabel="1" readonly="1" > 
 								<form> 
-									<field name="prenom"/>
-									<field name="nom"/>
+									<group col="4" colspan="4">
+										<field name="prenom"/>
+										<field name="nom"/>
+									</group>
+									<group col="2" colspan="4">
+										<field name="jour_e_ids" nolabel="1" readonly="1" > 
+											<tree> 
+												<field name="jour"/>
+												<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/>
+											</tree> 
+										</field>
+									</group>
 								</form> 
 							</field>
 						</page>
