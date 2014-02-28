@@ -2,25 +2,11 @@
 <openerp>
 <data>
 
-        <!-- search views -->
-        <record model="ir.ui.view" id="mam_enfant_search_view">
-            <field name="name">mam.enfant.search</field>
-            <field name="model">mam.enfant</field>
-            <field name="arch" type="xml">
-                <search string="Recherche Enfant">
-					<field name="prenom"/>
-                    <!-- <filter name="only_writable" domain="[('is_active','=',True),('current_company_id.vinciid_responsible_ids.user_id','in',[uid])]" string="Only Writable"/> -->
-                    <group expand="0" string="Group By...">
-                        <filter string="Ass Mat" domain="[]" context="{'group_by':'am_id'}"/>
-                    </group>
-					<filter string="Famille" icon="terp-project" domain="[]" context="{'group_by':'nom'}"/>
-                </search>
-            </field>
-        </record>
 
 
 
 <!--enfant-->
+	<!--enfant tree-->
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
@@ -36,6 +22,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--enfant form-->
 	<record model="ir.ui.view" id="view_enfant_form">
 		<field name="name">enfant.form</field>
 		<field name="model">mam.enfant</field>
@@ -87,6 +74,21 @@
 			</form>
 		</field>
 	</record>
+	<!--enfant search-->
+	<record model="ir.ui.view" id="mam_enfant_search_view">
+		<field name="name">mam.enfant.search</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+			<search string="Recherche Enfant">
+				<field name="prenom"/>
+				<!-- <filter name="only_writable" domain="[('is_active','=',True),('current_company_id.vinciid_responsible_ids.user_id','in',[uid])]" string="Only Writable"/> -->
+				<group expand="1" string="Group By...">
+					<filter string="Ass Mat" domain="[]" context="{'group_by':'am_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+	<!--enfant action-->
 	<record model="ir.actions.act_window" id="action_enfant">
 		<field name="name">Enfant</field>
 		<field name="res_model">mam.enfant</field>
@@ -96,6 +98,7 @@
 
 
 <!-- jour_e -->
+	<!--jour_e tree-->
 	<record model="ir.ui.view" id="view_jour_e_tree">
 		<field name="name">mam.jour_e.tree</field>
 		<field name="model">mam.jour_e</field>
@@ -111,6 +114,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--jour_e form-->
 	<record model="ir.ui.view" id="view_jour_e_form">
 		<field name="name">mam.jour_e.form</field>
 		<field name="model">mam.jour_e</field>
@@ -126,6 +130,23 @@
 			</form>
 		</field>
 	</record>
+	<!--jour_e search-->
+	<record model="ir.ui.view" id="mam_jour_e_search_view">
+		<field name="name">mam.jour_e.search</field>
+		<field name="model">mam.jour_e</field>
+		<field name="arch" type="xml">
+			<search string="Recherche Jour/Enfant">
+				<field name="enfant_id"/>
+				<field name="jour"/>
+				<field name="frais_montant"/>
+				<group expand="1" string="Group By...">
+					<filter string="Date" domain="[]" context="{'group_by':'jour'}"/>
+					<filter string="Enfant" domain="[]" context="{'group_by':'enfant_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+	<!--jour_e action-->
 	<record model="ir.actions.act_window" id="action_jour_e">
 		<field name="name">Jour</field>
 		<field name="res_model">mam.jour_e</field>
@@ -134,6 +155,7 @@
 	</record>
 
 <!-- presence_type -->
+	<!--jour_e tree-->
 	<record model="ir.ui.view" id="view_presence_type_tree">
 		<field name="name">mam.presence_type.tree</field>
 		<field name="model">mam.presence_type</field>
@@ -145,6 +167,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--jour_e tree-->
 	<record model="ir.ui.view" id="view_presence_type_form">
 		<field name="name">mam.presence_type.form</field>
 		<field name="model">mam.presence_type</field>
@@ -156,6 +179,7 @@
 		</field>
 	</record>
 <!-- jour_type -->
+	<!--jour_type tree-->
 	<record model="ir.ui.view" id="view_jour_type_tree">
 		<field name="name">mam.jour_type.tree</field>
 		<field name="model">mam.jour_type</field>
@@ -169,6 +193,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--jour_type form-->
 	<record model="ir.ui.view" id="view_jour_type_form">
 		<field name="name">mam.jour_type.form</field>
 		<field name="model">mam.jour_type</field>
@@ -183,6 +208,7 @@
 			</form>
 		</field>
 	</record>
+	<!--jour_type action-->
 	<record model="ir.actions.act_window" id="action_jour_type">
 		<field name="name">Jours Types</field>
 		<field name="res_model">mam.jour_type</field>
@@ -191,6 +217,7 @@
 	</record>
 
 <!--am-->
+	<!--am tree-->
 	<record model="ir.ui.view" id="view_am_tree">
 		<field name="name">am.tree</field>
 		<field name="model">mam.am</field>
@@ -210,6 +237,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--am form-->
 	<record model="ir.ui.view" id="view_am_form">
 		<field name="name">am.form</field>
 		<field name="model">mam.am</field>
@@ -229,6 +257,7 @@
 			</form>
 		</field>
 	</record>
+	<!--am action-->
 	<record model="ir.actions.act_window" id="action_am">
 		<field name="name">Assistante maternelle</field>
 		<field name="res_model">mam.am</field>
@@ -237,6 +266,7 @@
 	</record>
 
 <!--contact-->
+	<!--contact tree-->
 	<record model="ir.ui.view" id="view_contact_tree">
 		<field name="name">contact.tree</field>
 		<field name="model">mam.contact</field>
@@ -251,6 +281,7 @@
 			</tree>
 		</field>
 	</record>
+	<!--contact form-->
 	<record model="ir.ui.view" id="view_contact_form">
 		<field name="name">contact.form</field>
 		<field name="model">mam.contact</field>
@@ -265,6 +296,7 @@
 			</form>
 		</field>
 	</record>
+	<!--contact action-->
 	<record model="ir.actions.act_window" id="action_contact">
 		<field name="name">Contact</field>
 		<field name="res_model">mam.contact</field>
@@ -311,6 +343,7 @@ action = obj.action_creer_jours()
 	</record>
  -->
 
+	<!--enfant tree pour actions-->
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
@@ -322,6 +355,7 @@ action = obj.action_creer_jours()
 			</tree>
 		</field>
 	</record>
+	<!--enfant action pour actions-->
 	<record model="ir.actions.act_window" id="action_divers_enfant">
 		<field name="name">Contact</field>
 		<field name="res_model">mam.enfant</field>
@@ -330,6 +364,7 @@ action = obj.action_creer_jours()
 	</record>
 
 
+	<!--menus-->
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="1" name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="4" name="Enfants" id="menu_enfant_item" parent="menu_rub_mam" action="action_enfant"/>
