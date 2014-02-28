@@ -69,6 +69,11 @@
 								</tree> 
 							</field>
 						</page>
+						<page string="Technique">
+							<field name="prenom"/>
+							<field name="nom"/>
+							<button name="action_creer_jours" type="object" string="Cliquer pour creer les jours futurs pour l'enfant" />
+						</page>
 					</notebook>
 				</group>
 			</form>
@@ -343,27 +348,6 @@ action = obj.action_creer_jours()
 	</record>
  -->
 
-	<!--enfant tree pour actions-->
-	<record model="ir.ui.view" id="view_enfant_tree">
-		<field name="name">enfant.tree</field>
-		<field name="model">mam.enfant</field>
-		<field name="arch" type="xml">
-			<tree string="enfant">
-				<field name="prenom"/>
-				<field name="nom"/>
-				<button name="action_creer_jours" type="object" string="Creer les jours futurs pour l'enfant" />
-			</tree>
-		</field>
-	</record>
-	<!--enfant action pour actions-->
-	<record model="ir.actions.act_window" id="action_divers_enfant">
-		<field name="name">Contact</field>
-		<field name="res_model">mam.enfant</field>
-		<field name="view_type">form</field>
-		<field name="view_mode">tree,form</field>
-	</record>
-
-
 	<!--menus-->
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="1" name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>
@@ -373,7 +357,7 @@ action = obj.action_creer_jours()
 	<menuitem sequence="8" name="Ass. Mat." id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem sequence="10" name="Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
 
-	<menuitem sequence="15" name="Divers" id="menu_rub_divers" parent="menu_top_mam" action="action_enfant"/>
-	<menuitem sequence="16" name="Actions enfants" id="menu_divers_enfant" parent="menu_rub_divers" action="action_divers_enfant"/>
+<!-- 	<menuitem sequence="15" name="Divers" id="menu_rub_divers" parent="menu_top_mam" action="action_enfant"/>
+	<menuitem sequence="16" name="Actions enfants" id="menu_divers_enfant" parent="menu_rub_divers" action="action_divers_enfant"/> -->
 </data>
 </openerp>
