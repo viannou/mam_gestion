@@ -2,6 +2,48 @@
 <openerp>
 <data>
 
+        <!-- search views -->
+        <record model="ir.ui.view" id="mam_enfant_search_view">
+            <field name="name">mam.enfant.search</field>
+            <field name="model">mam.enfant</field>
+            <field name="arch" type="xml">
+                <search string="Recherche Enfant">
+					<field name="nomprenom"/>
+                    <!-- <filter name="only_writable" domain="[('is_active','=',True),('current_company_id.vinciid_responsible_ids.user_id','in',[uid])]" string="Only Writable"/> -->
+                    <group expand="0" string="Group By...">
+                        <filter string="Ass Mat" domain="[]" context="{'group_by':'am_id'}"/>
+                    </group>
+					<filter string="Famille" icon="terp-project" domain="[]" context="{'group_by':'nom'}"/>
+                </search>
+            </field>
+        </record>
+
+<search>
+group tag :
+<group expand="1" string="Group By...">
+   <filter string="Users" icon="terp-project" domain="[]" context="{'group_by':'user_id'}"/>
+   <filter string="Project" icon="terp-project" domain="[]" context="{'group_by':'project_id'}"/>
+   <separator orientation="vertical"/>
+   <filter string="Deadline" icon="terp-project" domain="[]" context="{'group_by':'date_deadline'}"/>
+</group>
+filter tag :
+<filter string="Current" domain="[('state','in',('open','draft'))]" help="Draft, Open and Pending Tasks" icon="terp-project"/>
+<field name="project_id" select="1" widget="selection">
+    <filter domain="[('project_id.user_id','=',uid)]" help="My Projects" icon="terp-project"/>
+</field>
+group by :
+<filter string="Project" icon="terp-project" domain="[]" context="{'group_by':'project_id'}"/>
+<filter string="Project" icon="terp-project" domain="[]" context="{'group_by': ['project_id', 'user_id'] }"/>
+fields :
+<field name="location_id" string="Location"
+       filter_domain="['|',('location_id','ilike',self),('location_dest_id','ilike',self)]"/>
+or
+<field name="journal_id" widget="selection"
+       context="{'journal_id':self, 'visible_id':self, 'normal_view':False}"/>
+</search>
+
+
+
 <!--enfant-->
 	<record model="ir.ui.view" id="view_enfant_tree">
 		<field name="name">enfant.tree</field>
