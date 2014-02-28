@@ -28,7 +28,7 @@ class mam_am(osv.Model):
         'tel_fixe': fields.char('Téléphone fixe',size=20, help='Téléphone fixe de l''assistante maternelle'),
         'tel_mobile': fields.char('Téléphone mobile',size=20, help='Téléphone mobile de l''assistante maternelle'),
         'date_agrement': fields.date('Date dernier agrément',required=True, help='Date de la dernière décision d''agrément de l''assistante maternelle'),
-        'nb_agrements': fields.char('Nombre d''agréments',size=50,required=True, help='Nombre d''agréments total de l''assistante maternelle'),
+        'nb_agrements': fields.integer('Nombre d''agréments',size=50,required=True, help='Nombre d''agréments total de l''assistante maternelle'),
     }
     _rec_name = 'nomprenom'
 mam_am()
