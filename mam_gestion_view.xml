@@ -227,11 +227,9 @@
 						<page string="Affecter jours types aux jours">
 							<field name="enfant_id" nolabel="1" readonly="1" > 
 								<form> 
-									<group col="4" colspan="4">
+									<group col="2" colspan="4">
 										<field name="prenom"/>
 										<field name="nom"/>
-									</group>
-									<group col="2" colspan="4">
 										<field name="jour_e_ids" nolabel="1" readonly="1" > 
 											<tree> 
 												<field name="jour"/>
