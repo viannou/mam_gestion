@@ -119,7 +119,7 @@ class mam_enfant(osv.Model):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
             print enfant.id, enfant.nomprenom, context
-            for date_d in (date.today() + timedelta(n) for n in range(2)):
+            for date_d in (date.today() + timedelta(n) for n in range(90)):
                 print date_d
                 jour_e = self.pool.get('mam.jour_e')
                 jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
