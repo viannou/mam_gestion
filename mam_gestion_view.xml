@@ -122,8 +122,8 @@
 		<field name="arch" type="xml">
 			<tree string="PresenceType" editable='bottom'>
 				<field name="libelle"/>
-				<field name="heure_debut_c" on_change="on_change_heure(heure_debut_c,heure_fin_c )"/>
-				<field name="heure_fin_c" on_change="on_change_heure(heure_debut_c,heure_fin_c )"/>
+				<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
+				<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
 			</tree>
 		</field>
 	</record>
@@ -132,8 +132,8 @@
 		<field name="model">mam.presence_type</field>
 		<field name="arch" type="xml">
 			<form string="PresenceType">
-				<field name="heure_debut_c"/>
-				<field name="heure_fin_c"/>
+				<field name="heure_debut"/>
+				<field name="heure_fin"/>
 			</form>
 		</field>
 	</record>
