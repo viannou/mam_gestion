@@ -146,16 +146,16 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<search string="Recherche Jour/Enfant">
-				<filter name="statut_encours" string="En cours" domain="[('state','in',('encours')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
-				<filter name="statut_valide" string="Validé" domain="[('state','in',('valide')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
-				<filter name="statut_cloture" string="Cloturé" domain="[('state','in',('cloture')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
+				<!-- <filter name="statut_encours" string="En cours" domain="[('state','in',('encours')]" help="Statut de la journée de l'enfant" icon="terp-project"/> -->
+<!-- 				<filter name="statut_valide" string="Validé" domain="[('state','in',('valide')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
+				<filter name="statut_cloture" string="Cloturé" domain="[('state','in',('cloture')]" help="Statut de la journée de l'enfant" icon="terp-project"/> -->
 				<field name="enfant_id"/>
 				<field name="jour"/>
 				<field name="frais_montant"/>
-<!-- 				<group expand="1" string="Group By...">
+				<group expand="1" string="Group By...">
 					<filter string="Date" domain="[]" context="{'group_by':'jour'}"/>
 					<filter string="Enfant" domain="[]" context="{'group_by':'enfant_id'}"/>
-				</group> -->
+				</group>
 			</search>
 		</field>
 	</record>
