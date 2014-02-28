@@ -70,9 +70,12 @@
 							</field>
 						</page>
 						<page string="Technique">
-							<field name="prenom"/>
-							<field name="nom"/>
-							<button name="action_creer_jours" type="object" string="Cliquer pour creer les jours futurs pour l'enfant" />
+							<group col="2" colspan="4">
+								<field name="nomprenom"/>
+								<div class="oe_right oe_button_box">
+									<button name="action_creer_jours" type="object" class="oe_highlight" string="Cliquer pour creer les jours futurs pour l'enfant" />
+								</div>
+							</group>
 						</page>
 					</notebook>
 				</group>
@@ -108,6 +111,7 @@
 		<field name="name">mam.jour_e.tree</field>
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
+		<field name="context">{"search_default_statut_jour":1}</field>
 			<tree string="Jour">
 				<field name="jour"/>
 				<field name="enfant_id"/>
@@ -141,6 +145,7 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<search string="Recherche Jour/Enfant">
+				<filter name="statut_jour" string="Statut" domain="[('state','in',('encours','valide'))]" help="Statut de la journée de l'enfant" icon="terp-project"/>
 				<field name="enfant_id"/>
 				<field name="jour"/>
 				<field name="frais_montant"/>

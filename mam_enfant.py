@@ -91,6 +91,7 @@ class mam_enfant(osv.Model):
         # ),
     }
     _rec_name = 'nomprenom'
+    _order = "nomprenom"
     # def clique_presence_debut(self, cr, uid, ids, context=None):
         # """ajoute une présence """
         # for enfant in self.browse(cr, uid, ids, context=context):

@@ -23,6 +23,11 @@ def verif_heures(hdebut, hfin):
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Detail jour"
+    STATE_SELECTION = [
+        ('encours', 'En cours'),
+        ('valide', 'Valide'),
+        ('cloture', 'Cloture'),
+    ]
     _columns = {
         'jour': fields.date('Jour',required=True, help='La date'),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
@@ -31,8 +36,16 @@ class mam_jour_e(osv.Model):
         'frais_montant': fields.float('Montant des frais', digits=(6,2), help='Montant des frais en euros'),
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
+        'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
+    }
+    _defaults = {
+        'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
+        'mange_midi': False,
+        'mange_gouter': False,
+        'state': 'encours',
     }
     _rec_name = 'jour'
+    _order = "jour"
 mam_jour_e()
 
 # class mam_presence_e(osv.Model):
