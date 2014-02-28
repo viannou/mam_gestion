@@ -85,17 +85,17 @@ class mam_presence_type(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut_c + " - " + record.heure_fin_c
+            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
         return result
-    def on_change_heure(self, cr, uid, ids, heure_debut_c, heure_fin_c, context=None):
-        res = verif_heures(heure_debut_c, heure_fin_c)
+    def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
+        res = verif_heures(heure_debut, heure_fin)
         if res:
-            return {'value': {'heure_debut_c':res[0],'heure_fin_c':res[1]}}
+            return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
-        'heure_debut_c': fields.char('Heure début',required=True, help='Heure de début'),
-        'heure_fin_c': fields.char('Heure fin',required=True, help='Heure de fin'),
+        'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
+        'heure_fin': fields.char('Heure fin',required=True, help='Heure de fin'),
         "libelle": fields.function(
             _get_lib_date,
             type="char",
@@ -105,11 +105,11 @@ class mam_presence_type(osv.Model):
         ),
     }
     def check_heures(self, cr, uid, ids, context=None):
-        reads = self.read(cr, uid, ids, ['heure_debut_c', 'heure_fin_c'], context=context)
+        reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut_c'],records['heure_fin_c']):
+            if not verif_heures(records['heure_debut'],records['heure_fin']):
                 return False
         return True
-    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut_c', 'heure_fin_c']),]
+    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
 mam_presence_type()
 
