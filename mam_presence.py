@@ -5,6 +5,10 @@ import re
 
 def verif_heures(hdebut, hfin):
     try:
+        print "controle heures"
+        print hdebut, hfin
+        print (hfin == None)
+        print (hfin == "")
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
