@@ -119,7 +119,7 @@
 				<field name="frais_montant"/>
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
-				<field name="state" invisible="1"/>
+				<field name="state"/>
 			</tree>
 		</field>
 	</record>
@@ -136,7 +136,7 @@
 				<field name="frais_montant"/>
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
-				<field name="state" invisible="1"/>
+				<field name="state"/>
 			</form>
 		</field>
 	</record>
