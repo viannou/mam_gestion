@@ -10,6 +10,8 @@ def verif_heures(hdebut, hfin):
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
             return False
+        if hfin == "" :
+            return [hdebut,""]
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
@@ -108,7 +110,7 @@ class mam_presence_type(osv.Model):
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
-        'heure_fin': fields.char('Heure fin',required=True, help='Heure de fin'),
+        'heure_fin': fields.char('Heure fin', help='Heure de fin'),
         "libelle": fields.function(
             _get_lib_date,
             type="char",
