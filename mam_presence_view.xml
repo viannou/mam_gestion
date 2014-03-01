@@ -11,13 +11,13 @@
 			<tree string="Jour">
 				<field name="jour"/>
 				<field name="enfant_id"/>
+				<field name="state"/>
 				<field name="libelle_prevue"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="frais_montant"/>
 				<field name="frais_libelle"/>
 				<field name="commentaire"/>
-				<field name="state"/>
 			</tree>
 		</field>
 	</record>
@@ -30,7 +30,6 @@
 				<group col="2" colspan="2">
 					<field name="jour"/>
 					<field name="enfant_id"/>
-					<field name="libelle_prevue"/>
 					<field name="mange_midi"/>
 					<field name="mange_gouter"/>
 					<field name="frais_montant"/>
