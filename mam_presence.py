@@ -79,7 +79,6 @@ class mam_jour_e(osv.Model):
             if not jour_type_ids:
                 print "vide --> stop"
                 continue
-            print "jour_type_ids premier: ", jour_type_ids[0]
             print "jour_type_ids premier: ", jour_type_ids[0].libelle
             self.write(cr, uid, jour_e.id, {'mange_midi':jour_type_ids[0].mange_midi,'mange_gouter':jour_type_ids[0].mange_gouter,})
             for presence_type in jour_type_ids[0].presence_type_ids:
