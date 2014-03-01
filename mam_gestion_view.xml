@@ -83,7 +83,7 @@
 		</field>
 	</record>
 	<!--enfant form pour assigner jours types-->
-	<record model="ir.ui.view" id="view_enfant_assign_jours_tree">
+<!-- 	<record model="ir.ui.view" id="view_enfant_assign_jours_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
@@ -92,7 +92,7 @@
 				<field name="date_naiss"/>
 			</tree>
 		</field>
-	</record>
+	</record> -->
 	<!--enfant search-->
 	<record model="ir.ui.view" id="mam_enfant_search_view">
 		<field name="name">mam.enfant.search</field>
@@ -236,21 +236,18 @@
 							</group>
 						</page> 
 						<page string="Affecter jours types aux jours">
-							<field name="enfant_id" domain="[('id','=',enfant_id)]" context="{'tree_view_ref': 'view_enfant_assign_jours_tree'}"/>
-<!-- 							<field name="enfant_id" nolabel="1" readonly="1" > 
-								<tree> 
-									<group col="2" colspan="4">
-										<field name="prenom"/>
-										<field name="nom"/>
-										<field name="jour_e_ids" nolabel="1" readonly="1" > 
-											<tree> 
-												<field name="jour"/>
-												<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/>
-											</tree> 
-										</field>
-									</group>
-								</tree> 
-							</field> -->
+							<field name="enfant_id" nolabel="1" readonly="1" > 
+								<form> 
+									<field name="prenom"/>
+									<field name="nom"/>
+									<field name="jour_e_ids" nolabel="1" readonly="1" > 
+										<tree> 
+											<field name="jour"/>
+											<button name="action_creer_jours" type="object" string="Creer jours futurs pour l'enfat" class="oe_highlight"/>
+										</tree> 
+									</field>
+								</form> 
+							</field>
 						</page>
 <!-- 						<page string="Technique">
 							<group col="2" colspan="4">
