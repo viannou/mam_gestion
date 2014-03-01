@@ -49,6 +49,7 @@ class mam_jour_e(osv.Model):
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
+        'presence_e_ids': fields.one2many('mam.presence_e', 'jour_e_id', 'Liste des présences réelles', help='Liste des présences réelles de l''enfant'),
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
 
         'libelle_prevue': fields.function(
@@ -78,12 +79,9 @@ class mam_jour_e(osv.Model):
     def action_associer_jour_type(self, cr, uid, ids, numero, context=None):
         """associe un jour type a un jour d'un enfant
             pour l'instant, on associe au premier jour type trouvé !"""
-        print "numero", numero
         for jour_e in self.browse(cr, uid, ids, context=context):
             jour_type_ids = jour_e.enfant_id.jour_type_ids
-            print "liste: ", len(jour_type_ids)
             if len(jour_type_ids) <= numero:
-                print "stop"
                 continue
             self.write(cr, uid, jour_e.id, {'mange_midi':jour_type_ids[numero].mange_midi,'mange_gouter':jour_type_ids[numero].mange_gouter,})
             for presence_type in jour_type_ids[numero].presence_type_ids:
@@ -99,17 +97,54 @@ class mam_jour_e(osv.Model):
         return True
 mam_jour_e()
 
-# class mam_presence_e(osv.Model):
-    # _name = 'mam.presence_e'
-    # _description = "Detail presence"
-    # _columns = {
-        # 'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence'),
-        # 'heure_debut': fields.datetime('Heure debut',required=True, help='L heure de debut'),
-        # 'heure_fin': fields.datetime('Heure fin',required=True, help='L heure de fin'),
-# # ajouter le type de présence
-    # }
-    # # _rec_name = 'jour'
-# mam_presence_e()
+class mam_presence_e(osv.Model):
+    _name = 'mam.presence_e'
+    _description = "Detail presence"
+    _rec_name = 'libelle'
+    def _get_lib_date(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = {}
+            result[record.id]['libelle'] = TYPE_SELECTION[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
+        return result
+    def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
+        res = verif_heures(heure_debut, heure_fin)
+        if res:
+            return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
+        return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
+    TYPE_SELECTION = [
+        ('encours', 'En cours'),
+        ('valide', 'Valide'),
+        ('cloture', 'Cloture'),
+    ]
+    _columns = {
+        'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence/absence'),
+        'type': fields.selection(TYPE_SELECTION, 'Type',required=True,  help='Type de présence/absence de l''enfant'),
+        'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
+        'heure_fin': fields.char('Heure fin',required=True, help='Heure de fin'),
+    }
+    _defaults = {
+        'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
+        'mange_midi': False,
+        'mange_gouter': False,
+        'state': 'encours',
+        "libelle": fields.function(
+            _get_lib_date,
+            type="char",
+            string="Créneau",
+            store=None,
+            multi='modif_date',
+        ),
+    }
+    def check_heures(self, cr, uid, ids, context=None):
+        reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
+        for records in reads:
+            if not verif_heures(records['heure_debut'],records['heure_fin']):
+                return False
+        return True
+    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
+mam_presence_e()
 
 class mam_presence_prevue(osv.Model):
     _name = 'mam.presence_prevue'

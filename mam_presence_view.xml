@@ -37,8 +37,15 @@
 					<field name="frais_libelle"/>
 					<field name="commentaire"/>
 					<field name="state"/>
-					<field name="presence_prevue_ids" string="presences prevues" > 
+					<field name="presence_prevue_ids" string="Presences prevues" > 
 						<tree editable='bottom'> 
+							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
+							<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
+						</tree> 
+					</field>
+					<field name="presence_e_ids" string="Presences/absences reelles" > 
+						<tree editable='bottom'> 
+							<field name="type"/>
 							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
 							<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
 						</tree> 
