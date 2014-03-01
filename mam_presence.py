@@ -83,7 +83,7 @@ class mam_jour_e(osv.Model):
         for jour_e in self.browse(cr, uid, ids, context=context):
             print jour_e.jour, jour_e.enfant_id.prenom, jour_e.presence_prevue_ids
             for presence_prevue in jour_e.presence_prevue_ids:
-                self.pool.get('mam.presence_prevue').unlink(cr, uid,presence_prevue.id)
+                self.pool.get('mam.presence_prevue').unlink(cr, uid, presence_prevue.id, context=context)
         return True
 mam_jour_e()
 
