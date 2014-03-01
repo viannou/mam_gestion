@@ -70,10 +70,29 @@ class mam_jour_e(osv.Model):
     def action_associer_jour_type(self, cr, uid, ids, context=None):
         """associe un jour type a un jour d'un enfant"""
         for jour_e in self.browse(cr, uid, ids, context=context):
-            print jour_e.id, jour_e.jour, jour_e.enfant_id.prenom, context
+            print jour_e.jour, jour_e.enfant_id.prenom, context, domain
         return True
 mam_jour_e()
+''''''''''''''
+    def action_creer_jours(self, cr, uid, ids, context=None):
+        """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
+        for enfant in self.browse(cr, uid, ids, context=context):
+            print enfant.id, enfant.nomprenom, context
+            for date_d in (date.today() + timedelta(n) for n in range(90)):
+                print date_d
+                jour_e = self.pool.get('mam.jour_e')
+                jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
+                if not jours_e_ids: # le jour de l'enfant n'existe pas encore
+                    print "creation enfant ", enfant.nomprenom, " date ", date_d 
+                    jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
+                    
 
+
+        # for jour_type in self.browse(cr, uid, ids, context=context):
+            # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
+            # #jour_e_ids = jour_type.enfant_id.jour_e_ids
+        return True
+''''''''''''''
 # class mam_presence_e(osv.Model):
     # _name = 'mam.presence_e'
     # _description = "Detail presence"
