@@ -116,6 +116,7 @@ class mam_enfant(osv.Model):
             # for presence in enfant.today_presence_ids:
                 # self.pool.get('mam.presence_e').write(cr, uid, presence.id, {'mange_gouter':inverse})
         # return True
+
     def action_creer_jours(self, cr, uid, ids, context=None):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
@@ -133,6 +134,11 @@ class mam_enfant(osv.Model):
         # for jour_type in self.browse(cr, uid, ids, context=context):
             # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
             # #jour_e_ids = jour_type.enfant_id.jour_e_ids
+        return True
+    def action_associer_jour_type(self, cr, uid, ids, context=None):
+        """associe un jour type a un jour d'un enfant"""
+        for enfant in self.browse(cr, uid, ids, context=context):
+            print enfant.id, enfant.nomprenom, context
         return True
 mam_enfant()
 
