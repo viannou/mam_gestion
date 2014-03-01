@@ -68,18 +68,22 @@ class mam_jour_e(osv.Model):
     _rec_name = 'jour'
     _order = "jour"
     def action_associer_jour_type(self, cr, uid, ids, context=None):
-        """associe un jour type a un jour d'un enfant"""
+        """associe un jour type a un jour d'un enfant
+            pour l'instant, on associe au premier jour type trouvé !"""
         for jour_e in self.browse(cr, uid, ids, context=context):
-            print jour_e.jour, jour_e.enfant_id.jour_type_ids
+            print jour_e.jour, jour_e.enfant_id.prenom, jour_e.enfant_id.jour_type_ids
             # jour_e = self.pool.get('mam.jour_e')
             # jour_type_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
             jour_type_ids = jour_e.enfant_id.jour_type_ids
             print "jour_type_ids: ", jour_type_ids
-            if jour_type_ids == False:
+            if not jour_type_ids:
                 print "vide --> stop"
                 continue
             print "jour_type_ids premier: ", jour_type_ids[0]
             print "jour_type_ids premier: ", jour_type_ids[0].libelle
+            for presence_type in jour_type_ids[0].presence_type_ids:
+                print "creation enfant ", enfant.nomprenom, " date ", date_d 
+                jour_e.presence_prevue_ids.create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': heure_debut, 'heure_fin': heure_fin,})
             
             
         return True
