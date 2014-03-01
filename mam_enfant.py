@@ -135,10 +135,5 @@ class mam_enfant(osv.Model):
             # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
             # #jour_e_ids = jour_type.enfant_id.jour_e_ids
         return True
-    def action_associer_jour_type(self, cr, uid, ids, context=None):
-        """associe un jour type a un jour d'un enfant"""
-        for enfant in self.browse(cr, uid, ids, context=context):
-            print enfant.id, enfant.nomprenom, context
-        return True
 mam_enfant()
 

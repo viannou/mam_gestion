@@ -49,6 +49,11 @@ class mam_jour_e(osv.Model):
     }
     _rec_name = 'jour'
     _order = "jour"
+    def action_associer_jour_type(self, cr, uid, ids, context=None):
+        """associe un jour type a un jour d'un enfant"""
+        for jour_e in self.browse(cr, uid, ids, context=context):
+            print jour_e.id, jour_e.jour, jour_e.enfant_id.prenom, context
+        return True
 mam_jour_e()
 
 # class mam_presence_e(osv.Model):
