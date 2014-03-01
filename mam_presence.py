@@ -83,8 +83,7 @@ class mam_jour_e(osv.Model):
             print "jour_type_ids premier: ", jour_type_ids[0].libelle
             for presence_type in jour_type_ids[0].presence_type_ids:
                 print "creation presence_prevue ", jour_e.id, presence_type.heure_debut, presence_type.heure_fin
-                jour_e.presence_prevue_ids.create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
-            
+                self.pool.get('mam.mam_presence_prevue').create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
             
         return True
 mam_jour_e()
