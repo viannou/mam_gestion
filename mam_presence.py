@@ -31,7 +31,7 @@ class mam_jour_e(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             res = []
             for presence_prevue in record.presence_prevue_ids:
-                if presence_type.libelle:
+                if presence_prevue.libelle:
                     res.append(presence_prevue.libelle)
             result[record.id] = "\n+  ".join(res)
         return result
