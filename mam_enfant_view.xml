@@ -75,7 +75,7 @@
 									<tree> 
 										<field name="jour"/>
 										<field name="enfant_id"/>
-										<field name="presence_prevue_ids"/>
+										<field name="libelle_prevue"/>
 										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" />
 									</tree> 
 								</field>

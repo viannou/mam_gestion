@@ -40,6 +40,13 @@ class mam_jour_e(osv.Model):
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
+
+        'libelle_prevue': fields.function(
+            _get_libelle_prevue,
+            type="char",
+            string="Prevu",
+            store=None,
+        ),
         'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
     }
     _defaults = {
@@ -55,6 +62,16 @@ class mam_jour_e(osv.Model):
         for jour_e in self.browse(cr, uid, ids, context=context):
             print jour_e.id, jour_e.jour, jour_e.enfant_id.prenom, context
         return True
+    def _get_libelle_prevue(self, cr, uid, ids, name, args, context=None):
+        """nom affichable des horaires pevues """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res = []
+            for presence_prevue in record.presence_prevue_ids:
+                if presence_type.libelle:
+                    res.append(presence_prevue.libelle)
+            result[record.id] = "\n+  ".join(res)
+        return result
 mam_jour_e()
 
 # class mam_presence_e(osv.Model):
