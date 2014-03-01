@@ -62,29 +62,29 @@
 						</page>
 						<page string="Prévisions et jours types">
 							<group col="2" colspan="4">
-							<field name="jour_type_ids" nolabel="1" readonly="1" > 
-								<tree> 
-									<field name="libelle"/>
-									<field name="mange_midi"/>
-									<field name="mange_gouter"/>
-								</tree> 
-							</field>
-							</group>
-							<group col="2" colspan="4">
-							<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
-								<tree> 
-									<field name="jour"/>
-									<field name="enfant_id"/>
-									<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" />
-								</tree> 
-							</field>
-							</group>
-						</page>
-						<page string="Technique">
-							<group col="2" colspan="4">
 								<button name="action_creer_jours" type="object" class="oe_highlight" string="Cliquer pour creer les jours futurs pour l'enfant" />
+								<field name="jour_type_ids" nolabel="1" readonly="1" > 
+									<tree> 
+										<field name="libelle"/>
+										<field name="mange_midi"/>
+										<field name="mange_gouter"/>
+									</tree> 
+								</field>
+							</group>
+							<group col="2" colspan="4">
+								<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
+									<tree> 
+										<field name="jour"/>
+										<field name="enfant_id"/>
+										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" />
+									</tree> 
+								</field>
 							</group>
 						</page>
+<!-- 						<page string="Technique">
+							<group col="2" colspan="4">
+							</group>
+						</page> -->
 					</notebook>
 				</group>
 			</form>
