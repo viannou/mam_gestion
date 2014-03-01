@@ -71,7 +71,7 @@
 							</field>
 							</group>
 							<group col="2" colspan="4">
-							<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
+							<field name="jour_e_ids" nolabel="1" readonly="1" > 
 								<tree> 
 									<field name="libelle"/>
 									<field name="mange_midi"/>
