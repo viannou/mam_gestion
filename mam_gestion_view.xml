@@ -82,6 +82,17 @@
 			</form>
 		</field>
 	</record>
+	<!--enfant form pour assigner jours types-->
+	<record model="ir.ui.view" id="view_enfant_assign_jours_form">
+		<field name="name">enfant.form</field>
+		<field name="model">mam.enfant</field>
+		<field name="arch" type="xml">
+			<form string="enfant">
+				<field name="nom"/>
+				<field name="date_naiss"/>
+			</form>
+		</field>
+	</record>
 	<!--enfant search-->
 	<record model="ir.ui.view" id="mam_enfant_search_view">
 		<field name="name">mam.enfant.search</field>
@@ -225,7 +236,8 @@
 							</group>
 						</page> 
 						<page string="Affecter jours types aux jours">
-							<field name="enfant_id" nolabel="1" readonly="1" > 
+							<field name="enfant_id" domain="[('id','=',enfant_id)]" context="{'tree_view_ref':'mam_gestion.view_enfant_assign_jours_form'}"/>
+<!-- 							<field name="enfant_id" nolabel="1" readonly="1" > 
 								<tree> 
 									<group col="2" colspan="4">
 										<field name="prenom"/>
@@ -238,7 +250,7 @@
 										</field>
 									</group>
 								</tree> 
-							</field>
+							</field> -->
 						</page>
 <!-- 						<page string="Technique">
 							<group col="2" colspan="4">
