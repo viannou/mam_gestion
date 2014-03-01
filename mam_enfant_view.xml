@@ -66,11 +66,7 @@
 									</tree> 
 								</field>
 							</group>
-<<<<<<< HEAD
-							<separator string="Calendrier de l'enfant" colspan="1" />
-=======
-							<separator string="Calendrier de l'enfant" colspan="1"  readonly="1"/>
->>>>>>> 7f01027f253c4efc510ea2dd78d3daa4dc3c70f7
+							<separator string="Calendrier de l'enfant" colspan="1"/>
 							<group col="2" colspan="4">
 								<field name="jour_e_ids" nolabel="1" readonly="1"> 
 									<tree> 
