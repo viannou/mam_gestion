@@ -195,7 +195,7 @@ class mam_presence_type(osv.Model):
             multi='modif_date',
         ),
     }
-    _order = "libelle"
+    _order = "heure_debut"
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
