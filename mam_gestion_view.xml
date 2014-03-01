@@ -84,13 +84,13 @@
 	</record>
 	<!--enfant form pour assigner jours types-->
 	<record model="ir.ui.view" id="view_enfant_assign_jours_form">
-		<field name="name">enfant.form</field>
+		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
-			<form string="enfant">
-				<field name="nom"/>
+			<tree string="enfant">
+				<field name="prenom"/>
 				<field name="date_naiss"/>
-			</form>
+			</tree>
 		</field>
 	</record>
 	<!--enfant search-->
