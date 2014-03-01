@@ -68,7 +68,7 @@
 							</group>
 							<separator string="Calendrier de l'enfant" colspan="1"/>
 							<group col="2" colspan="4">
-								<field name="jour_e_ids" nolabel="1" readonly="1"> 
+								<field name="jour_e_ids" nolabel="1" readonly="1" > 
 									<tree> 
 										<field name="jour"/>
 										<field name="enfant_id"/>
