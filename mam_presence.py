@@ -39,11 +39,7 @@ class mam_jour_e(osv.Model):
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
-        'jour_type_ids' : fields.related('jour_type_ids'
-                                       type='many2many',
-                                       readonly=True,
-                                       relation='mam.enfant',
-                                       string='Jours types disponibles'),
+        'jour_type_ids' : fields.related('jour_type_ids', type='many2many', readonly=True, relation='mam.enfant', string='Jours types disponibles'),
     }
     _defaults = {
         'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
