@@ -55,7 +55,7 @@
 							</field> 
 						</page>
 						<page string="Historique">
-							<field name="jour_e_ids_histo" nolabel="1"/>
+							<field name="jour_e_ids" nolabel="1"/>
 						</page>
 						<page string="Prévisions et jours types">
 							<group col="1" colspan="4">
@@ -70,7 +70,7 @@
 								</field>
 							</group>
 							<separator string="Calendrier de l'enfant" colspan="1"/>
-							<group col="2" colspan="4">
+<!-- 							<group col="2" colspan="4">
 								<field name="jour_e_ids" nolabel="1" > 
 									<tree> 
 										<field name="jour"/>
@@ -84,7 +84,7 @@
 									</tree> 
 								</field>
 							</group>
-						</page>
+ -->						</page>
 <!-- 						<page string="Technique">
 							<group col="2" colspan="4">
 							</group>
