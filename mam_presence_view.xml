@@ -35,7 +35,7 @@
 					<field name="frais_libelle"/>
 					<field name="commentaire"/>
 					<field name="state"/>
-					<!-- <field name="presence_prevue_ids"/> -->
+					<field name="presence_prevue_ids"/>
 					<field name="jour_type_ids"/>
 				</group>
 			</form>
