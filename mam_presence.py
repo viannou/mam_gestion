@@ -75,7 +75,7 @@ class mam_jour_e(osv.Model):
         return action_associer_jour_type(self, cr, uid, ids, context, 3)
     def action_associer_jour_type_4(self, cr, uid, ids, context=None):
         return action_associer_jour_type(self, cr, uid, ids, context, 4)
-    def action_associer_jour_type(self, cr, uid, ids, context=None, numero):
+    def action_associer_jour_type(self, cr, uid, ids, numero, context=None):
         """associe un jour type a un jour d'un enfant
             pour l'instant, on associe au premier jour type trouvé !"""
         for jour_e in self.browse(cr, uid, ids, context=context):
