@@ -61,6 +61,7 @@
 							<field name="jour_e_ids" nolabel="1"/>
 						</page>
 						<page string="Prévisions et jours types">
+							<group col="2" colspan="4">
 							<field name="jour_type_ids" nolabel="1" readonly="1" > 
 								<tree> 
 									<field name="libelle"/>
@@ -68,6 +69,8 @@
 									<field name="mange_gouter"/>
 								</tree> 
 							</field>
+							</group>
+							<group col="2" colspan="4">
 							<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
 								<tree> 
 									<field name="libelle"/>
@@ -75,6 +78,7 @@
 									<field name="mange_gouter"/>
 								</tree> 
 							</field>
+							</group>
 						</page>
 <!-- 						<page string="Technique">
 							<group col="2" colspan="4">
