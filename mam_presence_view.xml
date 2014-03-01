@@ -36,7 +36,6 @@
 					<field name="commentaire"/>
 					<field name="state"/>
 					<tree string="presence_prevue_ids" editable='bottom'>
-						<field name="libelle"/>
 						<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
 						<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
 					</tree>
