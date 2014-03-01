@@ -122,6 +122,8 @@ class mam_enfant(osv.Model):
         for enfant in self.browse(cr, uid, ids, context=context):
             print enfant.id, enfant.nomprenom, context
             for date_d in (date.today() + timedelta(n) for n in range(90)):
+                if date_d.weekday() == 5 or date_d.weekday() == 6:
+                    continue
                 print date_d
                 jour_e = self.pool.get('mam.jour_e')
                 jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
