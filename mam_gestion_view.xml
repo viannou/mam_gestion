@@ -61,7 +61,7 @@
 							<field name="jour_e_ids" nolabel="1"/>
 						</page>
 						<page string="Prévisions et jours types">
-							<group col="2" colspan="4">
+							<group col="1" colspan="4">
 								<button name="action_creer_jours" type="object" class="oe_highlight" string="Cliquer pour creer les jours futurs pour l'enfant" />
 								<separator string="" colspan="1"/>
 								<field name="jour_type_ids" string="Jours types de l'enfant" readonly="1" > 
@@ -72,6 +72,7 @@
 									</tree> 
 								</field>
 							</group>
+							<separator string="Calendrier de l'enfant" colspan="1"/>
 							<group col="2" colspan="4">
 								<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
 									<tree> 
