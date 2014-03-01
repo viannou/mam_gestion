@@ -3,14 +3,14 @@ from osv import fields,osv
 from datetime import datetime,date,timedelta
 import re
 
-def verif_heures(hdebut, hfin):
+def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
             return False
-        if hfin == False or hfin == "" :
+        if not fin_obligatoire and (hfin == False or hfin == ""):
             return [hdebut,""]
         matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
@@ -68,6 +68,43 @@ mam_jour_e()
     # # _rec_name = 'jour'
 # mam_presence_e()
 
+class mam_presence_prevue(osv.Model):
+    _name = 'mam.presence_prevue'
+    _description = "Presence prevue"
+    _rec_name = 'libelle'
+    def _get_lib_date(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = {}
+            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+        return result
+    def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
+        res = verif_heures(heure_debut, heure_fin)
+        if res:
+            return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
+        return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
+    _columns = {
+        'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerné par la présence'),
+        'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
+        'heure_fin': fields.char('Heure fin', help='Heure de fin'),
+        "libelle": fields.function(
+            _get_lib_date,
+            type="char",
+            string="Créneau",
+            store=None,
+            multi='modif_date',
+        ),
+    }
+    def check_heures(self, cr, uid, ids, context=None):
+        reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
+        for records in reads:
+            if not verif_heures(records['heure_debut'],records['heure_fin']):
+                return False
+        return True
+    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
+mam_presence_prevue()
+
 class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
     _description = "Jours type de presence"
@@ -109,14 +146,14 @@ class mam_presence_type(osv.Model):
             result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
-        res = verif_heures(heure_debut, heure_fin)
+        res = verif_heures(heure_debut, heure_fin, False)
         if res:
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     _columns = {
         'jour_type_id': fields.many2one('mam.jour_type','Jour type',required=True, help='Jour type concerné par la présence'),
         'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
-        'heure_fin': fields.char('Heure fin', help='Heure de fin'),
+        'heure_fin': fields.char('Heure fin',required=True, help='Heure de fin'),
         "libelle": fields.function(
             _get_lib_date,
             type="char",
@@ -128,7 +165,7 @@ class mam_presence_type(osv.Model):
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut'],records['heure_fin']):
+            if not verif_heures(records['heure_debut'],records['heure_fin'], True):
                 return False
         return True
     _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
