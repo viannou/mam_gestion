@@ -6,9 +6,12 @@
     "category" : "Tools",
     "description": """ Gestion de Maison d'Assistante Maternelle """,
     "depends" : ['base'],
-    "init_xml" : [ ],
-    "demo_xml" : [ ],
-    "update_xml" : ['mam_gestion_view.xml'],
+    "data": [
+        # 'security/security.xml',
+        # 'security/ir.model.access.csv',
+        'mam_enfant_view.xml',
+        'mam_gestion_view.xml',
+        'mam_presence_view.xml',
     "installable": True
 }
 
