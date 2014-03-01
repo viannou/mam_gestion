@@ -55,7 +55,7 @@
 							</field> 
 						</page>
 						<page string="Historique">
-							<field name="jour_e_ids" nolabel="1"/>
+							<field name="jour_e_ids_histo" nolabel="1"/>
 						</page>
 						<page string="Prévisions et jours types">
 							<group col="1" colspan="4">
@@ -71,7 +71,7 @@
 							</group>
 							<separator string="Calendrier de l'enfant" colspan="1"/>
 							<group col="2" colspan="4">
-								<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
+								<field name="jour_e_ids" nolabel="1" > 
 									<tree> 
 										<field name="jour"/>
 										<field name="enfant_id"/>
@@ -79,7 +79,8 @@
 										<field name="libelle_prevue"/>
 										<field name="mange_midi"/>
 										<field name="mange_gouter"/>
-										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" attrs="{'invisible': [('state','!=','encours')]}" />
+										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le premier jour type" attrs="{'invisible': [('state','!=','encours')]}" />
+										<button name="action_effacer_prevision" type="object" class="oe_highlight" string="Effacer previsions" attrs="{'invisible': [('state','!=','encours')]}" />
 									</tree> 
 								</field>
 							</group>

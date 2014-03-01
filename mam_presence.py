@@ -84,8 +84,24 @@ class mam_jour_e(osv.Model):
             for presence_type in jour_type_ids[0].presence_type_ids:
                 print "creation presence_prevue ", jour_e.id, presence_type.heure_debut, presence_type.heure_fin
                 self.pool.get('mam.presence_prevue').create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
-            
         return True
+    # def action_effacer_prevision(self, cr, uid, ids, context=None):
+        # """effacer les previsions de presence du jour"""
+        # for jour_e in self.browse(cr, uid, ids, context=context):
+            # print jour_e.jour, jour_e.enfant_id.prenom, jour_e.enfant_id.jour_type_ids
+            # # jour_e = self.pool.get('mam.jour_e')
+            # # jour_type_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
+            # jour_type_ids = jour_e.enfant_id.jour_type_ids
+            # print "jour_type_ids: ", jour_type_ids
+            # if not jour_type_ids:
+                # print "vide --> stop"
+                # continue
+            # print "jour_type_ids premier: ", jour_type_ids[0].libelle
+            # self.write(cr, uid, jour_e.id, {'mange_midi':jour_type_ids[0].mange_midi,'mange_gouter':jour_type_ids[0].mange_gouter,})
+            # for presence_type in jour_type_ids[0].presence_type_ids:
+                # print "creation presence_prevue ", jour_e.id, presence_type.heure_debut, presence_type.heure_fin
+                # self.pool.get('mam.presence_prevue').create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
+        # return True
 mam_jour_e()
 
 # class mam_presence_e(osv.Model):
