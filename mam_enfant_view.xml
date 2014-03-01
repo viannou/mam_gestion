@@ -79,7 +79,7 @@
 										<field name="libelle_prevue"/>
 										<field name="mange_midi"/>
 										<field name="mange_gouter"/>
-										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" attrs="{'invisible': [('state','!=','encours'), True)]}" />
+										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type" attrs="{'invisible': [('state','!=','encours')]}" />
 									</tree> 
 								</field>
 							</group>
