@@ -83,7 +83,7 @@
 		</field>
 	</record>
 	<!--enfant form pour assigner jours types-->
-	<record model="ir.ui.view" id="view_enfant_assign_jours_form">
+	<record model="ir.ui.view" id="view_enfant_assign_jours_tree">
 		<field name="name">enfant.tree</field>
 		<field name="model">mam.enfant</field>
 		<field name="arch" type="xml">
@@ -236,7 +236,7 @@
 							</group>
 						</page> 
 						<page string="Affecter jours types aux jours">
-							<field name="enfant_id" domain="[('id','=',enfant_id)]" context="{'tree_view_ref':'mam_gestion.view_enfant_assign_jours_form'}"/>
+							<field name="enfant_id" domain="[('id','=',enfant_id)]" context="{'tree_view_ref': 'view_enfant_assign_jours_tree'}"/>
 <!-- 							<field name="enfant_id" nolabel="1" readonly="1" > 
 								<tree> 
 									<group col="2" colspan="4">
