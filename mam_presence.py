@@ -114,21 +114,17 @@ class mam_presence_e(osv.Model):
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     TYPE_SELECTION = [
-        ('encours', 'En cours'),
-        ('valide', 'Valide'),
-        ('cloture', 'Cloture'),
+        ('normal', 'Présence normale'),
+        ('malade', 'Enfant malade ou accident, certificat a fournir sous 48h'),
+        ('abus', 'Enfant malade trop souvent (>10 j)'),
+        ('absent', 'Enfant absent sans justificatif du médecin'),
+        ('cause_am', 'Enfant forcé de s absenter parce que l AM est absente'),
     ]
     _columns = {
         'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence/absence'),
         'type': fields.selection(TYPE_SELECTION, 'Type',required=True,  help='Type de présence/absence de l''enfant'),
         'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
         'heure_fin': fields.char('Heure fin',required=True, help='Heure de fin'),
-    }
-    _defaults = {
-        'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
-        'mange_midi': False,
-        'mange_gouter': False,
-        'state': 'encours',
         "libelle": fields.function(
             _get_lib_date,
             type="char",
@@ -136,6 +132,9 @@ class mam_presence_e(osv.Model):
             store=None,
             multi='modif_date',
         ),
+    }
+    _defaults = {
+        'type': 'normal',
     }
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
