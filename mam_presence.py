@@ -25,6 +25,16 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Detail jour"
+    def _get_libelle_prevue(self, cr, uid, ids, name, args, context=None):
+        """nom affichable des horaires pevues """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res = []
+            for presence_prevue in record.presence_prevue_ids:
+                if presence_type.libelle:
+                    res.append(presence_prevue.libelle)
+            result[record.id] = "\n+  ".join(res)
+        return result
     STATE_SELECTION = [
         ('encours', 'En cours'),
         ('valide', 'Valide'),
@@ -62,16 +72,6 @@ class mam_jour_e(osv.Model):
         for jour_e in self.browse(cr, uid, ids, context=context):
             print jour_e.id, jour_e.jour, jour_e.enfant_id.prenom, context
         return True
-    def _get_libelle_prevue(self, cr, uid, ids, name, args, context=None):
-        """nom affichable des horaires pevues """
-        result = {}
-        for record in self.browse(cr, uid, ids, context=context):
-            res = []
-            for presence_prevue in record.presence_prevue_ids:
-                if presence_type.libelle:
-                    res.append(presence_prevue.libelle)
-            result[record.id] = "\n+  ".join(res)
-        return result
 mam_jour_e()
 
 # class mam_presence_e(osv.Model):
