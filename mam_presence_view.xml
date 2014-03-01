@@ -156,6 +156,19 @@
 			</form>
 		</field>
 	</record>
+	<!--jour_type search-->
+	<record model="ir.ui.view" id="mam_jour_type_search_view">
+		<field name="name">mam.jour_type.search</field>
+		<field name="model">mam.jour_type</field>
+		<field name="arch" type="xml">
+			<search string="Recherche Jour Type">
+				<field name="enfant_id"/>
+				<group expand="1" string="Group By...">
+					<filter string="Enfant" domain="[]" context="{'group_by':'enfant_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
 	<!--jour_type action-->
 	<record model="ir.actions.act_window" id="action_jour_type">
 		<field name="name">Jours Types</field>

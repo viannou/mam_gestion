@@ -164,6 +164,7 @@ class mam_jour_type(osv.Model):
         'presence_type_ids': fields.one2many('mam.presence_type', 'jour_type_id', 'Liste des présences du jour type', help='Liste des présences du jour type de l''enfant'),
     }
     _rec_name = 'libelle'
+    _order = "enfant_id"
 mam_jour_type()
 
 class mam_presence_type(osv.Model):
@@ -194,6 +195,7 @@ class mam_presence_type(osv.Model):
             multi='modif_date',
         ),
     }
+    _order = "libelle"
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
