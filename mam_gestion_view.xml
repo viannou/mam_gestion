@@ -140,14 +140,17 @@
 		<field name="model">mam.jour_e</field>
 		<field name="arch" type="xml">
 			<form string="Jour">
-				<field name="jour"/>
-				<field name="enfant_id"/>
-				<field name="mange_midi"/>
-				<field name="mange_gouter"/>
-				<field name="frais_montant"/>
-				<field name="frais_libelle"/>
-				<field name="commentaire"/>
-				<field name="state"/>
+				<group col="2" colspan="2">
+					<field name="jour"/>
+					<field name="enfant_id"/>
+					<field name="mange_midi"/>
+					<field name="mange_gouter"/>
+					<field name="frais_montant"/>
+					<field name="frais_libelle"/>
+					<field name="commentaire"/>
+					<field name="state"/>
+					<field name="jour_type_ids"/>
+				</group>
 			</form>
 		</field>
 	</record>
@@ -235,7 +238,7 @@
 								<field name="presence_type_ids"/>
 							</group>
 						</page> 
-						<page string="Affecter jours types aux jours">
+<!-- 						<page string="Affecter jours types aux jours">
 							<field name="enfant_id" nolabel="1" readonly="1" > 
 								<form> 
 									<field name="prenom"/>
@@ -248,7 +251,7 @@
 									</field>
 								</form> 
 							</field>
-						</page>
+						</page> -->
 <!-- 						<page string="Technique">
 							<group col="2" colspan="4">
 								<field name="nomprenom"/>
