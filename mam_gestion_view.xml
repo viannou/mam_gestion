@@ -226,7 +226,7 @@
 						</page> 
 						<page string="Affecter jours types aux jours">
 							<field name="enfant_id" nolabel="1" readonly="1" > 
-								<form> 
+								<tree> 
 									<group col="2" colspan="4">
 										<field name="prenom"/>
 										<field name="nom"/>
@@ -237,7 +237,7 @@
 											</tree> 
 										</field>
 									</group>
-								</form> 
+								</tree> 
 							</field>
 						</page>
 <!-- 						<page string="Technique">
