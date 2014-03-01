@@ -76,7 +76,7 @@
 										<field name="libelle_prevue"/>
 										<field name="mange_midi"/>
 										<field name="mange_gouter"/>
-										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le premier jour type" attrs="{'invisible': [('state','!=','encours')]}" />
+										<button name="action_associer_jour_type" type="object" class="oe_highlight" string="Cliquer pour associer le jour type 1" context="{'numero_type':'0'}" attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_effacer_prevision" type="object" class="oe_highlight" string="Effacer previsions" attrs="{'invisible': [('state','!=','encours')]}" />
 									</tree> 
 								</field>
