@@ -82,10 +82,7 @@
 						</page>
 						<page string="Technique">
 							<group col="2" colspan="4">
-								<div class="oe_right oe_button_box">
-									<field name="nomprenom"/>
-									<button name="action_creer_jours" type="object" class="oe_highlight" string="Cliquer pour creer les jours futurs pour l'enfant" />
-								</div>
+								<button name="action_creer_jours" type="object" class="oe_highlight" string="Cliquer pour creer les jours futurs pour l'enfant" />
 							</group>
 						</page>
 					</notebook>
