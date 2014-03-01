@@ -39,7 +39,7 @@ class mam_jour_e(osv.Model):
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
-        'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
+        # 'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
         'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
     }
     _defaults = {
@@ -69,42 +69,42 @@ mam_jour_e()
     # # _rec_name = 'jour'
 # mam_presence_e()
 
-class mam_presence_prevue(osv.Model):
-    _name = 'mam.presence_prevue'
-    _description = "Presence prevue"
-    _rec_name = 'libelle'
-    def _get_lib_date(self, cr, uid, ids, name, args, context=None):
-        """nom affichable de la presence """
-        result = {}
-        for record in self.browse(cr, uid, ids, context=context):
-            result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
-        return result
-    def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
-        res = verif_heures(heure_debut, heure_fin)
-        if res:
-            return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
-        return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
-    _columns = {
-        'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerné par la présence'),
-        'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
-        'heure_fin': fields.char('Heure fin', help='Heure de fin'),
-        "libelle": fields.function(
-            _get_lib_date,
-            type="char",
-            string="Créneau",
-            store=None,
-            multi='modif_date',
-        ),
-    }
-    def check_heures(self, cr, uid, ids, context=None):
-        reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
-        for records in reads:
-            if not verif_heures(records['heure_debut'],records['heure_fin']):
-                return False
-        return True
-    _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
-mam_presence_prevue()
+# class mam_presence_prevue(osv.Model):
+    # _name = 'mam.presence_prevue'
+    # _description = "Presence prevue"
+    # _rec_name = 'libelle'
+    # def _get_lib_date(self, cr, uid, ids, name, args, context=None):
+        # """nom affichable de la presence """
+        # result = {}
+        # for record in self.browse(cr, uid, ids, context=context):
+            # result[record.id] = {}
+            # result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+        # return result
+    # def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
+        # res = verif_heures(heure_debut, heure_fin)
+        # if res:
+            # return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
+        # return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
+    # _columns = {
+        # 'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerné par la présence'),
+        # 'heure_debut': fields.char('Heure début',required=True, help='Heure de début'),
+        # 'heure_fin': fields.char('Heure fin', help='Heure de fin'),
+        # "libelle": fields.function(
+            # _get_lib_date,
+            # type="char",
+            # string="Créneau",
+            # store=None,
+            # multi='modif_date',
+        # ),
+    # }
+    # def check_heures(self, cr, uid, ids, context=None):
+        # reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
+        # for records in reads:
+            # if not verif_heures(records['heure_debut'],records['heure_fin']):
+                # return False
+        # return True
+    # _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
+# mam_presence_prevue()
 
 class mam_jour_type(osv.Model):
     _name = 'mam.jour_type'
