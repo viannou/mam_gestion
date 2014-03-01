@@ -60,8 +60,15 @@
 						<page string="Historique">
 							<field name="jour_e_ids" nolabel="1"/>
 						</page>
-						<page string="Jours types">
+						<page string="Prévisions et jours types">
 							<field name="jour_type_ids" nolabel="1" readonly="1" > 
+								<tree> 
+									<field name="libelle"/>
+									<field name="mange_midi"/>
+									<field name="mange_gouter"/>
+								</tree> 
+							</field>
+							<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
 								<tree> 
 									<field name="libelle"/>
 									<field name="mange_midi"/>
@@ -215,7 +222,6 @@
 			<tree string="JourType">
 				<field name="enfant_id"/>
 				<field name="libelle"/>
-				<field name="presence_type_ids"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 			</tree>
