@@ -76,10 +76,12 @@ class mam_jour_e(osv.Model):
         for jour_e in self.browse(cr, uid, ids, context=context):
             jour_type_ids = jour_e.enfant_id.jour_type_ids
             print "liste: ", len(jour_type_ids)
-            if not jour_type_ids or len(jour_type_ids) <= numero:
+            if len(jour_type_ids) <= numero:
+                print "stop"
                 continue
             self.write(cr, uid, jour_e.id, {'mange_midi':jour_type_ids[numero].mange_midi,'mange_gouter':jour_type_ids[numero].mange_gouter,})
             for presence_type in jour_type_ids[numero].presence_type_ids:
+                print "cree ", presence_type.heure_debut, presence_type.heure_fin
                 self.pool.get('mam.presence_prevue').create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
         return True
     def action_effacer_prevision(self, cr, uid, ids, context=None):
