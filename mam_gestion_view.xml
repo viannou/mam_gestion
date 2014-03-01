@@ -71,11 +71,10 @@
 							</field>
 							</group>
 							<group col="2" colspan="4">
-							<field name="jour_e_ids" nolabel="1" readonly="1" > 
+							<field name="jour_e_ids" nolabel="1" readonly="1" domain="[('state','=','encours')]" > 
 								<tree> 
-									<field name="libelle"/>
-									<field name="mange_midi"/>
-									<field name="mange_gouter"/>
+									<field name="jour"/>
+									<field name="enfant_id"/>
 								</tree> 
 							</field>
 							</group>
