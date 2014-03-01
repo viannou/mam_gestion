@@ -29,6 +29,7 @@
 				<group col="2" colspan="2">
 					<field name="jour"/>
 					<field name="enfant_id"/>
+					<field name="libelle_prevue"/>
 					<field name="mange_midi"/>
 					<field name="mange_gouter"/>
 					<field name="frais_montant"/>

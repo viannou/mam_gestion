@@ -81,6 +81,7 @@ class mam_jour_e(osv.Model):
                 continue
             print "jour_type_ids premier: ", jour_type_ids[0]
             print "jour_type_ids premier: ", jour_type_ids[0].libelle
+            self.write(cr, uid, jour_e.id, {'mange_midi':jour_type_ids[0].mange_midi,'mange_gouter':jour_type_ids[0].mange_gouter,})
             for presence_type in jour_type_ids[0].presence_type_ids:
                 print "creation presence_prevue ", jour_e.id, presence_type.heure_debut, presence_type.heure_fin
                 self.pool.get('mam.presence_prevue').create(cr, uid,{'jour_e_id': jour_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
