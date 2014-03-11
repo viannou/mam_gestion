@@ -136,7 +136,7 @@ class mam_presence_e(osv.Model):
         ('absent', 'Enfant absent sans justificatif du médecin'),
         ('cause_am', 'Enfant forcé de s absenter parce que l AM est absente'),
     ]
-    TYPE_SELECTION_dict = dict(self.TYPE_SELECTION)
+    TYPE_SELECTION_dict = dict(TYPE_SELECTION)
     _columns = {
         'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence/absence'),
         'type': fields.selection(TYPE_SELECTION, 'Type',required=True,  help='Type de présence/absence de l''enfant'),
