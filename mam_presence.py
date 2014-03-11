@@ -35,6 +35,16 @@ class mam_jour_e(osv.Model):
                     res.append(presence_prevue.libelle)
             result[record.id] = "\n+  ".join(res)
         return result
+    def _get_libelle_reel(self, cr, uid, ids, name, args, context=None):
+        """nom affichable des horaires pevues """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res = []
+            for presence_e in record.presence_e_ids:
+                if presence_e.libelle:
+                    res.append(presence_e.libelle)
+            result[record.id] = "\n+  ".join(res)
+        return result
     STATE_SELECTION = [
         ('encours', 'En cours'),
         ('valide', 'Valide'),
@@ -56,6 +66,12 @@ class mam_jour_e(osv.Model):
             _get_libelle_prevue,
             type="char",
             string="Prevu",
+            store=None,
+        ),
+        'libelle_reel': fields.function(
+            _get_libelle_reel,
+            type="char",
+            string="Reel",
             store=None,
         ),
         'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
