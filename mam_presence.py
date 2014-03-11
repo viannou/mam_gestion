@@ -35,16 +35,26 @@ class mam_jour_e(osv.Model):
                     res.append(presence_prevue.libelle)
             result[record.id] = "\n+  ".join(res)
         return result
+    def _get_libelle_reel(self, cr, uid, ids, name, args, context=None):
+        """nom affichable des horaires pevues """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            res = []
+            for presence_e in record.presence_e_ids:
+                if presence_e.libelle:
+                    res.append(presence_e.libelle)
+            result[record.id] = "\n+  ".join(res)
+        return result
     STATE_SELECTION = [
-        ('encours', 'En cours'),
-        ('valide', 'Valide'),
-        ('cloture', 'Cloture'),
+        (u'encours', u'En cours'),
+        (u'valide', u'Valide'),
+        (u'cloture', u'Cloture'),
     ]
     _columns = {
         'jour': fields.date('Jour',required=True, help='La date'),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
-        'mange_midi': fields.boolean('Mange le midi', help='Prise du repas du midi'),
-        'mange_gouter': fields.boolean('Mange au gouter', help='Prise du gouter'),
+        'mange_midi': fields.boolean('Midi', help='Prise du repas du midi'),
+        'mange_gouter': fields.boolean('Gouter', help='Prise du gouter'),
         'frais_montant': fields.float('Montant des frais', digits=(6,2), help='Montant des frais en euros'),
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
@@ -56,6 +66,12 @@ class mam_jour_e(osv.Model):
             _get_libelle_prevue,
             type="char",
             string="Prevu",
+            store=None,
+        ),
+        'libelle_reel': fields.function(
+            _get_libelle_reel,
+            type="char",
+            string="Reel",
             store=None,
         ),
         'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
@@ -106,7 +122,7 @@ class mam_presence_e(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = TYPE_SELECTION[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
+            result[record.id]['libelle'] = self.TYPE_SELECTION_dict[record.type] + " (" + record.heure_debut + "-" + record.heure_fin + ")"
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin)
@@ -114,12 +130,13 @@ class mam_presence_e(osv.Model):
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     TYPE_SELECTION = [
-        ('normal', 'Présence normale'),
-        ('malade', 'Enfant malade ou accident, certificat a fournir sous 48h'),
-        ('abus', 'Enfant malade trop souvent (>10 j)'),
-        ('absent', 'Enfant absent sans justificatif du médecin'),
-        ('cause_am', 'Enfant forcé de s absenter parce que l AM est absente'),
+        (u'normal', u'Présence normale'),
+        (u'malade', u'Enfant malade ou accident, certificat a fournir sous 48h'),
+        (u'abus', u'Enfant malade trop souvent (>10 j)'),
+        (u'absent', u'Enfant absent sans justificatif du médecin'),
+        (u'cause_am', u'Enfant forcé de s absenter parce que l AM est absente'),
     ]
+    TYPE_SELECTION_dict = dict(TYPE_SELECTION)
     _columns = {
         'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence/absence'),
         'type': fields.selection(TYPE_SELECTION, 'Type',required=True,  help='Type de présence/absence de l''enfant'),
@@ -154,7 +171,7 @@ class mam_presence_prevue(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+            result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin)
@@ -221,7 +238,7 @@ class mam_presence_type(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+            result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin, False)

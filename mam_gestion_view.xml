@@ -130,6 +130,7 @@ action = obj.action_creer_jours()
 	</record>
  -->
 
+
 	<!--menus-->
 	<menuitem name="MAM" id="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="1" name="MAM" id="menu_rub_mam" parent="menu_top_mam" action="action_enfant"/>

@@ -11,8 +11,9 @@
 			<tree string="Jour">
 				<field name="jour"/>
 				<field name="enfant_id"/>
-				<field name="state"/>
 				<field name="libelle_prevue"/>
+				<field name="libelle_reel"/>
+				<field name="state"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="frais_montant"/>
