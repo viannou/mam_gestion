@@ -46,9 +46,9 @@ class mam_jour_e(osv.Model):
             result[record.id] = "\n+  ".join(res)
         return result
     STATE_SELECTION = [
-        ('encours', 'En cours'),
-        ('valide', 'Valide'),
-        ('cloture', 'Cloture'),
+        (u'encours', u'En cours'),
+        (u'valide', u'Valide'),
+        (u'cloture', u'Cloture'),
     ]
     _columns = {
         'jour': fields.date('Jour',required=True, help='La date'),
@@ -171,7 +171,7 @@ class mam_presence_prevue(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+            result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin)
@@ -238,7 +238,7 @@ class mam_presence_type(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = record.heure_debut + " - " + record.heure_fin
+            result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin, False)
