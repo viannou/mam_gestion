@@ -130,11 +130,11 @@ class mam_presence_e(osv.Model):
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
     TYPE_SELECTION = [
-        (u'normal', 'Présence normale'),
-        (u'malade', 'Enfant malade ou accident, certificat a fournir sous 48h'),
-        (u'abus', 'Enfant malade trop souvent (>10 j)'),
-        (u'absent', 'Enfant absent sans justificatif du médecin'),
-        (u'cause_am', 'Enfant forcé de s absenter parce que l AM est absente'),
+        (u'normal', u'Présence normale'),
+        (u'malade', u'Enfant malade ou accident, certificat a fournir sous 48h'),
+        (u'abus', u'Enfant malade trop souvent (>10 j)'),
+        (u'absent', u'Enfant absent sans justificatif du médecin'),
+        (u'cause_am', u'Enfant forcé de s absenter parce que l AM est absente'),
     ]
     TYPE_SELECTION_dict = dict(TYPE_SELECTION)
     _columns = {
