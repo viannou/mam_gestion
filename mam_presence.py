@@ -122,7 +122,7 @@ class mam_presence_e(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = self.TYPE_SELECTION[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
+            result[record.id]['libelle'] = self.TYPE_SELECTION_dict[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin)
@@ -136,6 +136,7 @@ class mam_presence_e(osv.Model):
         ('absent', 'Enfant absent sans justificatif du médecin'),
         ('cause_am', 'Enfant forcé de s absenter parce que l AM est absente'),
     ]
+    TYPE_SELECTION_dict = dict(self.TYPE_SELECTION)
     _columns = {
         'jour_e_id': fields.many2one('mam.jour_e','Jour',required=True, help='Jour concerne par la presence/absence'),
         'type': fields.selection(TYPE_SELECTION, 'Type',required=True,  help='Type de présence/absence de l''enfant'),
