@@ -122,7 +122,7 @@ class mam_presence_e(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
-            result[record.id]['libelle'] = TYPE_SELECTION[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
+            result[record.id]['libelle'] = self.TYPE_SELECTION[record.type] + " ( " + record.heure_debut + " - " + record.heure_fin + " )"
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
         res = verif_heures(heure_debut, heure_fin)
