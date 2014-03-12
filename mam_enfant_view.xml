@@ -127,6 +127,54 @@
 		<field name="view_mode">tree,form</field>
 	</record>
 
+<!-- contrat -->
+	<!--contrat tree-->
+	<record model="ir.ui.view" id="view_contrat_tree">
+		<field name="name">mam.contrat.tree</field>
+		<field name="model">mam.contrat</field>
+		<field name="arch" type="xml">
+			<tree string="Contrat">
+				<field name="enfant_id"/>
+				<field name="am_id"/>
+				<field name="contact_id"/>
+				<field name="avenant_ids"/>
+			</tree>
+		</field>
+	</record>
+	<!--contrat form-->
+	<record model="ir.ui.view" id="view_contrat_form">
+		<field name="name">mam.contrat.form</field>
+		<field name="model">mam.contrat</field>
+		<field name="arch" type="xml">
+			<form string="Contrat">
+				<group col="2" colspan="2">
+					<field name="enfant_id"/>
+					<field name="am_id"/>
+					<field name="contact_id"/>
+					<field name="avenant_ids" string="Avenants" >
+						<tree editable='bottom'> 
+							<field name="date_debut"/>
+							<field name="date_fin"/>
+							<field name="nb_h_par_j"/>
+							<field name="nb_j_par_s"/>
+							<field name="nb_s_par_a"/>
+							<field name="nb_j_total"/>
+							<field name="nb_h_total"/>
+							<field name="nb_h_par_s"/>
+						</tree> 
+					</field>
+				</group>
+			</form>
+		</field>
+	</record>
+	<!--contrat action-->
+	<record model="ir.actions.act_window" id="action_contrat">
+		<field name="name">Contrats</field>
+		<field name="res_model">mam.contrat</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
 
 </data>
 </openerp>
