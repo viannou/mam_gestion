@@ -120,7 +120,6 @@ class mam_enfant(osv.Model):
     def action_creer_jours(self, cr, uid, ids, context=None):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
-            print enfant.id, enfant.nomprenom, context
             for date_d in (date.today() + timedelta(n) for n in range(90)):
                 if date_d.weekday() == 5 or date_d.weekday() == 6:
                     continue
@@ -128,7 +127,7 @@ class mam_enfant(osv.Model):
                 jour_e = self.pool.get('mam.jour_e')
                 jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
                 if not jours_e_ids: # le jour de l'enfant n'existe pas encore
-                    print "creation enfant ", enfant.nomprenom, " date ", date_d 
+                    print "creation enfant ", enfant.id, " date ", date_d 
                     jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
                     
 
@@ -138,4 +137,46 @@ class mam_enfant(osv.Model):
             # #jour_e_ids = jour_type.enfant_id.jour_e_ids
         return True
 mam_enfant()
+
+class mam_contrat(osv.Model):
+    _name = 'mam.contrat'
+    _description = "Contrat"
+    _columns = {
+        'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par le contrat'),
+        'am_id': fields.many2one('mam.am','Assistante maternelle de référence',required=True, help='Assistante maternelle de référence pour le contrat'),
+        'contact_id': fields.many2one('mam.contact','Signataire',required=True, help='Personne signataire du contrat'),
+        'avenant_ids': fields.one2many('mam.avenant', 'contrat_id', 'Liste des avenants', help='Liste des avenants au contrat'),
+    }
+    # _rec_name = 'libelle'
+    _order = "enfant_id"
+mam_contrat()
+
+class mam_avenant(osv.Model):
+    _name = 'mam.avenant'
+    _description = "Avenant"
+    def _get_calculs(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = {}
+            result[record.id]['nb_j_total'] = record.nb_j_par_s * record.nb_s_par_a
+            result[record.id]['nb_h_total'] = record.nb_h_par_j * record.nb_j_par_s * record.nb_s_par_a
+            result[record.id]['nb_h_par_s'] = record.nb_h_par_j * record.nb_j_par_s
+        return result
+    _columns = {
+        'contrat_id': fields.many2one('mam.contrat','Contrat',required=True, help='Contrat concerné par l''avenant'),
+        'date_debut': fields.date('Date de début',required=True, help='Date de début de l''avenant'),
+        'date_fin': fields.date('Date de fin',required=True, help='Date de fin de l''avenant'),
+        'nb_h_par_j': fields.integer('Nombre d''heures par jour',required=True, help='Nombre d''heures par jour au contrat'),
+        'nb_j_par_s': fields.integer('Nombre de jours par semaine',required=True, help='Nombre de jours par semaine au contrat'),
+        'nb_s_par_a': fields.integer('Nombre de semaines par an',required=True, help='Nombre de semaines par an au contrat'),
+        "nb_j_total": fields.function(_get_calculs, type="integer", string="Nombre de jours total de présence", store=True, multi='les_calculs', ),
+        "nb_h_total": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
+        "nb_h_par_s": fields.function(_get_calculs, type="integer", string="Nombre d'heures par semaine", store=True, multi='les_calculs', ),
+# montant mensualisé net
+# montant mensualisé brut
+    }
+    _rec_name = 'date_debut'
+    _order = "date_debut"
+mam_avenant()
 
