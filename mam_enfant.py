@@ -138,16 +138,26 @@ class mam_enfant(osv.Model):
         return True
 mam_enfant()
 
+
 class mam_contrat(osv.Model):
     _name = 'mam.contrat'
     _description = "Contrat"
+    TYPE_CONTRAT = [
+        (u'normal', u'Contrat normal'),
+        (u'garderie', u'Halte-garderie'),
+    ]
+    TYPE_CONTRAT_dict = dict(TYPE_CONTRAT)
     _columns = {
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par le contrat'),
         'am_id': fields.many2one('mam.am','Assistante maternelle de référence',required=True, help='Assistante maternelle de référence pour le contrat'),
         'contact_id': fields.many2one('mam.contact','Signataire',required=True, help='Personne signataire du contrat'),
         'avenant_ids': fields.one2many('mam.avenant', 'contrat_id', 'Liste des avenants', help='Liste des avenants au contrat'),
+        'type': fields.selection(TYPE_CONTRAT, 'Type',required=True,  help='Type de contrat'),
     }
     # _rec_name = 'libelle'
+    _defaults = {
+        'type': 'normal',
+    }
     _order = "enfant_id"
 mam_contrat()
 
