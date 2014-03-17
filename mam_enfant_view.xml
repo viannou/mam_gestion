@@ -137,6 +137,7 @@
 				<field name="enfant_id"/>
 				<field name="am_id"/>
 				<field name="contact_id"/>
+				<field name="type"/>
 				<field name="avenant_ids"/>
 			</tree>
 		</field>
@@ -151,6 +152,7 @@
 					<field name="enfant_id"/>
 					<field name="am_id"/>
 					<field name="contact_id"/>
+					<field name="type"/>
 					<field name="avenant_ids" string="Avenants" >
 						<tree editable='bottom'> 
 							<field name="date_debut"/>
