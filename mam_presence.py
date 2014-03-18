@@ -25,7 +25,7 @@ def conv_str2minutes(str):
     (h,m) = str.split(":")
     return (int(h)*60 + int(m))
 def conv_minutes2str(min):
-    return (str(min/60)+":"+str(min%60))
+    return (str(min/60)+"h "+str(min%60)+"m")
 
 
 class mam_jour_e(osv.Model):
@@ -118,9 +118,9 @@ class mam_jour_e(osv.Model):
             # print "minutes_absent ", m_absent
             
             result[record.id] = {}
-            result[record.id]['minutes_present_prevu'] = m_pres_prev
-            result[record.id]['minutes_present_imprevu'] = m_pres_inprev
-            result[record.id]['minutes_absent'] = m_absent
+            result[record.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
+            result[record.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
+            result[record.id]['minutes_absent'] = conv_minutes2str(m_absent)
         return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
@@ -140,7 +140,7 @@ class mam_jour_e(osv.Model):
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
         "minutes_present_prevu": fields.function(
             _get_minutes,
-            type="integer",
+            type="char",
             string="Prés. prévu",
             store={
                 "mam.presence_e": (
