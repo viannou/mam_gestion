@@ -109,7 +109,7 @@ class mam_jour_e(osv.Model):
                 elif est_present and type == 'r':
                     assert est_debut == False
                     est_present = est_debut
-                elif est_present and type == 'r':
+                elif not est_present and type == 'r':
                     assert est_debut == True
                     est_present = est_debut
                 hdebut = heure
