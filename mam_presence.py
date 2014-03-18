@@ -91,6 +91,7 @@ class mam_jour_e(osv.Model):
             est_prevu = est_present = False
             m_pres_prev = m_pres_inprev = m_absent = 0
             for (heure,type,est_debut) in liste:
+                print (heure,type,est_debut)
                 delta = heure - hdebut
                 if est_prevu and est_present:
                     m_pres_prev += delta
@@ -112,9 +113,9 @@ class mam_jour_e(osv.Model):
                     assert est_debut == True
                     est_present = est_debut
                 hdebut = heure
-            print "minutes_present_prevu ", m_pres_prev
-            print "minutes_present_imprevu ", m_pres_inprev
-            print "minutes_absent ", m_absent
+                print "minutes_present_prevu ", m_pres_prev
+                print "minutes_present_imprevu ", m_pres_inprev
+                print "minutes_absent ", m_absent
             
             result[record.id] = {}
             result[record.id]['minutes_present_prevu'] = m_pres_prev
