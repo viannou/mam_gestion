@@ -83,7 +83,8 @@ class mam_jour_e(osv.Model):
             for prevu in record.presence_prevue_ids:
                 liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
-                liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+                if reel.type in ['normal','abus','absent']:
+                    liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
             liste.sort()
             print liste
             
