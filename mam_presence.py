@@ -94,21 +94,21 @@ class mam_jour_e(osv.Model):
                 delta = heure - hdebut
                 if est_prevu and est_present:
                     m_pres_prev += delta
-                else if not est_prevu and est_present:
+                elif not est_prevu and est_present:
                     m_pres_inprev += delta
-                else if est_prevu and not est_present:
+                elif est_prevu and not est_present:
                     m_absent += delta
 
                 if est_prevu and type == 'p':
                     assert est_debut == False
                     est_prevu = est_debut
-                else if not est_prevu and type == 'p':
+                elif not est_prevu and type == 'p':
                     assert est_debut == True
                     est_prevu = est_debut
-                else if est_present and type == 'r':
+                elif est_present and type == 'r':
                     assert est_debut == False
                     est_present = est_debut
-                else if est_present and type == 'r':
+                elif est_present and type == 'r':
                     assert est_debut == False
                     est_present = est_debut
             print "minutes_present_prevu ", m_pres_prev
