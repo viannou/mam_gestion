@@ -144,7 +144,7 @@ class mam_contrat(osv.Model):
     _description = "Contrat"
     TYPE_CONTRAT = [
         (u'normal', u'Contrat normal'),
-        (u'garderie', u'Halte-garderie'),
+        (u'garderie', u'Contrat occasionnel'),
     ]
     TYPE_CONTRAT_dict = dict(TYPE_CONTRAT)
     _columns = {
@@ -176,7 +176,7 @@ class mam_avenant(osv.Model):
     _columns = {
         'contrat_id': fields.many2one('mam.contrat','Contrat',required=True, help='Contrat concerné par l''avenant'),
         'date_debut': fields.date('Date de début',required=True, help='Date de début de l''avenant'),
-        'date_fin': fields.date('Date de fin',required=True, help='Date de fin de l''avenant'),
+        'date_fin': fields.date('Date de fin', help='Date de fin de l''avenant'),
         'nb_h_par_j': fields.integer('Nombre d''heures par jour',required=True, help='Nombre d''heures par jour au contrat'),
         'nb_j_par_s': fields.integer('Nombre de jours par semaine',required=True, help='Nombre de jours par semaine au contrat'),
         'nb_s_par_a': fields.integer('Nombre de semaines par an',required=True, help='Nombre de semaines par an au contrat'),
