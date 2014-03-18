@@ -25,6 +25,29 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Detail jour"
+    def _filter_jour_presence_e(self, cr, uid, ids, context=None):
+        """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
+        """
+        result = dict()
+        presence_e_ids = self.pool.get('vco_dir.presence_e').browse(
+            cr, uid, ids, context=context
+        )
+        for presence_e in presence_e_ids:
+            if presence_e.jour_e_id:
+                result[presence_e.jour_e_id.id] = True
+        return result.keys()
+    def _filter_jour_presence_prevue(self, cr, uid, ids, context=None):
+        """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
+        """
+        result = dict()
+        presence_prevue_ids = self.pool.get('vco_dir.presence_prevue').browse(
+            cr, uid, ids, context=context
+        )
+        for presence_prevue in presence_prevue_ids:
+            if presence_prevue.jour_e_id:
+                result[presence_prevue.jour_e_id.id] = True
+        return result.keys()
+
     def _get_libelle_prevue(self, cr, uid, ids, name, args, context=None):
         """nom affichable des horaires pevues """
         result = {}
@@ -83,7 +106,12 @@ class mam_jour_e(osv.Model):
             _get_minutes,
             type="integer",
             string="Prés. prévu",
-            store=None,
+            store={
+                "mam.presence_e": (
+                    _filter_jour_presence_e, ['heure_debut', 'heure_fin'], 10),
+                "mam.presence_prevue": (
+                    _filter_jour_presence_prevue, ['heure_debut', 'heure_fin'], 10),
+            },
             multi='get_minutes',
         ),
         "minutes_present_imprevu": fields.function(
