@@ -35,7 +35,7 @@ class mam_jour_e(osv.Model):
         """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
         """
         result = dict()
-        presence_e_ids = self.pool.get('vco_dir.presence_e').browse(
+        presence_e_ids = self.pool.get('mam.presence_e').browse(
             cr, uid, ids, context=context
         )
         for presence_e in presence_e_ids:
@@ -46,7 +46,7 @@ class mam_jour_e(osv.Model):
         """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
         """
         result = dict()
-        presence_prevue_ids = self.pool.get('vco_dir.presence_prevue').browse(
+        presence_prevue_ids = self.pool.get('mam.presence_prevue').browse(
             cr, uid, ids, context=context
         )
         for presence_prevue in presence_prevue_ids:
