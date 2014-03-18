@@ -45,6 +45,24 @@ class mam_jour_e(osv.Model):
                     res.append(presence_e.libelle)
             result[record.id] = "\n+  ".join(res)
         return result
+    def _get_minutes(self, cr, uid, ids, name, args, context=None):
+        """minutes bilan de la journée """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            print "***** calcul minutes *****"
+            liste = []
+            for prevu in record.presence_prevue_ids:
+                liste += [(prevu.heure_debut,'p',True), (prevu.heure_fin,'p',False)]
+            for reel in record.presence_e_ids:
+                liste += [(reel.heure_debut,'r',True), (reel.heure_fin,'r',False)]
+            print liste
+
+
+            result[record.id] = {}
+            result[record.id]['minutes_present_prevu'] = 0
+            result[record.id]['minutes_present_imprevu'] = 0
+            result[record.id]['minutes_absent'] = 0
+        return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
         (u'valide', u'Valide'),
@@ -55,12 +73,33 @@ class mam_jour_e(osv.Model):
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Gouter', help='Prise du gouter'),
-        'frais_montant': fields.float('Montant des frais', digits=(6,2), help='Montant des frais en euros'),
+        'frais_montant': fields.float('Frais', digits=(6,2), help='Montant des frais en euros'),
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
         'presence_e_ids': fields.one2many('mam.presence_e', 'jour_e_id', 'Liste des présences réelles', help='Liste des présences réelles de l''enfant'),
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
+        "minutes_present_prevu": fields.function(
+            _get_lib_date,
+            type="integer",
+            string="Prés. prévu",
+            store=None,
+            multi='_get_minutes',
+        ),
+        "minutes_present_imprevu": fields.function(
+            _get_lib_date,
+            type="char",
+            string="Prés. imprévu",
+            store=None,
+            multi='_get_minutes',
+        ),
+        "minutes_absent": fields.function(
+            _get_lib_date,
+            type="char",
+            string="Absent",
+            store=None,
+            multi='_get_minutes',
+        ),
 
         'libelle_prevue': fields.function(
             _get_libelle_prevue,
