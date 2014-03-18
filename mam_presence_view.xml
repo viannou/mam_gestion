@@ -13,11 +13,13 @@
 				<field name="enfant_id"/>
 				<field name="libelle_prevue"/>
 				<field name="libelle_reel"/>
+				<field name="minutes_present_prevu"/>
+				<field name="minutes_present_imprevu"/>
+				<field name="minutes_absent"/>
 				<field name="state"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
 				<field name="frais_montant"/>
-				<field name="frais_libelle"/>
 				<field name="commentaire"/>
 			</tree>
 		</field>
@@ -37,6 +39,9 @@
 					<field name="frais_montant"/>
 					<field name="frais_libelle"/>
 					<field name="commentaire"/>
+					<field name="minutes_present_prevu"/>
+					<field name="minutes_present_imprevu"/>
+					<field name="minutes_absent"/>
 					<field name="presence_prevue_ids" string="Presences prevues" > 
 						<tree editable='bottom'> 
 							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>

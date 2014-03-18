@@ -36,16 +36,29 @@ mam_am()
 class mam_contact(osv.Model):
     _name = 'mam.contact'
     _description = "Contact"
+    def _get_nomprenom(self, cr, uid, ids, name, args, context=None):
+        """nom affichable du contact"""
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.prenom + " " + record.nom
+        return result
     _columns = {
         'nom': fields.char('Nom',size=50,required=True, help='Nom du contact'),
         'prenom': fields.char('Prénom',size=50,required=True, help='Prénom du contact'),
+        'nomprenom': fields.function(
+            _get_nomprenom,
+            type="char",
+            string="Nom Complet",
+            store=None,
+            #select=True,
+        ),
         'adresse': fields.text('Adresse', help='Adresse complète du contact'),
         'tel_fixe': fields.char('Téléphone fixe',size=20, help='Téléphone fixe du contact'),
         'tel_mobile': fields.char('Téléphone mobile',size=20, help='Téléphone mobile du contact'),
 #        'rel_enfant_id': fields.one2many('mam.rel_enfant_contact', 'contact_id', 'Liste des enfants', help='Liste des enfants du contact'),
         'enfant_ids': fields.many2many('mam.enfant','mam_enfant_contact_rel','enfant_id','contact_id',string="Enfants associés"),
     }
-    _rec_name = 'prenom'
+    _rec_name = 'nomprenom'
 mam_contact()
 
 # class mam_presence_e(osv.Model):

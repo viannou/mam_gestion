@@ -5,14 +5,14 @@ import re
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
-        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
+        matchObj = re.match( r"^(\d{1,2})[- _.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
             return False
         if not fin_obligatoire and (hfin == False or hfin == ""):
             return [hdebut,""]
-        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
+        matchObj = re.match( r"^(\d{1,2})[- _.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
@@ -21,10 +21,39 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
     except:
         return False
 
+def conv_str2minutes(str):
+    (h,m) = str.split(":")
+    return (int(h)*60 + int(m))
+def conv_minutes2str(min):
+    return (str(min/60)+"h "+str(min%60)+"m")
+
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
     _description = "Detail jour"
+    def _filter_jour_presence_e(self, cr, uid, ids, context=None):
+        """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
+        """
+        result = dict()
+        presence_e_ids = self.pool.get('mam.presence_e').browse(
+            cr, uid, ids, context=context
+        )
+        for presence_e in presence_e_ids:
+            if presence_e.jour_e_id:
+                result[presence_e.jour_e_id.id] = True
+        return result.keys()
+    def _filter_jour_presence_prevue(self, cr, uid, ids, context=None):
+        """helper function appelé par le store triggerpour savoir quel jour doit être recalculé si une présence a changée
+        """
+        result = dict()
+        presence_prevue_ids = self.pool.get('mam.presence_prevue').browse(
+            cr, uid, ids, context=context
+        )
+        for presence_prevue in presence_prevue_ids:
+            if presence_prevue.jour_e_id:
+                result[presence_prevue.jour_e_id.id] = True
+        return result.keys()
+
     def _get_libelle_prevue(self, cr, uid, ids, name, args, context=None):
         """nom affichable des horaires pevues """
         result = {}
@@ -45,6 +74,55 @@ class mam_jour_e(osv.Model):
                     res.append(presence_e.libelle)
             result[record.id] = "\n+  ".join(res)
         return result
+    def _get_minutes(self, cr, uid, ids, name, args, context=None):
+        """minutes bilan de la journée """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            print "***** calcul minutes ***** ", record.id
+            liste = []
+            for prevu in record.presence_prevue_ids:
+                liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
+            for reel in record.presence_e_ids:
+                if reel.type in [u'normal',u'malade',u'cause_am']: # on compte l'enfant present
+                    liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+            liste.sort()
+            print liste
+            
+            hdebut = 0
+            est_prevu = est_present = False
+            m_pres_prev = m_pres_inprev = m_absent = 0
+            for (heure,type,est_debut) in liste:
+                # print (heure,type,est_debut)
+                delta = heure - hdebut
+                if est_prevu and est_present:
+                    m_pres_prev += delta
+                elif not est_prevu and est_present:
+                    m_pres_inprev += delta
+                elif est_prevu and not est_present:
+                    m_absent += delta
+
+                if est_prevu and type == 'p':
+                    assert est_debut == False
+                    est_prevu = est_debut
+                elif not est_prevu and type == 'p':
+                    assert est_debut == True
+                    est_prevu = est_debut
+                elif est_present and type == 'r':
+                    assert est_debut == False
+                    est_present = est_debut
+                elif not est_present and type == 'r':
+                    assert est_debut == True
+                    est_present = est_debut
+                hdebut = heure
+            # print "minutes_present_prevu ", m_pres_prev
+            # print "minutes_present_imprevu ", m_pres_inprev
+            # print "minutes_absent ", m_absent
+            
+            result[record.id] = {}
+            result[record.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
+            result[record.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
+            result[record.id]['minutes_absent'] = conv_minutes2str(m_absent)
+        return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
         (u'valide', u'Valide'),
@@ -55,12 +133,38 @@ class mam_jour_e(osv.Model):
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par la journée'),
         'mange_midi': fields.boolean('Midi', help='Prise du repas du midi'),
         'mange_gouter': fields.boolean('Gouter', help='Prise du gouter'),
-        'frais_montant': fields.float('Montant des frais', digits=(6,2), help='Montant des frais en euros'),
+        'frais_montant': fields.float('Frais', digits=(6,2), help='Montant des frais en euros'),
         'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
         'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
         'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
         'presence_e_ids': fields.one2many('mam.presence_e', 'jour_e_id', 'Liste des présences réelles', help='Liste des présences réelles de l''enfant'),
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
+        "minutes_present_prevu": fields.function(
+            _get_minutes,
+            type="char",
+            string="Prés. prévu",
+            store={
+                "mam.presence_e": (
+                    _filter_jour_presence_e, ['heure_debut', 'heure_fin'], 10),
+                "mam.presence_prevue": (
+                    _filter_jour_presence_prevue, ['heure_debut', 'heure_fin'], 10),
+            },
+            multi='get_minutes',
+        ),
+        "minutes_present_imprevu": fields.function(
+            _get_minutes,
+            type="char",
+            string="Prés. imprévu",
+            store=None,
+            multi='get_minutes',
+        ),
+        "minutes_absent": fields.function(
+            _get_minutes,
+            type="char",
+            string="Absent",
+            store=None,
+            multi='get_minutes',
+        ),
 
         'libelle_prevue': fields.function(
             _get_libelle_prevue,
