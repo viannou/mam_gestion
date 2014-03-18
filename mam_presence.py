@@ -5,14 +5,14 @@ import re
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
-        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hdebut)
+        matchObj = re.match( r"^(\d{1,2})[- _.:;'hH]?(\d{1,2})[mM]?$", hdebut)
         if matchObj:
             hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
             return False
         if not fin_obligatoire and (hfin == False or hfin == ""):
             return [hdebut,""]
-        matchObj = re.match( r"^(\d{1,2})[ -_.:;'hH]?(\d{1,2})[mM]?$", hfin)
+        matchObj = re.match( r"^(\d{1,2})[- _.:;'hH]?(\d{1,2})[mM]?$", hfin)
         if matchObj:
             hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
         else:
@@ -78,12 +78,13 @@ class mam_jour_e(osv.Model):
         """minutes bilan de la journée """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            print "***** calcul minutes *****"
+            print "***** calcul minutes ***** ", record.id
             liste = []
             for prevu in record.presence_prevue_ids:
                 liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
                 liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+            print liste
             liste = liste.sort()
             print liste
 
