@@ -84,15 +84,41 @@ class mam_jour_e(osv.Model):
                 liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
                 liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+            liste.sort()
             print liste
-            liste = liste.sort()
-            print liste
+            
+            hdebut = 0
+            est_prevu = est_present = False
+            m_pres_prev = m_pres_inprev = m_absent = 0
+            for (heure,type,est_debut) in liste:
+                delta = heure - hdebut
+                if est_prevu and est_present:
+                    m_pres_prev += delta
+                else if not est_prevu and est_present:
+                    m_pres_inprev += delta
+                else if est_prevu and not est_present:
+                    m_absent += delta
 
-
+                if est_prevu and type == 'p':
+                    assert est_debut == False
+                    est_prevu = est_debut
+                else if not est_prevu and type == 'p':
+                    assert est_debut == True
+                    est_prevu = est_debut
+                else if est_present and type == 'r':
+                    assert est_debut == False
+                    est_present = est_debut
+                else if est_present and type == 'r':
+                    assert est_debut == False
+                    est_present = est_debut
+            print "minutes_present_prevu ", m_pres_prev
+            print "minutes_present_imprevu ", m_pres_inprev
+            print "minutes_absent ", m_absent
+            
             result[record.id] = {}
-            result[record.id]['minutes_present_prevu'] = 0
-            result[record.id]['minutes_present_imprevu'] = 0
-            result[record.id]['minutes_absent'] = 0
+            result[record.id]['minutes_present_prevu'] = m_pres_prev
+            result[record.id]['minutes_present_imprevu'] = m_pres_inprev
+            result[record.id]['minutes_absent'] = m_absent
         return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
