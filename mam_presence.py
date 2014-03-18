@@ -80,25 +80,25 @@ class mam_jour_e(osv.Model):
         'presence_e_ids': fields.one2many('mam.presence_e', 'jour_e_id', 'Liste des présences réelles', help='Liste des présences réelles de l''enfant'),
         'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'jour_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
         "minutes_present_prevu": fields.function(
-            _get_lib_date,
+            _get_minutes,
             type="integer",
             string="Prés. prévu",
             store=None,
-            multi='_get_minutes',
+            multi='get_minutes',
         ),
         "minutes_present_imprevu": fields.function(
-            _get_lib_date,
+            _get_minutes,
             type="char",
             string="Prés. imprévu",
             store=None,
-            multi='_get_minutes',
+            multi='get_minutes',
         ),
         "minutes_absent": fields.function(
-            _get_lib_date,
+            _get_minutes,
             type="char",
             string="Absent",
             store=None,
-            multi='_get_minutes',
+            multi='get_minutes',
         ),
 
         'libelle_prevue': fields.function(
