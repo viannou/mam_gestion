@@ -21,6 +21,12 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
     except:
         return False
 
+def conv_str2minutes(str):
+    (h,m) = str.split(":")
+    return (int(h)*60 + int(m))
+def conv_minutes2str(min):
+    return (str(min/60)+":"+str(min%60))
+
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
@@ -75,9 +81,10 @@ class mam_jour_e(osv.Model):
             print "***** calcul minutes *****"
             liste = []
             for prevu in record.presence_prevue_ids:
-                liste += [(prevu.heure_debut,'p',True), (prevu.heure_fin,'p',False)]
+                liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
-                liste += [(reel.heure_debut,'r',True), (reel.heure_fin,'r',False)]
+                liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+            liste = liste.sort()
             print liste
 
 
