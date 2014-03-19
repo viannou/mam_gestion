@@ -102,16 +102,16 @@ class mam_jour_e(osv.Model):
                     m_absent += delta
 
                 if est_prevu and type == 'p':
-                    assert est_debut == False
+                    #assert est_debut == False
                     est_prevu = est_debut
                 elif not est_prevu and type == 'p':
-                    assert est_debut == True
+                    #assert est_debut == True
                     est_prevu = est_debut
                 elif est_present and type == 'r':
-                    assert est_debut == False
+                    #assert est_debut == False
                     est_present = est_debut
                 elif not est_present and type == 'r':
-                    assert est_debut == True
+                    #assert est_debut == True
                     est_present = est_debut
                 hdebut = heure
             # print "minutes_present_prevu ", m_pres_prev
