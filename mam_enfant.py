@@ -134,7 +134,7 @@ class mam_enfant(osv.Model):
             # créer les mois par rapport aux jours existants
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',enfant.id)], context=context)
             liste = []
-            for jour_e in jour_e_ids:
+            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
                 if not (enfant.id, jour_e.jour.year, jour_e.jour.month) in liste:
                     liste.append( (enfant.id, jour_e.jour.year, jour_e.jour.month) )
                     mois_e_ids = mam_mois_e.search(cr, uid, [('enfant_id','=',enfant.id),('annee','=', jour_e.jour.year),('mois','=', jour_e.jour.month)], context=context)
