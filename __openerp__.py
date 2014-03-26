@@ -12,6 +12,7 @@
         'mam_presence_view.xml',
         'mam_enfant_view.xml',
         'mam_gestion_view.xml',
+        'mam_recap_view.xml',
     ],
     "installable": True
 }

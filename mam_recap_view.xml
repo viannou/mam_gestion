@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+
+<!-- mois_e -->
+	<!--mois_e tree-->
+	<record model="ir.ui.view" id="view_mois_e_tree">
+		<field name="name">mam.mois_e.tree</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<tree string="Jour">
+				<field name="jour"/>
+				<field name="enfant_id"/>
+				<field name="libelle_prevue"/>
+				<field name="libelle_reel"/>
+				<field name="minutes_present_prevu"/>
+				<field name="minutes_present_imprevu"/>
+				<field name="minutes_absent"/>
+				<field name="state"/>
+				<field name="mange_midi"/>
+				<field name="mange_gouter"/>
+				<field name="frais_montant"/>
+				<field name="commentaire"/>
+			</tree>
+		</field>
+	</record>
+	<!--mois_e form-->
+	<record model="ir.ui.view" id="view_mois_e_form">
+		<field name="name">mam.mois_e.form</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<form string="Jour">
+				<group col="2" colspan="2">
+					<field name="jour"/>
+					<field name="enfant_id"/>
+					<field name="state"/>
+					<field name="mange_midi"/>
+					<field name="mange_gouter"/>
+					<field name="frais_montant"/>
+					<field name="frais_libelle"/>
+					<field name="commentaire"/>
+					<field name="minutes_present_prevu"/>
+					<field name="minutes_present_imprevu"/>
+					<field name="minutes_absent"/>
+					<field name="presence_prevue_ids" string="Presences prevues" > 
+						<tree editable='bottom'> 
+							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
+							<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
+						</tree> 
+					</field>
+					<field name="presence_e_ids" string="Presences/absences reelles" > 
+						<tree editable='bottom'> 
+							<field name="type"/>
+							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>
+							<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
+						</tree> 
+					</field>
+				</group>
+			</form>
+		</field>
+	</record>
+	<!--mois_e search-->
+	<record model="ir.ui.view" id="mam_mois_e_search_view">
+		<field name="name">mam.mois_e.search</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<search string="Recherche Jour Enfant">
+				<field name="enfant_id"/>
+				<field name="jour"/>
+				<field name="frais_montant"/>
+				<filter name="statut_encours" string="En cours" domain="[('state','=','encours')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
+				<filter name="statut_valide" string="Validé" domain="[('state','=','valide')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
+				<filter name="statut_cloture" string="Cloturé" domain="[('state','=','cloture')]" help="Statut de la journée de l'enfant" icon="terp-project"/>
+				<group expand="1" string="Group By...">
+					<filter string="Date" domain="[]" context="{'group_by':'jour'}"/>
+					<filter string="Enfant" domain="[]" context="{'group_by':'enfant_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+	<!--mois_e action-->
+	<record model="ir.actions.act_window" id="action_mois_e">
+		<field name="name">Jour</field>
+		<field name="res_model">mam.mois_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<!-- <field name="context">{"search_default_statut_encours":1}</field> -->
+	</record>
+
+
+</data>
+</openerp>
