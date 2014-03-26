@@ -80,25 +80,30 @@ class mam_jour_e(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             print "***** calcul minutes ***** ", record.id
             liste = []
-            for prevu in record.presence_prevue_ids:
+            # on crée une liste au format (heure,type,est_debut)
+            for prevu in record.presence_prevue_ids: # p = prévu
                 liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
-                if reel.type in [u'normal',u'malade',u'cause_am']: # on compte l'enfant present
+                if reel.type in [u'normal']: # r = réel
                     liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+                if reel.type in [u'malade',u'cause_am']: # e = excusé
+                    liste += [(conv_str2minutes(reel.heure_debut),'e',True), (conv_str2minutes(reel.heure_fin),'e',False)]
             liste.sort()
             print liste
             
             hdebut = 0
-            est_prevu = est_present = False
-            m_pres_prev = m_pres_inprev = m_absent = 0
+            est_prevu = est_present = est_excuse = False
+            m_pres_prev = m_pres_inprev = m_absent = m_excuse = 0
             for (heure,type,est_debut) in liste:
                 # print (heure,type,est_debut)
                 delta = heure - hdebut
                 if est_prevu and est_present:
                     m_pres_prev += delta
+                if est_prevu and est_excuse:
+                    m_excuse += delta
                 elif not est_prevu and est_present:
                     m_pres_inprev += delta
-                elif est_prevu and not est_present:
+                elif est_prevu and not est_present and not est_excuse:
                     m_absent += delta
 
                 if est_prevu and type == 'p':
@@ -113,6 +118,12 @@ class mam_jour_e(osv.Model):
                 elif not est_present and type == 'r':
                     #assert est_debut == True
                     est_present = est_debut
+                elif est_excuse and type == 'e':
+                    #assert est_debut == False
+                    est_excuse = est_debut
+                elif not est_excuse and type == 'e':
+                    #assert est_debut == True
+                    est_excuse = est_debut
                 hdebut = heure
             # print "minutes_present_prevu ", m_pres_prev
             # print "minutes_present_imprevu ", m_pres_inprev
@@ -122,6 +133,7 @@ class mam_jour_e(osv.Model):
             result[record.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
             result[record.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
             result[record.id]['minutes_absent'] = conv_minutes2str(m_absent)
+            result[record.id]['minutes_excuse'] = conv_minutes2str(m_excuse)
         return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
@@ -159,6 +171,13 @@ class mam_jour_e(osv.Model):
             multi='get_minutes',
         ),
         "minutes_absent": fields.function(
+            _get_minutes,
+            type="char",
+            string="Absent",
+            store=None,
+            multi='get_minutes',
+        ),
+        "minutes_excuse": fields.function(
             _get_minutes,
             type="char",
             string="Absent",
