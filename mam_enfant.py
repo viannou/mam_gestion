@@ -180,6 +180,7 @@ class mam_avenant(osv.Model):
             result[record.id] = {}
             result[record.id]['nb_j_total'] = record.nb_j_par_s * record.nb_s_par_a
             result[record.id]['nb_h_par_an'] = record.nb_h_par_j * record.nb_j_par_s * record.nb_s_par_a
+            result[record.id]['nb_h_total'] = record.nb_h_par_j * record.nb_j_par_s * record.nb_s_par_a
             result[record.id]['nb_h_par_s'] = record.nb_h_par_j * record.nb_j_par_s
         return result
     _columns = {
@@ -192,6 +193,7 @@ class mam_avenant(osv.Model):
 #        'nb_h_par_a': fields.integer("Nombre d'heures par an",required=True, help="Nombre d'heures par an"),
         "nb_j_total": fields.function(_get_calculs, type="integer", string="Nombre de jours total de présence", store=True, multi='les_calculs', ),
         "nb_h_par_an": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
+        "nb_h_total": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
         "nb_h_par_s": fields.function(_get_calculs, type="integer", string="Nombre d'heures par semaine", store=True, multi='les_calculs', ),
 # montant mensualisé net
 # montant mensualisé brut
