@@ -157,12 +157,7 @@
 						<tree editable='bottom'> 
 							<field name="date_debut"/>
 							<field name="date_fin"/>
-							<field name="nb_h_par_j"/>
-							<field name="nb_j_par_s"/>
-							<field name="nb_s_par_a"/>
-							<field name="nb_h_total"/>
-							<field name="nb_j_total"/>
-							<field name="nb_h_par_s"/>
+							<field name="nb_h_par_an"/>
 						</tree> 
 					</field>
 				</group>
