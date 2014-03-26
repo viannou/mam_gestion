@@ -180,7 +180,7 @@ class mam_jour_e(osv.Model):
         "minutes_excuse": fields.function(
             _get_minutes,
             type="char",
-            string="Absent",
+            string="Excusé",
             store=None,
             multi='get_minutes',
         ),
