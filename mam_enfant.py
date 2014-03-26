@@ -135,8 +135,8 @@ class mam_enfant(osv.Model):
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',enfant.id)], context=context)
             liste = []
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
-                if not (enfant.id, jour_e.jour.year, jour_e.jour.month) in liste:
-                    jour = datetime.strptime(jour_e.jour)
+                jour = datetime.strptime(jour_e.jour)
+                if not (enfant.id, jour.year, jour.month) in liste:
                     liste.append( (enfant.id, jour.year, jour.month) )
                     mois_e_ids = mam_mois_e.search(cr, uid, [('enfant_id','=',enfant.id),('annee','=', jour.year),('mois','=', jour.month)], context=context)
                     if not mois_e_ids: # le mois de l'enfant n'existe pas encore
