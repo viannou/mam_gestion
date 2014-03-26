@@ -16,6 +16,7 @@
 				<field name="minutes_present_prevu"/>
 				<field name="minutes_present_imprevu"/>
 				<field name="minutes_absent"/>
+				<field name="minutes_excuse"/>
 				<field name="state"/>
 				<field name="mange_midi"/>
 				<field name="mange_gouter"/>
@@ -42,6 +43,7 @@
 					<field name="minutes_present_prevu"/>
 					<field name="minutes_present_imprevu"/>
 					<field name="minutes_absent"/>
+					<field name="minutes_excuse"/>
 					<field name="presence_prevue_ids" string="Presences prevues" > 
 						<tree editable='bottom'> 
 							<field name="heure_debut" on_change="on_change_heure(heure_debut,heure_fin )"/>

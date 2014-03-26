@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+
+<!-- mois_e -->
+	<!--mois_e tree-->
+	<record model="ir.ui.view" id="view_mois_e_tree">
+		<field name="name">mam.mois_e.tree</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<tree string="Mois">
+					<field name="annee"/>
+					<field name="mois"/>
+				<field name="enfant_id"/>
+			</tree>
+		</field>
+	</record>
+	<!--mois_e form-->
+	<record model="ir.ui.view" id="view_mois_e_form">
+		<field name="name">mam.mois_e.form</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<form string="Mois">
+				<group col="2" colspan="2">
+					<field name="annee"/>
+					<field name="mois"/>
+					<field name="enfant_id"/>
+				</group>
+			</form>
+		</field>
+	</record>
+	<!--mois_e search-->
+	<record model="ir.ui.view" id="mam_mois_e_search_view">
+		<field name="name">mam.mois_e.search</field>
+		<field name="model">mam.mois_e</field>
+		<field name="arch" type="xml">
+			<search string="Recherche Mois Enfant">
+				<field name="enfant_id"/>
+			</search>
+		</field>
+	</record>
+	<!--mois_e action-->
+	<record model="ir.actions.act_window" id="action_mois_e">
+		<field name="name">Mois</field>
+		<field name="res_model">mam.mois_e</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<!-- <field name="context">{"search_default_statut_encours":1}</field> -->
+	</record>
+
+
+</data>
+</openerp>

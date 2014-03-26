@@ -140,6 +140,7 @@ action = obj.action_creer_jours()
 	<menuitem sequence="7" name="Jours Types" id="menu_jour_type_item" parent="menu_rub_mam" action="action_jour_type"/>
 	<menuitem sequence="8" name="Assistantes Maternelles" id="menu_am_item" parent="menu_rub_mam" action="action_am"/>
 	<menuitem sequence="10" name="Parents / Contacts" id="menu_contact_item" parent="menu_rub_mam" action="action_contact"/>
+	<menuitem sequence="16" name="Mois" id="menu_mois_item" parent="menu_rub_mam" action="action_mois_e"/>
 
 <!-- 	<menuitem sequence="15" name="Divers" id="menu_rub_divers" parent="menu_top_mam" action="action_enfant"/>
 	<menuitem sequence="16" name="Actions enfants" id="menu_divers_enfant" parent="menu_rub_divers" action="action_divers_enfant"/> -->

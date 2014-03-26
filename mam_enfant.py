@@ -120,21 +120,30 @@ class mam_enfant(osv.Model):
     def action_creer_jours(self, cr, uid, ids, context=None):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
+            mam_jour_e = self.pool.get('mam.jour_e')
+            mam_mois_e = self.pool.get('mam.mois_e')
+            # créer les jours
             for date_d in (date.today() + timedelta(n) for n in range(90)):
                 if date_d.weekday() == 5 or date_d.weekday() == 6:
                     continue
                 print date_d
-                jour_e = self.pool.get('mam.jour_e')
-                jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
-                if not jours_e_ids: # le jour de l'enfant n'existe pas encore
+                jour_e_ids = mam_jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
+                if not jour_e_ids: # le jour de l'enfant n'existe pas encore
                     print "creation enfant ", enfant.id, " date ", date_d 
-                    jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
+                    mam_jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
+            # créer les mois par rapport aux jours existants
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',enfant.id)], context=context)
+            liste = []
+            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                jour = datetime.strptime(jour_e.jour,'%Y-%m-%d')
+                if not (enfant.id, jour.year, jour.month) in liste:
+                    liste.append( (enfant.id, jour.year, jour.month) )
+                    mois_e_ids = mam_mois_e.search(cr, uid, [('enfant_id','=',enfant.id),('annee','=', jour.year),('mois','=', jour.month)], context=context)
+                    if not mois_e_ids: # le mois de l'enfant n'existe pas encore
+                        print "cree mois enfant ", enfant.id, " annee ", jour.year, " mois ", jour.month 
+                        mam_mois_e.create(cr, uid,{ 'annee': jour.year,'mois': jour.month,'enfant_id' : enfant.id,})
                     
 
-
-        # for jour_type in self.browse(cr, uid, ids, context=context):
-            # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
-            # #jour_e_ids = jour_type.enfant_id.jour_e_ids
         return True
 mam_enfant()
 
@@ -170,6 +179,7 @@ class mam_avenant(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id] = {}
             result[record.id]['nb_j_total'] = record.nb_j_par_s * record.nb_s_par_a
+            result[record.id]['nb_h_par_an'] = record.nb_h_par_j * record.nb_j_par_s * record.nb_s_par_a
             result[record.id]['nb_h_total'] = record.nb_h_par_j * record.nb_j_par_s * record.nb_s_par_a
             result[record.id]['nb_h_par_s'] = record.nb_h_par_j * record.nb_j_par_s
         return result
@@ -180,7 +190,9 @@ class mam_avenant(osv.Model):
         'nb_h_par_j': fields.integer('Nombre d''heures par jour',required=True, help='Nombre d''heures par jour au contrat'),
         'nb_j_par_s': fields.integer('Nombre de jours par semaine',required=True, help='Nombre de jours par semaine au contrat'),
         'nb_s_par_a': fields.integer('Nombre de semaines par an',required=True, help='Nombre de semaines par an au contrat'),
+#        'nb_h_par_a': fields.integer("Nombre d'heures par an",required=True, help="Nombre d'heures par an"),
         "nb_j_total": fields.function(_get_calculs, type="integer", string="Nombre de jours total de présence", store=True, multi='les_calculs', ),
+        "nb_h_par_an": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
         "nb_h_total": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
         "nb_h_par_s": fields.function(_get_calculs, type="integer", string="Nombre d'heures par semaine", store=True, multi='les_calculs', ),
 # montant mensualisé net
