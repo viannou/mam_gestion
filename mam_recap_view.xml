@@ -9,6 +9,8 @@
 		<field name="model">mam.mois_e</field>
 		<field name="arch" type="xml">
 			<tree string="Mois">
+					<field name="annee"/>
+					<field name="mois"/>
 				<field name="enfant_id"/>
 			</tree>
 		</field>
@@ -20,6 +22,8 @@
 		<field name="arch" type="xml">
 			<form string="Mois">
 				<group col="2" colspan="2">
+					<field name="annee"/>
+					<field name="mois"/>
 					<field name="enfant_id"/>
 				</group>
 			</form>

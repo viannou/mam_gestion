@@ -120,21 +120,29 @@ class mam_enfant(osv.Model):
     def action_creer_jours(self, cr, uid, ids, context=None):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
+            mam_jour_e = self.pool.get('mam.jour_e')
+            mam_mois_e = self.pool.get('mam.mois_e')
+            # créer les jours
             for date_d in (date.today() + timedelta(n) for n in range(90)):
                 if date_d.weekday() == 5 or date_d.weekday() == 6:
                     continue
                 print date_d
-                jour_e = self.pool.get('mam.jour_e')
-                jours_e_ids = jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
-                if not jours_e_ids: # le jour de l'enfant n'existe pas encore
+                jour_e_ids = mam_jour_e.search(cr, uid, [('jour','=', date_d),('enfant_id','=',enfant.id)], context=context)
+                if not jour_e_ids: # le jour de l'enfant n'existe pas encore
                     print "creation enfant ", enfant.id, " date ", date_d 
-                    jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
+                    mam_jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
+            # créer les mois par rapport aux jours existants
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',enfant.id)], context=context)
+            liste = []
+            for jour_e in jour_e_ids:
+                if not (enfant.id, jour_e.jour.year, jour_e.jour.month) in liste
+                    liste.append( (enfant.id, jour_e.jour.year, jour_e.jour.month) )
+                    mois_e_ids = mam_mois_e.search(cr, uid, [('enfant_id','=',enfant.id),('annee','=', jour_e.jour.year),('mois','=', jour_e.jour.month)], context=context)
+                    if not mois_e_ids: # le mois de l'enfant n'existe pas encore
+                        print "cree mois enfant ", enfant.id, " annee ", jour_e.jour.year, " mois ", jour_e.jour.month 
+                        mam_mois_e.create(cr, uid,{ 'annee': jour_e.jour.year,'mois': jour_e.jour.month,'enfant_id' : enfant.id,})
                     
 
-
-        # for jour_type in self.browse(cr, uid, ids, context=context):
-            # print jour_type.id, jour_type.libelle, jour_type.enfant_id.id, jour_type.enfant_id.nomprenom, context
-            # #jour_e_ids = jour_type.enfant_id.jour_e_ids
         return True
 mam_enfant()
 
