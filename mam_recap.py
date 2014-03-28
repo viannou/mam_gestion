@@ -12,8 +12,8 @@ class mam_mois_e(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             date_debut = record.avenant_id.date_debut
             date_fin = record.avenant_id.date_fin
-            print type(date_debut)
-            print type(date_fin)
+            print "debut", type(date_debut), date_debut
+            print "fin", type(date_fin), date_fin
             result[record.id] = {}
             result[record.id]['jour_debut'] = 1
             result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1]
