@@ -33,16 +33,6 @@
 			</form>
 		</field>
 	</record>
-	<!--mois_e search-->
-	<record model="ir.ui.view" id="mam_mois_e_search_view">
-		<field name="name">mam.mois_e.search</field>
-		<field name="model">mam.mois_e</field>
-		<field name="arch" type="xml">
-			<search string="Recherche Mois Enfant">
-				<field name="enfant_id"/>
-			</search>
-		</field>
-	</record>
 	<!--mois_e action-->
 	<record model="ir.actions.act_window" id="action_mois_e">
 		<field name="name">Mois</field>
