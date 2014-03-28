@@ -133,7 +133,7 @@ class mam_mois_e(osv.Model):
         # 'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
     }
     _defaults = {
-        'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
+        'avenant_id': lambda self,cr,uid,context: context.get('avenant_id', 0), 
     }
     # def action_associer_jour_type_1(self, cr, uid, ids, context=None):
         # return self.action_associer_jour_type(cr, uid, ids, 0, context)
