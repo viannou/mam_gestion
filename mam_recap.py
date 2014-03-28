@@ -5,10 +5,33 @@ from datetime import datetime,date,timedelta
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
     _description = "Detail mois"
+    def calculs_mois(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de la presence """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id] = {}
+            result[record.id]['jour_debut'] = 1
+            result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1]
+        return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
         'mois': fields.integer('Mois',required=True, help='Le mois de l''année'),
         'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par le mois'),
+
+        "jour_debut": fields.function(
+            calculs_mois,
+            type="integer",
+            string="jour début",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "jour_fin": fields.function(
+            calculs_mois,
+            type="integer",
+            string="jour fin",
+            store=None,
+            multi='calculs_mois',
+        ),
 # -      Période du xxx au xxx/xxx/20xxx
 # -      Nombre d’heures normales (moyenne prévue au contrat dans le cadre de la mensualisation, à laquelle on ajoute les heures d’absence pour congés payés (y compris les congés payés soldés en fin de contrat)) : xxx
 # -      Nombre de jours d’activités : xxx (moyenne prévue au contrat dans le cadre de la mensualisation)
