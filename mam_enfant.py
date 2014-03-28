@@ -221,6 +221,7 @@ class mam_avenant(osv.Model):
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',avenant.contrat_id.enfant_id.id)], context=context)
             liste = []
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                print "test", jour_e.jour, avenant.date_debut, avenant.date_fin
                 if jour_e.jour >= avenant.date_debut and jour_e.jour <= avenant.date_fin:
                     jour = datetime.strptime(jour_e.jour,'%Y-%m-%d')
                     if not (avenant.id, jour.year, jour.month) in liste:
