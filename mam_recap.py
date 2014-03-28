@@ -10,6 +10,10 @@ class mam_mois_e(osv.Model):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
+            date_debut = record.avenant_id.date_debut
+            date_fin = record.avenant_id.date_fin
+            print type(date_debut)
+            print type(date_fin)
             result[record.id] = {}
             result[record.id]['jour_debut'] = 1
             result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1]

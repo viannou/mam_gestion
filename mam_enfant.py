@@ -121,7 +121,6 @@ class mam_enfant(osv.Model):
         """ajoute pour l'enfant sélectionné le jour type sélectionné pour les 90 jours à venir (sauf samedi dimanche)"""
         for enfant in self.browse(cr, uid, ids, context=context):
             mam_jour_e = self.pool.get('mam.jour_e')
-            mam_mois_e = self.pool.get('mam.mois_e')
             # créer les jours
             for date_d in (date.today() + timedelta(n) for n in range(90)):
                 if date_d.weekday() == 5 or date_d.weekday() == 6:
@@ -131,19 +130,6 @@ class mam_enfant(osv.Model):
                 if not jour_e_ids: # le jour de l'enfant n'existe pas encore
                     print "creation enfant ", enfant.id, " date ", date_d 
                     mam_jour_e.create(cr, uid,{ 'jour': date_d,'enfant_id' : enfant.id,})
-            # créer les mois par rapport aux jours existants
-            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',enfant.id)], context=context)
-            liste = []
-            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
-                jour = datetime.strptime(jour_e.jour,'%Y-%m-%d')
-                if not (enfant.id, jour.year, jour.month) in liste:
-                    liste.append( (enfant.id, jour.year, jour.month) )
-                    mois_e_ids = mam_mois_e.search(cr, uid, [('enfant_id','=',enfant.id),('annee','=', jour.year),('mois','=', jour.month)], context=context)
-                    if not mois_e_ids: # le mois de l'enfant n'existe pas encore
-                        print "cree mois enfant ", enfant.id, " annee ", jour.year, " mois ", jour.month 
-                        mam_mois_e.create(cr, uid,{ 'annee': jour.year,'mois': jour.month,'enfant_id' : enfant.id,})
-                    
-
         return True
 mam_enfant()
 
