@@ -11,7 +11,7 @@
 			<tree string="Mois">
 				<field name="annee"/>
 				<field name="mois"/>
-				<field name="enfant_id"/>
+				<field name="avenant_id"/>
 				<field name="jour_debut"/>
 				<field name="jour_fin"/>
 			</tree>
@@ -26,7 +26,7 @@
 				<group col="2" colspan="2">
 					<field name="annee"/>
 					<field name="mois"/>
-					<field name="enfant_id"/>
+					<field name="avenant_id"/>
 					<field name="jour_debut"/>
 					<field name="jour_fin"/>
 				</group>
