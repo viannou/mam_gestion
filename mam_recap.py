@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date,timedelta
+import calendar
 
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
