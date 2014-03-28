@@ -211,6 +211,25 @@ class mam_avenant(osv.Model):
 # montant mensualisé net
 # montant mensualisé brut
     }
+    def action_creer_mois(self, cr, uid, ids, context=None):
+        """crée les mois inexistant pour l'avenant"""
+        for avenant in self.browse(cr, uid, ids, context=context):
+            print "creer mois", str(avenant.libelle)
+            mam_jour_e = self.pool.get('mam.jour_e')
+            mam_mois_e = self.pool.get('mam.mois_e')
+            # créer les mois par rapport aux jours existants
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',avenant.contrat_id.enfant_id.id)], context=context)
+            liste = []
+            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                if jour_e.jour >= avenant.date_debut and jour_e.jour <= avenant.date_fin:
+                    jour = datetime.strptime(jour_e.jour,'%Y-%m-%d')
+                    if not (avenant.id, jour.year, jour.month) in liste:
+                        liste.append( (avenant.id, jour.year, jour.month) )
+                        mois_e_ids = mam_mois_e.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', jour.year),('mois','=', jour.month)], context=context)
+                        if not mois_e_ids: # le mois de l'avenant n'existe pas encore
+                            print "cree mois avenant ", avenant.id, " annee ", jour.year, " mois ", jour.month 
+                            mam_mois_e.create(cr, uid,{ 'annee': jour.year,'mois': jour.month,'avenant_id' : avenant.id,})
+        return True
     _rec_name = 'libelle'
     _order = "date_debut"
 mam_avenant()

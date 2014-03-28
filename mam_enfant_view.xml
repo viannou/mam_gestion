@@ -158,6 +158,7 @@
 							<field name="date_debut"/>
 							<field name="date_fin"/>
 							<field name="nb_h_par_an"/>
+							<button name="action_creer_mois" type="object" class="oe_highlight" string="Creer mois" />
 						</tree> 
 					</field>
 				</group>
