@@ -17,7 +17,7 @@ class mam_mois_e(osv.Model):
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
         'mois': fields.integer('Mois',required=True, help='Le mois de l''année'),
-        'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par le mois'),
+        'avenant_id': fields.many2one('mam.avenant','Avenant',required=True, help='Avenant concerné par le mois'),
 
         "jour_debut": fields.function(
             calculs_mois,

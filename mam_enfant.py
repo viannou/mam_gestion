@@ -173,6 +173,12 @@ mam_contrat()
 class mam_avenant(osv.Model):
     _name = 'mam.avenant'
     _description = "Avenant"
+    def _get_libelle(self, cr, uid, ids, name, args, context=None):
+        """nom affichable de l'avenant """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= record.contrat_id.enfant_id.nomprenom + " " + str(record.date_debut)
+        return result
     # def _get_calculs(self, cr, uid, ids, name, args, context=None):
         # """nom affichable de la presence """
         # result = {}
@@ -187,6 +193,13 @@ class mam_avenant(osv.Model):
         'contrat_id': fields.many2one('mam.contrat','Contrat',required=True, help='Contrat concerné par l''avenant'),
         'date_debut': fields.date('Date de début',required=True, help='Date de début de l''avenant'),
         'date_fin': fields.date('Date de fin', help='Date de fin de l''avenant'),
+        'libelle': fields.function(
+            _get_libelle,
+            type="char",
+            string="Libelle",
+            store=None,
+            #select=True,
+        ),
         # 'nb_h_par_j': fields.integer('Nombre d''heures par jour',required=True, help='Nombre d''heures par jour au contrat'),
         # 'nb_j_par_s': fields.integer('Nombre de jours par semaine',required=True, help='Nombre de jours par semaine au contrat'),
         # 'nb_s_par_a': fields.integer('Nombre de semaines par an',required=True, help='Nombre de semaines par an au contrat'),
@@ -198,7 +211,7 @@ class mam_avenant(osv.Model):
 # montant mensualisé net
 # montant mensualisé brut
     }
-    _rec_name = 'date_debut'
+    _rec_name = 'libelle'
     _order = "date_debut"
 mam_avenant()
 
