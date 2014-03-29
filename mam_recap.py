@@ -54,6 +54,9 @@ class mam_mois_e(osv.Model):
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
                 print "pas filtre date", jour_e.date, jour_e.minutes_present_prevu
 
+
+
+
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
