@@ -49,7 +49,10 @@ class mam_mois_e(osv.Model):
             mam_jour_e = self.pool.get('mam.jour_e')
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
-                print jour_e.date, jour_e.minutes_present_prevu
+                print "filtre date", jour_e.date, jour_e.minutes_present_prevu
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id)], context=context)
+            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                print "pas filtre date", jour_e.date, jour_e.minutes_present_prevu
 
 
             result[mois_e.id] = {}
