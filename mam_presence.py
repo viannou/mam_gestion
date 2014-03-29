@@ -65,7 +65,7 @@ class mam_jour_e(osv.Model):
                 if reel.type in [u'malade',u'cause_am']: # e = excusé
                     liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'e',True), (mam_tools.conv_str2minutes(reel.heure_fin),'e',False)]
             liste.sort()
-            print liste
+            # print liste
             
             hdebut = 0
             est_prevu = est_present = est_excuse = False
