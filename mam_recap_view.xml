@@ -14,6 +14,10 @@
 				<field name="avenant_id"/>
 				<field name="jour_debut"/>
 				<field name="jour_fin"/>
+				<field name="minutes_present_prevu"/>
+				<field name="minutes_present_imprevu"/>
+				<field name="minutes_absent"/>
+				<field name="minutes_excuse"/>
 			</tree>
 		</field>
 	</record>
@@ -29,6 +33,10 @@
 					<field name="avenant_id"/>
 					<field name="jour_debut"/>
 					<field name="jour_fin"/>
+					<field name="minutes_present_prevu"/>
+					<field name="minutes_present_imprevu"/>
+					<field name="minutes_absent"/>
+					<field name="minutes_excuse"/>
 				</group>
 			</form>
 		</field>
