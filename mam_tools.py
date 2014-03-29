@@ -22,7 +22,7 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
 
 def conv_str2minutes(str):
     if ":" in str:
-        (h,min) = str.split(":") # 11:45
+        (h,m) = str.split(":") # 11:45
     else:
         (h,min) = str.split("h ") # 3h 30m
         m=min[:2]
