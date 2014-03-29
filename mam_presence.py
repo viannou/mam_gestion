@@ -2,31 +2,7 @@
 from osv import fields,osv
 from datetime import datetime,date,timedelta
 import re
-
-def verif_heures(hdebut, hfin, fin_obligatoire=False):
-    try:
-        matchObj = re.match( r"^(\d+?)[- _.:;'hH]?(\d{1,2})[mM]?$",  hdebut)
-        if matchObj:
-            hdebut = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-        else:
-            return False
-        if not fin_obligatoire and (hfin == False or hfin == ""):
-            return [hdebut,""]
-        matchObj = re.match( r"^(\d+?)[- _.:;'hH]?(\d{1,2})[mM]?$",  hfin)
-        if matchObj:
-            hfin = "{:%H:%M}".format(datetime.strptime(matchObj.group(1)+":"+matchObj.group(2),"%H:%M"))
-        else:
-            return False
-        return [hdebut,hfin]
-    except:
-        return False
-
-def conv_str2minutes(str):
-    (h,m) = str.split(":")
-    return (int(h)*60 + int(m))
-def conv_minutes2str(min):
-    return (str(min/60)+"h "+str(min%60)+"m")
-
+import mam_tools
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
@@ -82,12 +58,12 @@ class mam_jour_e(osv.Model):
             liste = []
             # on crée une liste au format (heure,type,est_debut)
             for prevu in record.presence_prevue_ids: # p = prévu
-                liste += [(conv_str2minutes(prevu.heure_debut),'p',True), (conv_str2minutes(prevu.heure_fin),'p',False)]
+                liste += [(mam_tools.conv_str2minutes(prevu.heure_debut),'p',True), (mam_tools.conv_str2minutes(prevu.heure_fin),'p',False)]
             for reel in record.presence_e_ids:
                 if reel.type in [u'normal']: # r = réel
-                    liste += [(conv_str2minutes(reel.heure_debut),'r',True), (conv_str2minutes(reel.heure_fin),'r',False)]
+                    liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'r',True), (mam_tools.conv_str2minutes(reel.heure_fin),'r',False)]
                 if reel.type in [u'malade',u'cause_am']: # e = excusé
-                    liste += [(conv_str2minutes(reel.heure_debut),'e',True), (conv_str2minutes(reel.heure_fin),'e',False)]
+                    liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'e',True), (mam_tools.conv_str2minutes(reel.heure_fin),'e',False)]
             liste.sort()
             print liste
             
@@ -130,10 +106,10 @@ class mam_jour_e(osv.Model):
             # print "minutes_absent ", m_absent
             
             result[record.id] = {}
-            result[record.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
-            result[record.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
-            result[record.id]['minutes_absent'] = conv_minutes2str(m_absent)
-            result[record.id]['minutes_excuse'] = conv_minutes2str(m_excuse)
+            result[record.id]['minutes_present_prevu'] = mam_tools.conv_minutes2str(m_pres_prev)
+            result[record.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_inprev)
+            result[record.id]['minutes_absent'] = mam_tools.conv_minutes2str(m_absent)
+            result[record.id]['minutes_excuse'] = mam_tools.conv_minutes2str(m_excuse)
         return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),
@@ -249,7 +225,7 @@ class mam_presence_e(osv.Model):
             result[record.id]['libelle'] = self.TYPE_SELECTION_dict[record.type] + " (" + record.heure_debut + "-" + record.heure_fin + ")"
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
-        res = verif_heures(heure_debut, heure_fin)
+        res = mam_tools.verif_heures(heure_debut, heure_fin)
         if res:
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
@@ -280,7 +256,7 @@ class mam_presence_e(osv.Model):
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut'],records['heure_fin']):
+            if not mam_tools.verif_heures(records['heure_debut'],records['heure_fin']):
                 return False
         return True
     _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
@@ -298,7 +274,7 @@ class mam_presence_prevue(osv.Model):
             result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
-        res = verif_heures(heure_debut, heure_fin)
+        res = mam_tools.verif_heures(heure_debut, heure_fin)
         if res:
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
@@ -317,7 +293,7 @@ class mam_presence_prevue(osv.Model):
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut'],records['heure_fin']):
+            if not mam_tools.verif_heures(records['heure_debut'],records['heure_fin']):
                 return False
         return True
     _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]
@@ -365,7 +341,7 @@ class mam_presence_type(osv.Model):
             result[record.id]['libelle'] = record.heure_debut + "-" + record.heure_fin
         return result
     def on_change_heure(self, cr, uid, ids, heure_debut, heure_fin, context=None):
-        res = verif_heures(heure_debut, heure_fin, False)
+        res = mam_tools.verif_heures(heure_debut, heure_fin, False)
         if res:
             return {'value': {'heure_debut':res[0],'heure_fin':res[1]}}
         return {'value':{},'warning':{'title':'Erreur','message':'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10'}}
@@ -385,7 +361,7 @@ class mam_presence_type(osv.Model):
     def check_heures(self, cr, uid, ids, context=None):
         reads = self.read(cr, uid, ids, ['heure_debut', 'heure_fin'], context=context)
         for records in reads:
-            if not verif_heures(records['heure_debut'],records['heure_fin'], True):
+            if not mam_tools.verif_heures(records['heure_debut'],records['heure_fin'], True):
                 return False
         return True
     _constraints = [(check_heures, 'Format invalide : Veuillez entrer des heures valides comme 8:30 ou 15h10', ['heure_debut', 'heure_fin']),]

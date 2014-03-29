@@ -2,8 +2,7 @@
 from osv import fields,osv
 from datetime import datetime,date,timedelta
 import calendar
-
-import mam_presence
+import mam_tools
 
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
@@ -60,10 +59,10 @@ class mam_mois_e(osv.Model):
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
-            result[mois_e.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
-            result[mois_e.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
-            result[mois_e.id]['minutes_absent'] = conv_minutes2str(m_absent)
-            result[mois_e.id]['minutes_excuse'] = conv_minutes2str(m_excuse)
+            result[mois_e.id]['minutes_present_prevu'] = mam_tools.conv_minutes2str(m_pres_prev)
+            result[mois_e.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_inprev)
+            result[mois_e.id]['minutes_absent'] = mam_tools.conv_minutes2str(m_absent)
+            result[mois_e.id]['minutes_excuse'] = mam_tools.conv_minutes2str(m_excuse)
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
