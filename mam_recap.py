@@ -7,19 +7,45 @@ class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
     _description = "Detail mois"
     def calculs_mois(self, cr, uid, ids, name, args, context=None):
-        """nom affichable de la presence """
+        # Tous les calculs de fin de mois
+        # Problème du début de contrat (d'avenants) en milieu de mois : on considère que le premier mois est une régul. 
+        # L'année commence le mois suivant.
         result = {}
-        for record in self.browse(cr, uid, ids, context=context):
-            date_debut = record.avenant_id.date_debut # au format yyyy-mm-dd
-            date_fin = record.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
-            result[record.id] = {}
-            result[record.id]['jour_debut'] = 1
-            print date_debut[:7], "{0}-{1:02d}".format(record.annee, record.mois)
-            if date_debut[:7] == "{0}-{1:02d}".format(record.annee, record.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
-                result[record.id]['jour_debut'] = date_debut[8:]
-            result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1] # dernier jour du mois
-            if date_fin and date_fin [:7] == "{0}-{1:02d}".format(record.annee, record.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
-                result[record.id]['jour_fin'] = date_fin[8:]
+        for mois_e in self.browse(cr, uid, ids, context=context):
+
+            date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
+            date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
+
+            jour_debut = 1
+            if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
+                jour_debut = date_debut_avenant[8:]
+            date_debut_mois = "{0}-{1:02d}-{1:02d}".format(mois_e.annee, mois_e.mois, jour_debut)
+
+            jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois
+            if date_fin_avenant and date_fin_avenant [:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
+                jour_fin = date_fin_avenant[8:]
+            date_fin_mois = "{0}-{1:02d}-{1:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
+
+            print "---", date_debut_mois, date_fin_mois
+            print "debut calcul mois : ", date_debut_mois, date_fin_mois
+
+            # calcul du mois de régul
+            if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
+                # calcul du mois de regul de l'avenant (mois précédant l'anniversaire)
+                mois_de_regul_avenant = int(date_debut_avenant[5:7]) - 1
+                if mois_de_regul_avenant == 0:
+                    mois_de_regul_avenant = 12 # décembre
+            else:
+                # sinon la regul se fait le mois anniversaire et non pas le mois précédent
+                mois_de_regul_avenant = int(date_debut_avenant[5:7])
+            print "mois de regul avenant : ", mois_de_regul_avenant
+
+            faire_regul = (mois_de_regul_avenant == mois_e.mois)
+            print "faire regul : ", faire_regul
+
+            result[mois_e.id] = {}
+            result[mois_e.id]['jour_debut'] = jour_debut
+            result[mois_e.id]['jour_fin'] = jour_fin
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
