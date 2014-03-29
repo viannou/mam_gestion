@@ -18,12 +18,12 @@ class mam_mois_e(osv.Model):
 
             jour_debut = 1
             if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
-                jour_debut = date_debut_avenant[8:]
+                jour_debut = int(date_debut_avenant[8:])
             date_debut_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_debut)
 
             jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois
             if date_fin_avenant and date_fin_avenant [:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
-                jour_fin = date_fin_avenant[8:]
+                jour_fin = int(date_fin_avenant[8:])
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
             print "---", date_debut_mois, date_fin_mois
