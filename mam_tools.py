@@ -21,7 +21,8 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
         return False
 
 def conv_str2minutes(str):
-    (h,m) = str.split(":")
+    (h,min) = str.split("h ")
+    m=min[:2]
     return (int(h)*60 + int(m))
 def conv_minutes2str(min):
-    return (str(min/60)+"h "+str(min%60)+"m")
+    return "{0}h {1:02d}m".format(min/60, min%60) # 3h 30m
