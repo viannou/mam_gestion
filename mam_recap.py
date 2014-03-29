@@ -1,14 +1,72 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date,timedelta
+import calendar
 
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
     _description = "Detail mois"
+    def calculs_mois(self, cr, uid, ids, name, args, context=None):
+        # Tous les calculs de fin de mois
+        # Problème du début de contrat (d'avenants) en milieu de mois : on considère que le premier mois est une régul. 
+        # L'année commence le mois suivant.
+        result = {}
+        for mois_e in self.browse(cr, uid, ids, context=context):
+
+            date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
+            date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
+
+            jour_debut = 1
+            if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
+                jour_debut = int(date_debut_avenant[8:])
+            date_debut_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_debut)
+
+            jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois
+            if date_fin_avenant and date_fin_avenant [:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
+                jour_fin = int(date_fin_avenant[8:])
+            date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
+
+            print "---", date_debut_mois, date_fin_mois
+            print "debut calcul mois : ", date_debut_mois, date_fin_mois
+
+            # calcul du mois de régul
+            if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
+                # calcul du mois de regul de l'avenant (mois précédant l'anniversaire)
+                mois_de_regul_avenant = int(date_debut_avenant[5:7]) - 1
+                if mois_de_regul_avenant == 0:
+                    mois_de_regul_avenant = 12 # décembre
+            else:
+                # sinon la regul se fait le mois anniversaire et non pas le mois précédent
+                mois_de_regul_avenant = int(date_debut_avenant[5:7])
+            print "mois de regul avenant : ", mois_de_regul_avenant
+
+            # faut-il faire une régul ce mois-ci ?
+            faire_regul = (mois_de_regul_avenant == mois_e.mois)
+            print "faire regul : ", faire_regul
+
+            result[mois_e.id] = {}
+            result[mois_e.id]['jour_debut'] = jour_debut
+            result[mois_e.id]['jour_fin'] = jour_fin
+        return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
         'mois': fields.integer('Mois',required=True, help='Le mois de l''année'),
-        'enfant_id': fields.many2one('mam.enfant','Enfant',required=True, help='Enfant concerné par le mois'),
+        'avenant_id': fields.many2one('mam.avenant','Avenant',required=True, help='Avenant concerné par le mois'),
+
+        "jour_debut": fields.function(
+            calculs_mois,
+            type="integer",
+            string="jour début",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "jour_fin": fields.function(
+            calculs_mois,
+            type="integer",
+            string="jour fin",
+            store=None,
+            multi='calculs_mois',
+        ),
 # -      Période du xxx au xxx/xxx/20xxx
 # -      Nombre d’heures normales (moyenne prévue au contrat dans le cadre de la mensualisation, à laquelle on ajoute les heures d’absence pour congés payés (y compris les congés payés soldés en fin de contrat)) : xxx
 # -      Nombre de jours d’activités : xxx (moyenne prévue au contrat dans le cadre de la mensualisation)
@@ -109,7 +167,7 @@ class mam_mois_e(osv.Model):
         # 'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
     }
     _defaults = {
-        'enfant_id': lambda self,cr,uid,context: context.get('enfant_id', 0), 
+        'avenant_id': lambda self,cr,uid,context: context.get('avenant_id', 0), 
     }
     # def action_associer_jour_type_1(self, cr, uid, ids, context=None):
         # return self.action_associer_jour_type(cr, uid, ids, 0, context)
