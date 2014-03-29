@@ -155,12 +155,13 @@ class mam_jour_e(osv.Model):
             _get_minutes,
             type="char",
             string="Prés. prévu",
-            store={
-                "mam.presence_e": (
-                    _filter_jour_presence_e, ['heure_debut', 'heure_fin'], 10),
-                "mam.presence_prevue": (
-                    _filter_jour_presence_prevue, ['heure_debut', 'heure_fin'], 10),
-            },
+            # store={
+                # "mam.presence_e": (
+                    # _filter_jour_presence_e, ['heure_debut', 'heure_fin'], 10),
+                # "mam.presence_prevue": (
+                    # _filter_jour_presence_prevue, ['heure_debut', 'heure_fin'], 10),
+            # },
+            store=None,
             multi='get_minutes',
         ),
         "minutes_present_imprevu": fields.function(

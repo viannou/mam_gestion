@@ -44,9 +44,21 @@ class mam_mois_e(osv.Model):
             faire_regul = (mois_de_regul_avenant == mois_e.mois)
             print "faire regul : ", faire_regul
 
+            # on parcourt les jours pour récupérer les infos
+            m_pres_prev = m_pres_inprev = m_absent = m_excuse = 0
+            mam_jour_e = self.pool.get('mam.jour_e')
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
+            for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                print jour_e.date, jour_e.minutes_present_prevu
+
+
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
+            result[mois_e.id]['minutes_present_prevu'] = conv_minutes2str(m_pres_prev)
+            result[mois_e.id]['minutes_present_imprevu'] = conv_minutes2str(m_pres_inprev)
+            result[mois_e.id]['minutes_absent'] = conv_minutes2str(m_absent)
+            result[mois_e.id]['minutes_excuse'] = conv_minutes2str(m_excuse)
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
@@ -67,6 +79,35 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
+        "minutes_present_prevu": fields.function(
+            _get_minutes,
+            type="char",
+            string="Prés. prévu",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "minutes_present_imprevu": fields.function(
+            _get_minutes,
+            type="char",
+            string="Prés. imprévu",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "minutes_absent": fields.function(
+            _get_minutes,
+            type="char",
+            string="Absent",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "minutes_excuse": fields.function(
+            _get_minutes,
+            type="char",
+            string="Excusé",
+            store=None,
+            multi='calculs_mois',
+        ),
+
 # -      Période du xxx au xxx/xxx/20xxx
 # -      Nombre d’heures normales (moyenne prévue au contrat dans le cadre de la mensualisation, à laquelle on ajoute les heures d’absence pour congés payés (y compris les congés payés soldés en fin de contrat)) : xxx
 # -      Nombre de jours d’activités : xxx (moyenne prévue au contrat dans le cadre de la mensualisation)
