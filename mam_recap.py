@@ -55,8 +55,6 @@ class mam_mois_e(osv.Model):
                 print "pas filtre date", jour_e.date, jour_e.minutes_present_prevu
 
 
-
-
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
