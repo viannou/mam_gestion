@@ -10,13 +10,15 @@ class mam_mois_e(osv.Model):
         """nom affichable de la presence """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            date_debut = record.avenant_id.date_debut
-            date_fin = record.avenant_id.date_fin
-            print "debut", type(date_debut), date_debut
-            print "fin", type(date_fin), date_fin
+            date_debut = record.avenant_id.date_debut # au format yyyy-mm-dd
+            date_fin = record.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
             result[record.id] = {}
             result[record.id]['jour_debut'] = 1
-            result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1]
+            if date_debut[:7] == "{0}-{1}".format(record.annee, record.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
+                result[record.id]['jour_debut'] = date_debut[8:]
+            result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1] # dernier jour du mois
+            if date_fin[:7] == "{0}-{1}".format(record.annee, record.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
+                result[record.id]['jour_fin'] = date_fin[8:]
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
