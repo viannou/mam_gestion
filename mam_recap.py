@@ -17,7 +17,7 @@ class mam_mois_e(osv.Model):
             if date_debut[:7] == "{0}-{1}".format(record.annee, record.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
                 result[record.id]['jour_debut'] = date_debut[8:]
             result[record.id]['jour_fin'] = calendar.monthrange(record.annee, record.mois)[1] # dernier jour du mois
-            if date_fin[:7] == "{0}-{1}".format(record.annee, record.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
+            if not date_fin and date_fin [:7] == "{0}-{1}".format(record.annee, record.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
                 result[record.id]['jour_fin'] = date_fin[8:]
         return result
     _columns = {
