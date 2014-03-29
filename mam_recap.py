@@ -26,8 +26,7 @@ class mam_mois_e(osv.Model):
                 jour_fin = int(date_fin_avenant[8:])
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
-            print "---", date_debut_mois, date_fin_mois
-            print "debut calcul mois : ", date_debut_mois, date_fin_mois
+            print "--- debut calcul mois :", date_debut_mois, date_fin_mois
 
             # calcul du mois de régul
             if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
@@ -47,6 +46,7 @@ class mam_mois_e(osv.Model):
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_inprev = m_absent = m_excuse = 0
             mam_jour_e = self.pool.get('mam.jour_e')
+            print "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
                 print "filtre date", jour_e.date, jour_e.minutes_present_prevu
