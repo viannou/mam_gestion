@@ -41,13 +41,13 @@
 					<field name="nb_heures_mois_effectif"/>
 					<field name="nb_heures_complementaires"/>
 					<field name="nb_heures_supplementaires"/>
-<!-- 					<field name="mensualisation_brut"/>
-					<field name="mensualisation_net"/>
-					<field name="absences_brut"/>
-					<field name="absences_net"/>
-					<field name="salaire_base_brut"/>
-					<field name="salaire_base_net"/>
- -->					<field name="indemnite_entretien"/>
+ 					<field name="presences_brut"/>
+ 					<field name="presences_net"/>
+ 					<field name="absences_brut"/>
+ 					<field name="absences_net"/>
+ 					<field name="salaire_brut"/>
+ 					<field name="salaire_net"/>
+					<field name="indemnite_entretien"/>
 					<field name="indemnite_frais"/>
 				</group>
 			</form>

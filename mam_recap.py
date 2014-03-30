@@ -111,18 +111,11 @@ class mam_mois_e(osv.Model):
                 m_supplementaires = m_pres_imprev - 46*60
 
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            
-# mensualisation_brut
-# mensualisation_net
-# absences_brut
-# absences_net
-# salaire_base_brut
-# salaire_base_net
-# indemnite_entretien
-# indemnite_frais
-
-
-
+            presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net
+                + float(m_complementaires)/60 * eur_salaire_complementaire_net
+                + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            absences_net = float(m_absent)/60 * eur_salaire_horaire_net
+            salaire_net = presences_net + absences_net
 
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
@@ -135,12 +128,12 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['nb_heures_mois_effectif'] = mam_tools.conv_minutes2str(m_effectif)
             result[mois_e.id]['nb_heures_complementaires'] = mam_tools.conv_minutes2str(m_complementaires)
             result[mois_e.id]['nb_heures_supplementaires'] = mam_tools.conv_minutes2str(m_supplementaires)
-            # result[mois_e.id]['mensualisation_brut'] = mensualisation_brut
-            # result[mois_e.id]['mensualisation_net'] = mensualisation_net
-            # result[mois_e.id]['absences_brut'] = absences_brut
-            # result[mois_e.id]['absences_net'] = absences_net
-            # result[mois_e.id]['salaire_base_brut'] = salaire_base_brut
-            # result[mois_e.id]['salaire_base_net'] = salaire_base_net
+            result[mois_e.id]['presences_brut'] = presences_net * coef_net_brut
+            result[mois_e.id]['presences_net'] = presences_net
+            result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
+            result[mois_e.id]['absences_net'] = absences_net
+            result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
+            result[mois_e.id]['salaire_net'] = salaire_net
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
             result[mois_e.id]['indemnite_frais'] = indemnite_frais
         return result
@@ -219,48 +212,48 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
-        # "mensualisation_brut": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Mensualisation brut",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
-        # "mensualisation_net": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Mensualisation net",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
-        # "absences_brut": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Absences brut",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
-        # "absences_net": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Absences net",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
-        # "salaire_base_brut": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Salaire de base brut",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
-        # "salaire_base_net": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Salaire de base net",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
+        "presences_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire présences brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "presences_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire présences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "absences_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Absences brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "absences_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Absences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire net",
+            store=None,
+            multi='calculs_mois',
+        ),
         "indemnite_entretien": fields.function(
             calculs_mois,
             type="float",
