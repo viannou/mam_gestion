@@ -82,7 +82,9 @@ class mam_mois_e(osv.Model):
                 m_excuse += j_excuse
 
                 # calculs des frais d'entretiens
-                if j_pres_prev + j_pres_imprev <= 9: # demander à céline si c'est bien ça
+                if j_pres_prev == 0 and j_pres_imprev == 0:
+                    indemnite_entretien += eur_entretien_0_9
+                elif j_pres_prev + j_pres_imprev <= 9:
                     indemnite_entretien += eur_entretien_0_9
                 else:
                     indemnite_entretien += eur_entretien_9_plus
