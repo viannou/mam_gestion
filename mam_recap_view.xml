@@ -37,6 +37,18 @@
 					<field name="minutes_present_imprevu"/>
 					<field name="minutes_absent"/>
 					<field name="minutes_excuse"/>
+					<field name="nb_heures_mois_contrat"/>
+					<field name="nb_heures_mois_effectif"/>
+					<field name="nb_heures_complementaires"/>
+					<field name="nb_heures_supplementaires"/>
+					<field name="mensualisation_brut"/>
+					<field name="mensualisation_net"/>
+					<field name="absences_brut"/>
+					<field name="absences_net"/>
+					<field name="salaire_base_brut"/>
+					<field name="salaire_base_net"/>
+					<field name="indemnite_entretien"/>
+					<field name="indemnite_frais"/>
 				</group>
 			</form>
 		</field>

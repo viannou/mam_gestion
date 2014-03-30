@@ -54,7 +54,7 @@ class mam_jour_e(osv.Model):
         """minutes bilan de la journée """
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
-            print "***** calcul minutes ***** ", record.id
+            print "* calcul minutes jour ", record.id,
             liste = []
             # on crée une liste au format (heure,type,est_debut)
             for prevu in record.presence_prevue_ids: # p = prévu
@@ -69,7 +69,7 @@ class mam_jour_e(osv.Model):
             
             hdebut = 0
             est_prevu = est_present = est_excuse = False
-            m_pres_prev = m_pres_inprev = m_absent = m_excuse = 0
+            m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             for (heure,type,est_debut) in liste:
                 # print (heure,type,est_debut)
                 delta = heure - hdebut
@@ -78,7 +78,7 @@ class mam_jour_e(osv.Model):
                 if est_prevu and est_excuse:
                     m_excuse += delta
                 elif not est_prevu and est_present:
-                    m_pres_inprev += delta
+                    m_pres_imprev += delta
                 elif est_prevu and not est_present and not est_excuse:
                     m_absent += delta
 
@@ -102,14 +102,15 @@ class mam_jour_e(osv.Model):
                     est_excuse = est_debut
                 hdebut = heure
             # print "minutes_present_prevu ", m_pres_prev
-            # print "minutes_present_imprevu ", m_pres_inprev
+            # print "minutes_present_imprevu ", m_pres_imprev
             # print "minutes_absent ", m_absent
             
             result[record.id] = {}
             result[record.id]['minutes_present_prevu'] = mam_tools.conv_minutes2str(m_pres_prev)
-            result[record.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_inprev)
+            result[record.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_imprev)
             result[record.id]['minutes_absent'] = mam_tools.conv_minutes2str(m_absent)
             result[record.id]['minutes_excuse'] = mam_tools.conv_minutes2str(m_excuse)
+        print
         return result
     STATE_SELECTION = [
         (u'encours', u'En cours'),

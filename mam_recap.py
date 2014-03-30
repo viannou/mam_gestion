@@ -45,25 +45,62 @@ class mam_mois_e(osv.Model):
             print "faire regul : ", faire_regul
 
             # on parcourt les jours pour récupérer les infos
-            m_pres_prev = m_pres_inprev = m_absent = m_excuse = 0
+            m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             mam_jour_e = self.pool.get('mam.jour_e')
             print "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
                 m_pres_prev += mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
-                m_pres_inprev += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                m_pres_imprev += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 m_absent += mam_tools.conv_str2minutes(jour_e.minutes_absent)
                 m_excuse += mam_tools.conv_str2minutes(jour_e.minutes_excuse)
-                
+
+# quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
+# cause am = comme quand malade
+
+            m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
+            m_effectif = m_contrat - m_excuse
+            
+            # heure complémentaire : heure non prévue au contrat jusqu'à 46h # on stocke des minutes
+            # au delà, c'est des heures supplémentaires
+            if m_pres_imprev <= 46*60:
+                m_complementaires = m_pres_imprev
+                m_supplementaires = 0
+            else:
+                m_complementaires = 46*60
+                m_supplementaires = m_pres_imprev - 46*60
+
+# mensualisation_brut
+# mensualisation_net
+# absences_brut
+# absences_net
+# salaire_base_brut
+# salaire_base_net
+# indemnite_entretien
+# indemnite_frais
+
+
 
 
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
             result[mois_e.id]['minutes_present_prevu'] = mam_tools.conv_minutes2str(m_pres_prev)
-            result[mois_e.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_inprev)
+            result[mois_e.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_imprev)
             result[mois_e.id]['minutes_absent'] = mam_tools.conv_minutes2str(m_absent)
             result[mois_e.id]['minutes_excuse'] = mam_tools.conv_minutes2str(m_excuse)
+            result[mois_e.id]['nb_heures_mois_contrat'] = mam_tools.conv_minutes2str(m_contrat)
+            result[mois_e.id]['nb_heures_mois_effectif'] = mam_tools.conv_minutes2str(m_effectif)
+            result[mois_e.id]['nb_heures_complementaires'] = mam_tools.conv_minutes2str(m_complementaires)
+            result[mois_e.id]['nb_heures_supplementaires'] = mam_tools.conv_minutes2str(m_supplementaires)
+            # result[mois_e.id]['mensualisation_brut'] = mensualisation_brut
+            # result[mois_e.id]['mensualisation_net'] = mensualisation_net
+            # result[mois_e.id]['absences_brut'] = absences_brut
+            # result[mois_e.id]['absences_net'] = absences_net
+            # result[mois_e.id]['salaire_base_brut'] = salaire_base_brut
+            # result[mois_e.id]['salaire_base_net'] = salaire_base_net
+            # result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
+            # result[mois_e.id]['indemnite_frais'] = indemnite_frais
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
@@ -112,7 +149,91 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
-
+        "nb_heures_complementaires": fields.function(
+            calculs_mois,
+            type="char",
+            string="Nb heures complementaires",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "nb_heures_mois_contrat": fields.function(
+            calculs_mois,
+            type="float",
+            string="Nb heures par mois contrat",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "nb_heures_mois_effectif": fields.function(
+            calculs_mois,
+            type="float",
+            string="Nb heures par mois effectif",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "nb_heures_supplementaires": fields.function(
+            calculs_mois,
+            type="char",
+            string="Nb heures supplémentaires",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "nb_heures_mensualisation": fields.function(
+            calculs_mois,
+            type="char",
+            string="Nb heures mensualisation",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "mensualisation_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Mensualisation net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "absences_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Absences brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "absences_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Absences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_base_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire de base brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_base_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire de base net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "indemnite_entretien": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité d'entretien",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "indemnite_frais": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de repas, kilométrique et de rupture",
+            store=None,
+            multi='calculs_mois',
+        ),
+        
 # -      Période du xxx au xxx/xxx/20xxx
 # -      Nombre d’heures normales (moyenne prévue au contrat dans le cadre de la mensualisation, à laquelle on ajoute les heures d’absence pour congés payés (y compris les congés payés soldés en fin de contrat)) : xxx
 # -      Nombre de jours d’activités : xxx (moyenne prévue au contrat dans le cadre de la mensualisation)
@@ -158,8 +279,6 @@ class mam_mois_e(osv.Model):
 # Au niveau de la mam:
 # au bout de 46h : heures sup'
 
-# quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
-# cause am = comme quand malade
 
 
 
