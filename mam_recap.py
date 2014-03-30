@@ -92,7 +92,7 @@ class mam_mois_e(osv.Model):
                     indemnite_frais += eur_repas_midi
                 if jour_e.mange_gouter:
                     indemnite_frais += eur_repas_gouter
-                indemnite_frais += frais_montant
+                indemnite_frais += jour_e.frais_montant
 
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
 # cause am = comme quand malade
