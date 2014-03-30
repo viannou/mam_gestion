@@ -11,8 +11,28 @@ class mam_mois_e(osv.Model):
         # Tous les calculs de fin de mois
         # Problème du début de contrat (d'avenants) en milieu de mois : on considère que le premier mois est une régul. 
         # L'année commence le mois suivant.
+
+        # Valeurs partagées
+        eur_salaire_horaire_net = 3.2 # 3.2€ / heure 
+        eur_salaire_complementaire_net = 3.2 # 3.2€ / heure 
+        eur_salaire_supplementaire_net = 4.0 # 4.0€ / heure 
+        eur_entretien_0_9 = 3.2 # 3.2€ / jour si moins de 9h
+        eur_entretien_9_plus = 4.0 # 4.0€ / jour si plus de 9h
+        eur_repas_midi_6_18m = 2.0
+        eur_repas_midi_plus_18m = 3.0
+        eur_repas_gouter = 1.0
+        coef_net_brut = 1.3
+
+
+
         result = {}
         for mois_e in self.browse(cr, uid, ids, context=context):
+
+            # tarif du repas du midi par rapport à l'age
+            if mois_e.avenant_id.contrat_id.enfant_id.age_mois > 18:
+                eur_repas_midi = eur_repas_midi_plus_18m
+            else:
+                eur_repas_midi = eur_repas_midi_6_18m
 
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
@@ -46,14 +66,33 @@ class mam_mois_e(osv.Model):
 
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
+            indemnite_entretien = 0.0
+            indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
             print "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
-                m_pres_prev += mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
-                m_pres_imprev += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
-                m_absent += mam_tools.conv_str2minutes(jour_e.minutes_absent)
-                m_excuse += mam_tools.conv_str2minutes(jour_e.minutes_excuse)
+                j_pres_prev = mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
+                j_pres_imprev = mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                j_absent = mam_tools.conv_str2minutes(jour_e.minutes_absent)
+                j_excuse = mam_tools.conv_str2minutes(jour_e.minutes_excuse)
+                m_pres_prev += j_pres_prev
+                m_pres_imprev += j_pres_imprev
+                m_absent += j_absent
+                m_excuse += j_excuse
+
+                # calculs des frais d'entretiens
+                if j_pres_prev + j_pres_imprev <= 9: # demander à céline si c'est bien ça
+                    indemnite_entretien += eur_entretien_0_9
+                else:
+                    indemnite_entretien += eur_entretien_9_plus
+
+                # calcul des frais repas + autres
+                if jour_e.mange_midi:
+                    indemnite_frais += eur_repas_midi
+                if jour_e.mange_gouter:
+                    indemnite_frais += eur_repas_gouter
+                indemnite_frais += frais_montant
 
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
 # cause am = comme quand malade
@@ -70,6 +109,8 @@ class mam_mois_e(osv.Model):
                 m_complementaires = 46*60
                 m_supplementaires = m_pres_imprev - 46*60
 
+            # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
+            
 # mensualisation_brut
 # mensualisation_net
 # absences_brut
@@ -99,8 +140,8 @@ class mam_mois_e(osv.Model):
             # result[mois_e.id]['absences_net'] = absences_net
             # result[mois_e.id]['salaire_base_brut'] = salaire_base_brut
             # result[mois_e.id]['salaire_base_net'] = salaire_base_net
-            # result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
-            # result[mois_e.id]['indemnite_frais'] = indemnite_frais
+            result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
+            result[mois_e.id]['indemnite_frais'] = indemnite_frais
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
@@ -226,13 +267,13 @@ class mam_mois_e(osv.Model):
             # store=None,
             # multi='calculs_mois',
         # ),
-        # "indemnite_frais": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Indemnité de repas, kilométrique et de rupture",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
+        "indemnite_frais": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de repas, kilométrique et de rupture",
+            store=None,
+            multi='calculs_mois',
+        ),
         
 # -      Période du xxx au xxx/xxx/20xxx
 # -      Nombre d’heures normales (moyenne prévue au contrat dans le cadre de la mensualisation, à laquelle on ajoute les heures d’absence pour congés payés (y compris les congés payés soldés en fin de contrat)) : xxx
@@ -276,89 +317,8 @@ class mam_mois_e(osv.Model):
 # Congés acquis au 31/05/2012 restants
 
 
-# Au niveau de la mam:
-# au bout de 46h : heures sup'
-
-
-
-
-        # 'mange_midi': fields.boolean('Midi', help='Prise du repas du midi'),
-        # 'mange_gouter': fields.boolean('Gouter', help='Prise du gouter'),
-        # 'frais_montant': fields.float('Frais', digits=(6,2), help='Montant des frais en euros'),
-        # 'frais_libelle': fields.char('Libellé des frais', help='Libellé des frais'),
-        # 'commentaire': fields.text('Commentaire journée', help='Commentaire sur la présence ou l''absence'),
-        # 'state': fields.selection(STATE_SELECTION, 'Statut',required=True,  help='Le statut de la journée pour l''enfant'),
-        # 'presence_e_ids': fields.one2many('mam.presence_e', 'mois_e_id', 'Liste des présences réelles', help='Liste des présences réelles de l''enfant'),
-        # 'presence_prevue_ids': fields.one2many('mam.presence_prevue', 'mois_e_id', 'Liste des présences prevues', help='Liste des présences prevues de l''enfant'),
-        # "minutes_present_prevu": fields.function(
-            # _get_minutes,
-            # type="char",
-            # string="Prés. prévu",
-            # store={
-                # "mam.presence_e": (
-                    # _filter_jour_presence_e, ['heure_debut', 'heure_fin'], 10),
-                # "mam.presence_prevue": (
-                    # _filter_jour_presence_prevue, ['heure_debut', 'heure_fin'], 10),
-            # },
-            # multi='get_minutes',
-        # ),
-        # "minutes_present_imprevu": fields.function(
-            # _get_minutes,
-            # type="char",
-            # string="Prés. imprévu",
-            # store=None,
-            # multi='get_minutes',
-        # ),
-        # "minutes_absent": fields.function(
-            # _get_minutes,
-            # type="char",
-            # string="Absent",
-            # store=None,
-            # multi='get_minutes',
-        # ),
-
-        # 'libelle_prevue': fields.function(
-            # _get_libelle_prevue,
-            # type="char",
-            # string="Prevu",
-            # store=None,
-        # ),
-        # 'libelle_reel': fields.function(
-            # _get_libelle_reel,
-            # type="char",
-            # string="Reel",
-            # store=None,
-        # ),
-        # 'jour_type_ids' : fields.related('enfant_id', 'jour_type_ids', type='many2many', readonly=True, relation='mam.jour_type', string='Jours types disponibles'),
     }
     _defaults = {
         'avenant_id': lambda self,cr,uid,context: context.get('avenant_id', 0), 
     }
-    # def action_associer_jour_type_1(self, cr, uid, ids, context=None):
-        # return self.action_associer_jour_type(cr, uid, ids, 0, context)
-    # def action_associer_jour_type_2(self, cr, uid, ids, context=None):
-        # return self.action_associer_jour_type(cr, uid, ids, 1, context)
-    # def action_associer_jour_type_3(self, cr, uid, ids, context=None):
-        # return self.action_associer_jour_type(cr, uid, ids, 2, context)
-    # def action_associer_jour_type_4(self, cr, uid, ids, context=None):
-        # return self.action_associer_jour_type(cr, uid, ids, 3, context)
-    # def action_associer_jour_type(self, cr, uid, ids, numero, context=None):
-        # """associe un jour type a un jour d'un enfant
-            # pour l'instant, on associe au premier jour type trouvé !"""
-        # for mois_e in self.browse(cr, uid, ids, context=context):
-            # jour_type_ids = mois_e.enfant_id.jour_type_ids
-            # if len(jour_type_ids) <= numero:
-                # continue
-            # self.write(cr, uid, mois_e.id, {'mange_midi':jour_type_ids[numero].mange_midi,'mange_gouter':jour_type_ids[numero].mange_gouter,})
-            # for presence_type in jour_type_ids[numero].presence_type_ids:
-                # print "cree ", presence_type.heure_debut, presence_type.heure_fin
-                # self.pool.get('mam.presence_prevue').create(cr, uid,{'mois_e_id': mois_e.id, 'heure_debut': presence_type.heure_debut, 'heure_fin': presence_type.heure_fin,})
-        # return True
-    # def action_effacer_prevision(self, cr, uid, ids, context=None):
-        # """effacer les previsions de presence du jour"""
-        # for mois_e in self.browse(cr, uid, ids, context=context):
-            # print mois_e.jour, mois_e.enfant_id.prenom, mois_e.presence_prevue_ids
-            # for presence_prevue in mois_e.presence_prevue_ids:
-                # self.pool.get('mam.presence_prevue').unlink(cr, uid, presence_prevue.id, context=context)
-        # return True
 mam_mois_e()

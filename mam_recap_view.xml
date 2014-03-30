@@ -47,9 +47,9 @@
 					<field name="absences_net"/>
 					<field name="salaire_base_brut"/>
 					<field name="salaire_base_net"/>
-					<field name="indemnite_entretien"/>
+ -->					<field name="indemnite_entretien"/>
 					<field name="indemnite_frais"/>
- -->				</group>
+				</group>
 			</form>
 		</field>
 	</record>

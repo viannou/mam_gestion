@@ -11,6 +11,12 @@ class mam_enfant(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= record.prenom + " " + record.nom
         return result
+    def _get_age_mois(self, cr, uid, ids, name, args, context=None):
+        """calcul l'age de l'enfant """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            result[record.id]= (date.today() - record.date_naiss).days / 30
+        return result
     # def _get_today_info(self, cr, uid, ids, name, args, context=None):
         # """toutes les infos d'aujourd'hui"""
         # result = dict()
@@ -44,6 +50,13 @@ class mam_enfant(osv.Model):
             #select=True,
         ),
         'date_naiss': fields.date('Date de naissance',required=True, help='Date de naissance de l''enfant'),
+        'age_mois': fields.function(
+            _get_age_mois
+            type="integer",
+            string="Age en mois",
+            store=None,
+            #select=True,
+        ),
         'am_id': fields.many2one('mam.am','Assistante maternelle de référence',required=True, help='Assistante maternelle de référence pour l''enfant'),
         'contact_ids': fields.many2many('mam.contact','mam_enfant_contact_rel','contact_id','enfant_id',string="Contacts"),
         'allergies': fields.text('Allergies', help='Allergies de l''enfant'),
