@@ -51,7 +51,7 @@ class mam_enfant(osv.Model):
         ),
         'date_naiss': fields.date('Date de naissance',required=True, help='Date de naissance de l''enfant'),
         'age_mois': fields.function(
-            _get_age_mois
+            _get_age_mois,
             type="integer",
             string="Age en mois",
             store=None,
