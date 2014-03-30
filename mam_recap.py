@@ -260,13 +260,13 @@ class mam_mois_e(osv.Model):
             # store=None,
             # multi='calculs_mois',
         # ),
-        # "indemnite_entretien": fields.function(
-            # calculs_mois,
-            # type="float",
-            # string="Indemnité d'entretien",
-            # store=None,
-            # multi='calculs_mois',
-        # ),
+        "indemnite_entretien": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité d'entretien",
+            store=None,
+            multi='calculs_mois',
+        ),
         "indemnite_frais": fields.function(
             calculs_mois,
             type="float",
