@@ -16,6 +16,7 @@ class mam_enfant(osv.Model):
         result = {}
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= (date.today() - datetime.strptime(record.date_naiss,'%Y-%m-%d')).days / 30
+            print "age du gamin", result[record.id]
         return result
     # def _get_today_info(self, cr, uid, ids, name, args, context=None):
         # """toutes les infos d'aujourd'hui"""
