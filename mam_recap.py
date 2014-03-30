@@ -111,9 +111,7 @@ class mam_mois_e(osv.Model):
                 m_supplementaires = m_pres_imprev - 46*60
 
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net
-                + float(m_complementaires)/60 * eur_salaire_complementaire_net
-                + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
             salaire_net = presences_net + absences_net
 
