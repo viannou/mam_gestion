@@ -3,7 +3,7 @@ from datetime import datetime,date,timedelta
 import re
 import pprint
 
-class PrettyLog():
+class pp():
     def __init__(self, obj):
         self.obj = obj
     def __repr__(self):
