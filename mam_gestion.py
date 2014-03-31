@@ -1,5 +1,8 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class mam_am(osv.Model):
     _name = 'mam.am'

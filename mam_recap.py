@@ -3,6 +3,9 @@ from osv import fields,osv
 from datetime import datetime,date,timedelta
 import calendar
 import mam_tools
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
@@ -28,12 +31,6 @@ class mam_mois_e(osv.Model):
         result = {}
         for mois_e in self.browse(cr, uid, ids, context=context):
 
-            # tarif du repas du midi par rapport à l'age
-            if mois_e.avenant_id.contrat_id.enfant_id.age_mois > 18:
-                eur_repas_midi = eur_repas_midi_plus_18m
-            else:
-                eur_repas_midi = eur_repas_midi_6_18m
-
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
@@ -48,6 +45,15 @@ class mam_mois_e(osv.Model):
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
             print "--- debut calcul mois :", date_debut_mois, date_fin_mois
+            _logger.debug("--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, "Maël")
+
+            # tarif du repas du midi par rapport à l'age
+            age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
+            print "age du gamin", result[record.id]
+            if age_mois > 18:
+                eur_repas_midi = eur_repas_midi_plus_18m
+            else:
+                eur_repas_midi = eur_repas_midi_6_18m
 
             # calcul du mois de régul
             if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
