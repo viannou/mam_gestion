@@ -21,6 +21,8 @@ class pl():
                 s += obj.encode('utf-8') + " "
             else:
                 s += str(obj) + " "
+            pprint.pprint(s)
+
         return s
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
