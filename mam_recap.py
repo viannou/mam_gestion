@@ -51,7 +51,6 @@ class mam_mois_e(osv.Model):
             _logger.info(pl("tout simple"))
             pprint.pprint(pl(u"---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël"))
             _logger.info(str(pl(u"---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")))
-            _logger.info(str(pl(u"---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")))
             _logger.info("message info")
             _logger.debug("message debug")
             _logger.warning("message warning")
