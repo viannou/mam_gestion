@@ -16,7 +16,10 @@ class pl():
         s = u""
         for obj in self.objs:
             pprint.pprint(obj)
-            s += str(obj).decode('utf-8') + " "
+            if type(obj) == unicode:
+                s += obj.decode('utf-8') + " "
+            else:
+                s += str(obj) + " "
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
