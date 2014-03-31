@@ -15,12 +15,11 @@ class pl():
     def __repr__(self):
         s = ""
         for obj in self.objs:
-            if obj is None:
-                s += "<None> "
-            elif type(obj) == unicode:
+            if type(obj) == unicode:
                 s += obj.encode('utf-8') + " "
             else:
                 s += str(obj) + " "
+        return s
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
