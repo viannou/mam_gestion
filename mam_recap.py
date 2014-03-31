@@ -46,6 +46,9 @@ class mam_mois_e(osv.Model):
 
             print "--- debut calcul mois :", date_debut_mois, date_fin_mois
             _logger.debug("--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, "Maël")
+            _logger.debug("message debug")
+            _logger.info("message info")
+            _logger.warning("message warning")
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
