@@ -10,7 +10,7 @@ class pp():
         str=""
         for obj in self.objs:
             str += pprint.pformat(obj)
-        return str
+        return str.encode('utf-8')
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
