@@ -7,10 +7,7 @@ class pp():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        str=""
-        for obj in self.objs:
-            str += pprint.pformat(obj).encode('utf-8')
-        return str
+        return " ".join([pprint.pformat(obj) for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
