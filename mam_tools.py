@@ -15,10 +15,7 @@ class pl():
     def __repr__(self):
         s = ""
         for obj in self.objs:
-            pprint.pprint(obj)
-            if obj is None:
-                s += "<NoneType> "
-            elif type(obj) == unicode:
+            if type(obj) == unicode:
                 s += obj.encode('utf-8') + " "
             else:
                 s += str(obj) + " "
