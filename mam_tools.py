@@ -13,10 +13,10 @@ class pl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        str = u""
+        s = u""
         for obj in self.objs:
             pprint.pprint(obj)
-            str += str(obj).decode('utf-8') + " "
+            s += str(obj).decode('utf-8') + " "
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
