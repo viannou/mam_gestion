@@ -49,7 +49,7 @@ class mam_mois_e(osv.Model):
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
-            print "age du gamin", result[record.id]
+            print "age du gamin", age_mois
             if age_mois > 18:
                 eur_repas_midi = eur_repas_midi_plus_18m
             else:
