@@ -8,7 +8,7 @@ class pp():
         self.objs = objs
     def __repr__(self):
         str=""
-        for obj in objs:
+        for obj in self.objs:
             str += pprint.pformat(self.obj)
         return str
 
