@@ -4,10 +4,13 @@ import re
 import pprint
 
 class pp():
-    def __init__(self, obj):
-        self.obj = obj
+    def __init__(self, *objs):
+        self.objs = objs
     def __repr__(self):
-        return pprint.pformat(self.obj)
+        str=""
+        for obj in objs:
+            str += pprint.pformat(self.obj)
+        return str
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
