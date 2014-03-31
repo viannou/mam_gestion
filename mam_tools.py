@@ -18,7 +18,7 @@ class pl():
             pprint.pprint(obj)
             if obj is None:
                 s += "<NoneType> "
-            if type(obj) == unicode:
+            elif type(obj) == unicode:
                 s += obj.encode('utf-8') + " "
             else:
                 s += str(obj) + " "
