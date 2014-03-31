@@ -3,11 +3,17 @@ from datetime import datetime,date,timedelta
 import re
 import pprint
 
-class pp():
+class ppl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
         return " ".join([pprint.pformat(obj) for obj in self.objs])
+
+class pl():
+    def __init__(self, *objs):
+        self.objs = objs
+    def __repr__(self):
+        return " ".join([str(obj) for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
