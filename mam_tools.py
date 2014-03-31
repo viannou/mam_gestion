@@ -16,10 +16,10 @@ class pl():
         s = ""
         for obj in self.objs:
             pprint.pprint(obj)
+            if obj is None:
+                s += "<NoneType> "
             if type(obj) == unicode:
                 s += obj.encode('utf-8') + " "
-            if type(obj) == NoneType:
-                s += "<NoneType> "
             else:
                 s += str(obj) + " "
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
