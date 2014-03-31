@@ -3,7 +3,7 @@ from osv import fields,osv
 from datetime import datetime,date,timedelta
 import logging
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("enfant ::::"))
 
 class mam_enfant(osv.Model):
     _name = 'mam.enfant'

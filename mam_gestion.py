@@ -2,7 +2,7 @@
 from osv import fields,osv
 import logging
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("gestion ::::"))
 
 class mam_am(osv.Model):
     _name = 'mam.am'

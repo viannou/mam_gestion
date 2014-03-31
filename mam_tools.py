@@ -1,6 +1,13 @@
 # -*- coding: utf8 -*-
 from datetime import datetime,date,timedelta
 import re
+import pprint
+
+class PrettyLog():
+    def __init__(self, obj):
+        self.obj = obj
+    def __repr__(self):
+        return pprint.pformat(self.obj)
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:

@@ -5,7 +5,7 @@ import re
 import mam_tools
 import logging
 
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("presence ::::"))
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'
