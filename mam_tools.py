@@ -9,7 +9,7 @@ class pp():
     def __repr__(self):
         str=""
         for obj in self.objs:
-            str += pprint.pformat(self.obj)
+            str += pprint.pformat(obj)
         return str
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
