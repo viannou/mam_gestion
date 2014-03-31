@@ -13,7 +13,7 @@ class pl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        s = u""
+        s = ""
         for obj in self.objs:
             pprint.pprint(obj)
             if type(obj) == unicode:
