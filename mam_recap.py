@@ -2,7 +2,7 @@
 from osv import fields,osv
 from datetime import datetime,date,timedelta
 import calendar
-import mam_tools, mam_tools.pp
+from mam_tools import mam_tools, pp
 import logging
 
 _logger = logging.getLogger("recap ::::")
