@@ -5,7 +5,7 @@ import calendar
 import mam_tools
 import logging
 
-_logger = logging.getLogger("__file__")
+_logger = logging.getLogger("__self__")
 
 class mam_mois_e(osv.Model):
     _name = 'mam.mois_e'
