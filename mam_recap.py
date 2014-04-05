@@ -46,7 +46,7 @@ class mam_mois_e(osv.Model):
                 jour_fin = int(date_fin_avenant[8:])
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
-            _logger.info(pl("--- debut calcul mois :", date_debut_mois, date_fin_mois))
+            _logger.info(pl("--- debut calcul mois :", mois_e.avenant_id.contrat_id.enfant_id.nomprenom, date_debut_mois, date_fin_mois))
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
