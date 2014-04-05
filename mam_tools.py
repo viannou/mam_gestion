@@ -13,7 +13,7 @@ class pl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        s = ""
+        s = u""
         for obj in self.objs:
             pprint.pprint("ici")
             pprint.pprint(obj)
