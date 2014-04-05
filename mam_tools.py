@@ -20,7 +20,7 @@ class pl():
             pprint.pprint(obj)
             s += obj + u" "
             pprint.pprint(s)
-        return unicodedata.normalize('NFKD', u" ".join(self.objs).encode('ascii','ignore')
+        return unicodedata.normalize('NFKD', u" ".join(self.objs)).encode('ascii','ignore')
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
