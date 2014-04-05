@@ -49,7 +49,7 @@ class mam_mois_e(osv.Model):
             print "--- debut calcul mois :", date_debut_mois, date_fin_mois
             _logger.info(u"--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
             print "180"
-            pl(u"190 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
+            ""+pl(u"190 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
             print "195"
             pprint.pprint(pl(u"200 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël"))
             _logger.info(str(pl(u"210 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")))
