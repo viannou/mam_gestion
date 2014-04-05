@@ -20,7 +20,7 @@ class pl():
             s += obj + u" "
             pprint.pprint(s)
 
-        return unicode(s, "utf-8") # truc de fou
+        return s
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
