@@ -120,7 +120,7 @@ class mam_mois_e(osv.Model):
                         m_supplementaires = m_imprev_semaine - 46*60
                     # on remet le compteur à zero pour la semaine suivante
                     m_imprev_semaine = 0
-                    _logger.error(pl( "semaine : compl:", m_complementaires, "suppl:"m_supplementaires))
+                    _logger.error(pl( "semaine : compl:", m_complementaires, "suppl:",m_supplementaires))
 
                     
 
