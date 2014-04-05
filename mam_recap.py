@@ -47,14 +47,12 @@ class mam_mois_e(osv.Model):
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
             print "--- debut calcul mois :", date_debut_mois, date_fin_mois
-            _logger.info(u"--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
+            print "50"
+            _logger.info(u"100 --- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
             print "180"
-            pl(u"190 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël").__repr__()
+            _logger.info([[{"e","é")],{"e","é")]
             print "195"
-            pprint.pprint(pl(u"200 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël"))
-            _logger.info(str(pl(u"210 ---enpp--- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")))
             _logger.info("message info")
-            _logger.debug("message debug")
             _logger.warning("message warning")
 
             # tarif du repas du midi par rapport à l'age

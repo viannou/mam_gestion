@@ -4,24 +4,20 @@ import re
 import pprint
 import unicodedata
 
+def convert_str_log(s):
+    return unicodedata.normalize('NFKD', s).encode('ascii','ignore')
+
 class ppl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        return " ".join([pprint.pformat(obj) for obj in self.objs])
+        return " ".join([convert_str_log(pprint.pformat(obj)) for obj in self.objs])
 
 class pl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        s = u""
-        for obj in self.objs:
-            pprint.pprint("ici")
-            pprint.pprint(obj)
-            s += obj + u" "
-            pprint.pprint(s)
-        return unicodedata.normalize('NFKD', u" ".join(self.objs)).encode('ascii','ignore')
-        #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
+        return convert_str_log(u" ".join(self.objs))
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
