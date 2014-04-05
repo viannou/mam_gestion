@@ -11,7 +11,7 @@ class ppl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        return " ".join([convert_str_log(pprint.pformat(obj)) for obj in self.objs])
+        return " ".join([pprint.pformat(obj) for obj in self.objs])
 
 class pl():
     def __init__(self, *objs):
