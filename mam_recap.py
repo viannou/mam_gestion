@@ -46,18 +46,11 @@ class mam_mois_e(osv.Model):
                 jour_fin = int(date_fin_avenant[8:])
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
-            print "--- debut calcul mois :", date_debut_mois, date_fin_mois
-            print "50"
-            _logger.info(u"100 --- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
-            print "180"
-            _logger.info(pl(u"100 --- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël"))
-            print "195"
-            _logger.info("message info")
-            _logger.warning("message warning")
+            _logger.info(pl("--- debut calcul mois :", date_debut_mois, date_fin_mois))
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
-            print "age du gamin", age_mois
+            _logger.info(pl( "age du gamin", age_mois))
             if age_mois > 18:
                 eur_repas_midi = eur_repas_midi_plus_18m
             else:
@@ -72,18 +65,18 @@ class mam_mois_e(osv.Model):
             else:
                 # sinon la regul se fait le mois anniversaire et non pas le mois précédent
                 mois_de_regul_avenant = int(date_debut_avenant[5:7])
-            print "mois de regul avenant : ", mois_de_regul_avenant
+            _logger.info(pl( "mois de regul avenant : ", mois_de_regul_avenant))
 
             # faut-il faire une régul ce mois-ci ?
             faire_regul = (mois_de_regul_avenant == mois_e.mois)
-            print "faire regul : ", faire_regul
+            _logger.info(pl( "faire regul : ", faire_regul))
 
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             indemnite_entretien = 0.0
             indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
-            print "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id
+            _logger.info(pl( "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id))
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
                 j_pres_prev = mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
