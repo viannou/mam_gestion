@@ -51,7 +51,7 @@ class mam_mois_e(osv.Model):
             _logger.info(pl("--- debut calcul mois :", mois_e.avenant_id.contrat_id.enfant_id.nomprenom, date_debut_mois, date_fin_mois))
 
             # calcul du nombre de jours à récupérer du mois précédent pour le calcul des heures complémentaires par semaines
-            if date_debut_mois_d.weekday() >= 5 # le premier du mois est samedi ou dimanche
+            if date_debut_mois_d.weekday() >= 5: # le premier du mois est samedi ou dimanche
                 lundi_mois_prec_d = date_debut_mois_d # on ne va pas chercher les dates du mois précédent
             else:
                 # on commence la recherche au lundi d'avant
