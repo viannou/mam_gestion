@@ -48,6 +48,8 @@
  					<field name="salaire_brut"/>
  					<field name="salaire_net"/>
 					<field name="indemnite_entretien"/>
+					<field name="indemnite_midi"/>
+					<field name="indemnite_gouter"/>
 					<field name="indemnite_frais"/>
 				</group>
 			</form>

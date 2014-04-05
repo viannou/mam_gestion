@@ -76,7 +76,7 @@ class mam_mois_e(osv.Model):
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             indemnite_entretien = 0.0
-            indemnite_frais = 0.0
+            indemnite_midi = indemnite_gouter = indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
             _logger.info(pl( "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id))
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
@@ -99,9 +99,9 @@ class mam_mois_e(osv.Model):
 
                 # calcul des frais repas + autres
                 if jour_e.mange_midi:
-                    indemnite_frais += eur_repas_midi
+                    indemnite_midi += eur_repas_midi
                 if jour_e.mange_gouter:
-                    indemnite_frais += eur_repas_gouter
+                    indemnite_gouter += eur_repas_gouter
                 indemnite_frais += jour_e.frais_montant
 
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
@@ -142,6 +142,8 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
+            result[mois_e.id]['indemnite_midi'] = indemnite_midi
+            result[mois_e.id]['indemnite_gouter'] = indemnite_gouter
             result[mois_e.id]['indemnite_frais'] = indemnite_frais
         return result
     _columns = {
@@ -268,10 +270,24 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
+        "indemnite_midi": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de repas midi",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "indemnite_gouter": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de repas goûter",
+            store=None,
+            multi='calculs_mois',
+        ),
         "indemnite_frais": fields.function(
             calculs_mois,
             type="float",
-            string="Indemnité de repas, kilométrique et de rupture",
+            string="Indemnité kilométrique et de rupture",
             store=None,
             multi='calculs_mois',
         ),
