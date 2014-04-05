@@ -17,10 +17,7 @@ class pl():
         for obj in self.objs:
             pprint.pprint("ici")
             pprint.pprint(obj)
-            if type(obj) == unicode:
-                s += obj.encode('utf-8') + " "
-            else:
-                s += str(obj) + " "
+            s += str(obj) + u" "
             pprint.pprint(s)
 
         return unicode(s, "utf-8") # truc de fou
