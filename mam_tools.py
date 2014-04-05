@@ -17,7 +17,7 @@ class pl():
         for obj in self.objs:
             pprint.pprint("ici")
             pprint.pprint(obj)
-            s += str(obj) + u" "
+            s += obj + u" "
             pprint.pprint(s)
 
         return unicode(s, "utf-8") # truc de fou
