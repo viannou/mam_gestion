@@ -17,7 +17,7 @@ class pl():
     def __init__(self, *objs):
         self.objs = objs
     def __repr__(self):
-        return convert_str_log(u" ".join(self.objs))
+        return convert_str_log(u" ".join([""+obj for obj in self.objs]))
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
