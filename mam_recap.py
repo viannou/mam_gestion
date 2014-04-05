@@ -84,7 +84,7 @@ class mam_mois_e(osv.Model):
 
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
-            m_imprev_semaine = 0
+            m_complementaires = m_supplementaires = m_imprev_semaine = 0
             indemnite_entretien = 0.0
             indemnite_midi = indemnite_gouter = indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
@@ -113,14 +113,13 @@ class mam_mois_e(osv.Model):
                     # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
                     # au delà, c'est des heures supplémentaires
                     if m_imprev_semaine <= 46*60:
-                        m_complementaires = m_imprev_semaine
-                        m_supplementaires = 0
+                        m_complementaires += m_imprev_semaine
                     else:
-                        m_complementaires = 46*60
-                        m_supplementaires = m_imprev_semaine - 46*60
+                        m_complementaires += 46*60
+                        m_supplementaires += m_imprev_semaine - 46*60
                     # on remet le compteur à zero pour la semaine suivante
                     m_imprev_semaine = 0
-                    _logger.error(pl( "semaine : compl:", m_complementaires, "suppl:",m_supplementaires))
+                    _logger.error(pl( "semaine :", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
 
                     
 
