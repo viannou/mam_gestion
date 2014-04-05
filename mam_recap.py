@@ -33,6 +33,7 @@ class mam_mois_e(osv.Model):
         result = {}
         for mois_e in self.browse(cr, uid, ids, context=context):
 
+            #type_contrat = mois_e.avenant_id.contrat_id.type
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
@@ -40,13 +41,17 @@ class mam_mois_e(osv.Model):
             if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
                 jour_debut = int(date_debut_avenant[8:])
             date_debut_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_debut)
+            date_debut_mois_d = datetime.date(mois_e.annee, mois_e.mois, jour_debut)
 
-            jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois
+            jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois = nombre de jours dans le mois
             if date_fin_avenant and date_fin_avenant [:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
                 jour_fin = int(date_fin_avenant[8:])
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
             _logger.info(pl("--- debut calcul mois :", mois_e.avenant_id.contrat_id.enfant_id.nomprenom, date_debut_mois, date_fin_mois))
+
+            # calcul du nombre de jours à récupérer du mois précédent pour le calcul des heures complémentaires par semaines
+            lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
@@ -79,8 +84,15 @@ class mam_mois_e(osv.Model):
             indemnite_midi = indemnite_gouter = indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
             _logger.info(pl( "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id))
-            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',date_debut_mois),('jour','<=',date_fin_mois)], context=context)
+            # attention : on recherche tous les jours en commençant au lundi de la semaine d'avant pour les calculs à la semaine
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',str(lundi_mois_prec_d)),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                if (jour_e.jour < date_debut_mois)
+                    # jours du mois précédent
+                    _logger.info(pl( "semaine prec:", jour_e.jour))
+                    
+                    # mais on ne va pas plus loin
+                    continue
                 j_pres_prev = mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
                 j_pres_imprev = mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 j_absent = mam_tools.conv_str2minutes(jour_e.minutes_absent)
