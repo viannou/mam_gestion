@@ -87,6 +87,7 @@ class mam_mois_e(osv.Model):
             # attention : on recherche tous les jours en commençant au lundi de la semaine d'avant pour les calculs à la semaine
             jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',str(lundi_mois_prec_d)),('jour','<=',date_fin_mois)], context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
+                _logger.warning(pl( "test jours:", jour_e.jour, date_debut_mois))
                 if (jour_e.jour < date_debut_mois):
                     # jours du mois précédent
                     _logger.info(pl( "semaine prec:", jour_e.jour))
