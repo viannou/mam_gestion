@@ -51,7 +51,11 @@ class mam_mois_e(osv.Model):
             _logger.info(pl("--- debut calcul mois :", mois_e.avenant_id.contrat_id.enfant_id.nomprenom, date_debut_mois, date_fin_mois))
 
             # calcul du nombre de jours à récupérer du mois précédent pour le calcul des heures complémentaires par semaines
-            lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
+            if date_debut_mois_d.weekday() >= 5 # le premier du mois est samedi ou dimanche
+                lundi_mois_prec_d = date_debut_mois_d # on ne va pas chercher les dates du mois précédent
+            else:
+                # on commence la recherche au lundi d'avant
+                lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
 
             # tarif du repas du midi par rapport à l'age
             age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
@@ -80,18 +84,18 @@ class mam_mois_e(osv.Model):
 
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
+            m_imprev_semaine = 0
             indemnite_entretien = 0.0
             indemnite_midi = indemnite_gouter = indemnite_frais = 0.0
             mam_jour_e = self.pool.get('mam.jour_e')
             _logger.info(pl( "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id))
             # attention : on recherche tous les jours en commençant au lundi de la semaine d'avant pour les calculs à la semaine
-            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',str(lundi_mois_prec_d)),('jour','<=',date_fin_mois)], context=context)
+            jour_e_ids = mam_jour_e.search(cr, uid, [('enfant_id','=',mois_e.avenant_id.contrat_id.enfant_id.id),('jour','>=',str(lundi_mois_prec_d)),('jour','<=',date_fin_mois)], order='jour', context=context)
             for jour_e in mam_jour_e.browse(cr, uid, jour_e_ids, context=context):
-                _logger.warning(pl( "test jours:", jour_e.jour, date_debut_mois))
                 if (jour_e.jour < date_debut_mois):
                     # jours du mois précédent
                     _logger.info(pl( "semaine prec:", jour_e.jour))
-                    
+                    m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                     # mais on ne va pas plus loin
                     continue
                 j_pres_prev = mam_tools.conv_str2minutes(jour_e.minutes_present_prevu)
@@ -102,6 +106,23 @@ class mam_mois_e(osv.Model):
                 m_pres_imprev += j_pres_imprev
                 m_absent += j_absent
                 m_excuse += j_excuse
+                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+
+                # le vendredi, calcul des jours complémentaires/supplémentaires
+                if datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d').weekday() == 4):
+                    # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
+                    # au delà, c'est des heures supplémentaires
+                    if m_imprev_semaine <= 46*60:
+                        m_complementaires = m_imprev_semaine
+                        m_supplementaires = 0
+                    else:
+                        m_complementaires = 46*60
+                        m_supplementaires = m_imprev_semaine - 46*60
+                    # on remet le compteur à zero pour la semaine suivante
+                    m_imprev_semaine = 0
+                    _logger.error(pl( "semaine : compl:", m_complementaires, "suppl:"m_supplementaires))
+
+                    
 
                 # calculs des frais d'entretiens
                 if j_pres_prev + j_pres_imprev > 0:
@@ -123,15 +144,6 @@ class mam_mois_e(osv.Model):
             m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
             m_effectif = m_contrat - m_excuse
             
-            # heure complémentaire : heure non prévue au contrat jusqu'à 46h # on stocke des minutes
-            # au delà, c'est des heures supplémentaires
-            if m_pres_imprev <= 46*60:
-                m_complementaires = m_pres_imprev
-                m_supplementaires = 0
-            else:
-                m_complementaires = 46*60
-                m_supplementaires = m_pres_imprev - 46*60
-
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
             presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
