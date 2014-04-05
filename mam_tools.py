@@ -2,6 +2,7 @@
 from datetime import datetime,date,timedelta
 import re
 import pprint
+import unicodedata
 
 class ppl():
     def __init__(self, *objs):
@@ -19,7 +20,7 @@ class pl():
             pprint.pprint(obj)
             s += obj + u" "
             pprint.pprint(s)
-        return u" ".join([str(obj).decode('utf-8') for obj in self.objs]).normalize('NFKD', title).encode('ascii','ignore')
+        return unicodedata.normalize('NFKD', u" ".join([str(obj).decode('utf-8') for obj in self.objs])).encode('ascii','ignore')
         #return " ".join([str(obj).decode('utf-8') for obj in self.objs])
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
