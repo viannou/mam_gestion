@@ -50,7 +50,7 @@ class mam_mois_e(osv.Model):
             print "50"
             _logger.info(u"100 --- debut calcul mois éé : de%s à %s  %s", date_debut_mois, date_fin_mois, u"Maël")
             print "180"
-            _logger.info([[("e","é")],("e","é")])
+            _logger.info(ppl([[("e","é")],("e","é")]))
             print "195"
             _logger.info("message info")
             _logger.warning("message warning")
