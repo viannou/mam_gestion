@@ -109,7 +109,7 @@ class mam_mois_e(osv.Model):
                 m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
 
                 # le vendredi, calcul des jours complémentaires/supplémentaires
-                if datetime.strptime(mois_e.jour,'%Y-%m-%d').weekday() == 4:
+                if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
                     # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
                     # au delà, c'est des heures supplémentaires
                     if m_imprev_semaine <= 46*60:
