@@ -87,6 +87,7 @@ class mam_mois_e(osv.Model):
             m_complementaires = m_supplementaires = m_imprev_semaine = 0
             indemnite_entretien = 0.0
             indemnite_midi = indemnite_gouter = indemnite_frais = 0.0
+            nb_jours_activite = 0
             mam_jour_e = self.pool.get('mam.jour_e')
             _logger.info(pl( "enfant_id", mois_e.avenant_id.contrat_id.enfant_id.id))
             # attention : on recherche tous les jours en commençant au lundi de la semaine d'avant pour les calculs à la semaine
@@ -107,6 +108,8 @@ class mam_mois_e(osv.Model):
                 m_absent += j_absent
                 m_excuse += j_excuse
                 m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                if j_pres_prev + j_pres_imprev + j_absent > 0:
+                    nb_jours_activite++
 
                 # le vendredi, calcul des jours complémentaires/supplémentaires
                 if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
@@ -121,7 +124,7 @@ class mam_mois_e(osv.Model):
                     m_imprev_semaine = 0
                     _logger.error(pl( "semaine :", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
 
-                    
+
 
                 # calculs des frais d'entretiens
                 if j_pres_prev + j_pres_imprev > 0:
@@ -159,6 +162,7 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['nb_heures_mois_effectif'] = mam_tools.conv_minutes2str(m_effectif)
             result[mois_e.id]['nb_heures_complementaires'] = mam_tools.conv_minutes2str(m_complementaires)
             result[mois_e.id]['nb_heures_supplementaires'] = mam_tools.conv_minutes2str(m_supplementaires)
+            result[mois_e.id]['nb_jours_activite'] = nb_jours_activite
             result[mois_e.id]['presences_brut'] = presences_net * coef_net_brut
             result[mois_e.id]['presences_net'] = presences_net
             result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
@@ -242,6 +246,13 @@ class mam_mois_e(osv.Model):
             calculs_mois,
             type="char",
             string="Nb heures supplémentaires",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "nb_jours_activite": fields.function(
+            calculs_mois,
+            type="integer",
+            string="Nb jours d'activité",
             store=None,
             multi='calculs_mois',
         ),
