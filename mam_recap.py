@@ -109,7 +109,7 @@ class mam_mois_e(osv.Model):
                 m_excuse += j_excuse
                 m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 if j_pres_prev + j_pres_imprev + j_absent > 0:
-                    nb_jours_activite++
+                    nb_jours_activite += 1
 
                 # le vendredi, calcul des jours complémentaires/supplémentaires
                 if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
