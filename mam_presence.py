@@ -3,6 +3,9 @@ from osv import fields,osv
 from datetime import datetime,date,timedelta
 import re
 import mam_tools
+import logging
+
+_logger = logging.getLogger("presence ::::")
 
 class mam_jour_e(osv.Model):
     _name = 'mam.jour_e'

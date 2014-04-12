@@ -1,6 +1,23 @@
 # -*- coding: utf8 -*-
 from datetime import datetime,date,timedelta
 import re
+import pprint
+import unicodedata
+
+def convert_str_log(s):
+    return unicodedata.normalize('NFKD', s).encode('ascii','ignore')
+
+class ppl():
+    def __init__(self, *objs):
+        self.objs = objs
+    def __repr__(self):
+        return " ".join([pprint.pformat(obj) for obj in self.objs])
+
+class pl():
+    def __init__(self, *objs):
+        self.objs = objs
+    def __repr__(self):
+        return convert_str_log(u" ".join([str(obj) for obj in self.objs]))
 
 def verif_heures(hdebut, hfin, fin_obligatoire=False):
     try:
