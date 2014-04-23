@@ -72,6 +72,7 @@
 									<tree> 
 										<field name="jour"/>
 
+										
 										<field name="enfant_id"/>
 										<field name="state"/>
 										<field name="libelle_prevue"/>
