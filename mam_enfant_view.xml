@@ -78,7 +78,7 @@
 										<field name="mange_gouter"/>
 										<button name="action_effacer_prevision" type="object" class="oe_highlight" string="Effacer prev." attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_associer_jour_type_1" type="object" icon="gtk-media-play" string="Jour type 1" context="{'numero_type':0}" attrs="{'invisible': [('state','!=','encours')]}" />
-										<button name="action_associer_jour_type_2" type="object" string="Jour type 2" context="{'numero_type':1}" attrs="{'invisible': [('state','!=','encours')]}" />
+										<button name="action_associer_jour_type_2" type="object" icon="gtk-execute" string="Jour type 2" context="{'numero_type':1}" attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_associer_jour_type_3" type="object" string="Jour type 3" context="{'numero_type':2}" attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_associer_jour_type_4" type="object" string="Jour type 4" context="{'numero_type':3}" attrs="{'invisible': [('state','!=','encours')]}" />
 									</tree> 
