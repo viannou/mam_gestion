@@ -70,14 +70,12 @@
 							<group col="2" colspan="4">
 								<field name="jour_e_ids" nolabel="1" readonly="1" > 
 									<tree> 
-										<field name="jour"/>
-
-										
 										<field name="enfant_id"/>
-										<field name="state"/>
+										<field name="jour"/>
 										<field name="libelle_prevue"/>
 										<field name="mange_midi"/>
 										<field name="mange_gouter"/>
+										<field name="state"/>
 										<button name="action_effacer_prevision" type="object" string="Effacer prev." attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_associer_jour_type_1" type="object" string="Jour type 1" context="{'numero_type':0}" attrs="{'invisible': [('state','!=','encours')]}" />
 										<button name="action_associer_jour_type_2" type="object" string="Jour type 2" context="{'numero_type':1}" attrs="{'invisible': [('state','!=','encours')]}" />
