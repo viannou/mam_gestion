@@ -33,7 +33,7 @@ class mam_mois_e(osv.Model):
         result = {}
         for mois_e in self.browse(cr, uid, ids, context=context):
 
-            #type_contrat = mois_e.avenant_id.contrat_id.type
+            type_contrat = mois_e.avenant_id.contrat_id.type
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
@@ -144,21 +144,35 @@ class mam_mois_e(osv.Model):
 # cause am = comme quand malade
 
             m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
+            salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
+
             m_effectif = m_contrat - m_excuse
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
             presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
-            salaire_net = presences_net + absences_net
+
+            # salaire_hors_cp_abs_net:
+            # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
+            # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
+            if type_contrat == u'normal':
+                salaire_hors_cp_abs_net = salaire_base_net
+            else:
+                salaire_hors_cp_abs_net = presences_net
+            salaire_hors_abs_net = 0
+            salaire_net = 0 #presences_net + absences_net
 
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
             result[mois_e.id]['jour_fin'] = jour_fin
+            result[mois_e.id]['type_contrat'] = type_contrat
             result[mois_e.id]['minutes_present_prevu'] = mam_tools.conv_minutes2str(m_pres_prev)
             result[mois_e.id]['minutes_present_imprevu'] = mam_tools.conv_minutes2str(m_pres_imprev)
             result[mois_e.id]['minutes_absent'] = mam_tools.conv_minutes2str(m_absent)
             result[mois_e.id]['minutes_excuse'] = mam_tools.conv_minutes2str(m_excuse)
             result[mois_e.id]['nb_heures_mois_contrat'] = mam_tools.conv_minutes2str(m_contrat)
+            result[mois_e.id]['salaire_base_brut'] = salaire_base_net * coef_net_brut
+            result[mois_e.id]['salaire_base_net'] = salaire_base_net
             result[mois_e.id]['nb_heures_mois_effectif'] = mam_tools.conv_minutes2str(m_effectif)
             result[mois_e.id]['nb_heures_complementaires'] = mam_tools.conv_minutes2str(m_complementaires)
             result[mois_e.id]['nb_heures_supplementaires'] = mam_tools.conv_minutes2str(m_supplementaires)
@@ -167,6 +181,10 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['presences_net'] = presences_net
             result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
             result[mois_e.id]['absences_net'] = absences_net
+            result[mois_e.id]['salaire_hors_cp_abs_brut'] = salaire_hors_cp_abs_net * coef_net_brut
+            result[mois_e.id]['salaire_hors_cp_abs_net'] = salaire_hors_cp_abs_net
+            result[mois_e.id]['salaire_hors_abs_brut'] = salaire_hors_abs_net * coef_net_brut
+            result[mois_e.id]['salaire_hors_abs_net'] = salaire_hors_abs_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
@@ -197,6 +215,13 @@ class mam_mois_e(osv.Model):
             calculs_mois,
             type="char",
             string="Prés. prévu",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "type_contrat": fields.function(
+            calculs_mois,
+            type="char",
+            string="Type de contrat",
             store=None,
             multi='calculs_mois',
         ),
@@ -281,6 +306,48 @@ class mam_mois_e(osv.Model):
             calculs_mois,
             type="float",
             string="Absences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_base_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire de base brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_base_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire de base net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_hors_cp_abs_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire hors CP et absences brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_hors_cp_abs_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire hors CP et absences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_hors_abs_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire avec CP hors absences brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "salaire_hors_abs_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Salaire avec CP hors absences net",
             store=None,
             multi='calculs_mois',
         ),
