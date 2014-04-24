@@ -153,9 +153,12 @@ class mam_mois_e(osv.Model):
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
             # salaire_hors_cp_abs_net:
-            # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
-            salaire_hors_cp_abs_net = 0
+            # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
+            if type_contrat = u'normal':
+                salaire_hors_cp_abs_net = salaire_base_net
+            else:
+                salaire_hors_cp_abs_net = presences_net
             salaire_hors_abs_net = 0
             salaire_net = 0 #presences_net + absences_net
 
