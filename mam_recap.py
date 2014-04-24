@@ -33,7 +33,7 @@ class mam_mois_e(osv.Model):
         result = {}
         for mois_e in self.browse(cr, uid, ids, context=context):
 
-            #type_contrat = mois_e.avenant_id.contrat_id.type
+            type_contrat = mois_e.avenant_id.contrat_id.type
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
