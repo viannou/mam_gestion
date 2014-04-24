@@ -33,6 +33,7 @@
 					<field name="avenant_id"/>
 					<field name="jour_debut"/>
 					<field name="jour_fin"/>
+					<field name="type_contrat"/>
 					<field name="minutes_present_prevu"/>
 					<field name="minutes_present_imprevu"/>
 					<field name="minutes_absent"/>
@@ -46,6 +47,12 @@
  					<field name="presences_net"/>
  					<field name="absences_brut"/>
  					<field name="absences_net"/>
+ 					<field name="salaire_base_brut"/>
+ 					<field name="salaire_base_net"/>
+ 					<field name="salaire_hors_cp_abs_brut"/>
+ 					<field name="salaire_hors_cp_abs_net"/>
+ 					<field name="salaire_hors_abs_brut"/>
+ 					<field name="salaire_hors_abs_net"/>
  					<field name="salaire_brut"/>
  					<field name="salaire_net"/>
 					<field name="indemnite_entretien"/>
