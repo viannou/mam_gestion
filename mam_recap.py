@@ -155,7 +155,7 @@ class mam_mois_e(osv.Model):
             # salaire_hors_cp_abs_net:
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
-            if type_contrat = u'normal':
+            if type_contrat == u'normal':
                 salaire_hors_cp_abs_net = salaire_base_net
             else:
                 salaire_hors_cp_abs_net = presences_net
