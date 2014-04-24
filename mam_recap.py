@@ -144,7 +144,7 @@ class mam_mois_e(osv.Model):
 # cause am = comme quand malade
 
             m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
-			salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
+            salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
 
             m_effectif = m_contrat - m_excuse
             
@@ -152,11 +152,11 @@ class mam_mois_e(osv.Model):
             presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
-			# salaire_hors_cp_abs_net:
-			# Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
-			# Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
-			salaire_hors_cp_abs_net = 0
-			salaire_hors_abs_net = 0
+            # salaire_hors_cp_abs_net:
+            # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
+            # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
+            salaire_hors_cp_abs_net = 0
+            salaire_hors_abs_net = 0
             salaire_net = 0 #presences_net + absences_net
 
             result[mois_e.id] = {}
