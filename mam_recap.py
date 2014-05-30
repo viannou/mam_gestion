@@ -59,7 +59,7 @@ class mam_mois_e(osv.Model):
                 lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
 
             # tarif du repas du midi par rapport à l'age
-            age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
+            age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30.417
             _logger.info(pl( "age du gamin", age_mois))
             if age_mois > 18:
                 eur_repas_midi = eur_repas_midi_plus_18m
@@ -115,23 +115,25 @@ class mam_mois_e(osv.Model):
                 m_pres_imprev += j_pres_imprev
                 m_absent += j_absent
                 m_excuse += j_excuse
-                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 if j_pres_prev + j_pres_imprev + j_absent > 0:
                     nb_jours_activite += 1
 
-                # le vendredi, calcul des jours complémentaires/supplémentaires
-                if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
-                    # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
-                    # au delà, c'est des heures supplémentaires
-                    if m_imprev_semaine <= 46*60:
-                        m_complementaires += m_imprev_semaine
-                    else:
-                        m_complementaires += 46*60
-                        m_supplementaires += m_imprev_semaine - 46*60
-                    _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
-                    remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
-                    # on remet le compteur à zero pour la semaine suivante
-                    m_imprev_semaine = 0
+                # pour un contrat normal, on compte les heures complémentaires et supplémentaires
+                if type_contrat == u'normal':
+                    m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                    # le vendredi, calcul des jours complémentaires/supplémentaires
+                    if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
+                        # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
+                        # au delà, c'est des heures supplémentaires
+                        if m_imprev_semaine <= 46*60:
+                            m_complementaires += m_imprev_semaine
+                        else:
+                            m_complementaires += 46*60
+                            m_supplementaires += m_imprev_semaine - 46*60
+                        _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
+                        remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
+                        # on remet le compteur à zero pour la semaine suivante
+                        m_imprev_semaine = 0
 
 
 
