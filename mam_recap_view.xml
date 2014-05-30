@@ -34,6 +34,7 @@
 					<field name="jour_debut"/>
 					<field name="jour_fin"/>
 					<field name="type_contrat"/>
+					
 					<field name="remarques"/>
 
 					<field name="minutes_present_prevu"/>

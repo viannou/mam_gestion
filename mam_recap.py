@@ -37,7 +37,7 @@ class mam_mois_e(osv.Model):
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
-            remarques = ""
+            remarques = "Automatique"
             jour_debut = 1
             if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
                 jour_debut = int(date_debut_avenant[8:])
