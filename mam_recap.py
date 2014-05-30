@@ -161,6 +161,10 @@ class mam_mois_e(osv.Model):
             m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse + m_complementaires + m_supplementaires) % 60)) % 60 
             remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
             remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_pres_prev-m_excuse + m_ajout_arrondi + m_complementaires + m_supplementaires) + "\n"
+            remarques += "  debug : " + mam_tools.conv_minutes2str(m_pres_prev) + "\n"
+            remarques += "  debug : " + mam_tools.conv_minutes2str(m_excuse) + "\n"
+            remarques += "  debug : " + mam_tools.conv_minutes2str(m_complementaires) + "\n"
+            remarques += "  debug : " + mam_tools.conv_minutes2str(m_supplementaires) + "\n"
             presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
