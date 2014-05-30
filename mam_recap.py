@@ -59,7 +59,7 @@ class mam_mois_e(osv.Model):
                 lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
 
             # tarif du repas du midi par rapport à l'age
-            age_mois = round ((datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30.417 , 0)
+            age_mois = int((datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30.417)
             _logger.info(pl( "age du gamin", age_mois))
             if age_mois > 18:
                 eur_repas_midi = eur_repas_midi_plus_18m
