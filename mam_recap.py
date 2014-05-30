@@ -159,7 +159,7 @@ class mam_mois_e(osv.Model):
             # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
             if indemnite_entretien < eur_entretien_minimum and not est_debut_avenant and not est_fin_avenant :
                 # TODO: a améliorer pour que si le début du contrat et le premier jour du mois ou fin = fin on prenne qd meme le minimum...
-                remarques += "Passage entretien minimum : " + `indemnite_entretien` + " --> " + `indemnite_entretien` + "\n"
+                remarques += "Passage entretien minimum : " + `indemnite_entretien` + " --> " + `eur_entretien_minimum` + "\n"
                 indemnite_entretien = eur_entretien_minimum
 
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
