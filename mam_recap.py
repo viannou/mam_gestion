@@ -397,7 +397,7 @@ class mam_mois_e(osv.Model):
         ),
         "remarques": fields.function(
             calculs_mois,
-            type="float",
+            type="text",
             string="Remarques",
             store=None,
             multi='calculs_mois',
