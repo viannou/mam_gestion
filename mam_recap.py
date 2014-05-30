@@ -137,7 +137,7 @@ class mam_mois_e(osv.Model):
 
                 # calculs des frais d'entretiens
                 if j_pres_prev + j_pres_imprev > 0:
-                    if j_pres_prev + j_pres_imprev <= 9*60:
+                    if j_pres_prev + j_pres_imprev < 9*60:
                         indemnite_entretien += eur_entretien_0_9
                     else:
                         indemnite_entretien += eur_entretien_9_plus
