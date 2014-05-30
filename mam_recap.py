@@ -129,7 +129,7 @@ class mam_mois_e(osv.Model):
                         m_complementaires += 46*60
                         m_supplementaires += m_imprev_semaine - 46*60
                     _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
-                    remarques += "imprevu semaine " + jour_e.jour + ":"+ `m_imprev_semaine`+ ", total compl:"+ `m_complementaires`+ ", total suppl:"+`m_supplementaires`+"\n"
+                    remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
                     # on remet le compteur à zero pour la semaine suivante
                     m_imprev_semaine = 0
 
@@ -158,7 +158,9 @@ class mam_mois_e(osv.Model):
             m_effectif = m_contrat - m_excuse
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse + m_complementaires + m_supplementaires) % 60)) % 60 
+            remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
+            presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
             # salaire_hors_cp_abs_net:
