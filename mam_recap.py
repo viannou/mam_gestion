@@ -37,7 +37,7 @@ class mam_mois_e(osv.Model):
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
-            remarques = "Automatique\n"
+            remarques = ""
             jour_debut = 1
             if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
                 jour_debut = int(date_debut_avenant[8:])
@@ -84,7 +84,12 @@ class mam_mois_e(osv.Model):
             # faut-il faire une régul ce mois-ci ?
             faire_regul = (mois_de_regul_avenant == mois_e.mois)
             _logger.info(pl( "faire regul : ", faire_regul))
+            if faire_regul:
+                remarques += "il faut faire une régul ce mois-ci\n"
+            else:
+                remarques += "il ne faut pas faire une régul ce mois-ci\n"
 
+            
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             m_complementaires = m_supplementaires = m_imprev_semaine = 0
@@ -123,8 +128,9 @@ class mam_mois_e(osv.Model):
                     else:
                         m_complementaires += 46*60
                         m_supplementaires += m_imprev_semaine - 46*60
-                    # on remet le compteur à zero pour la semaine suivante
                     _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
+                    remarques += "total semaine " + jour_e.jour + ", imprevu:"+ `m_imprev_semaine`+ ", compl:"+ `m_complementaires`+ ", suppl:"+`m_supplementaires`
+                    # on remet le compteur à zero pour la semaine suivante
                     m_imprev_semaine = 0
 
 
