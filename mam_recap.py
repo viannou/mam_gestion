@@ -67,8 +67,8 @@ class mam_mois_e(osv.Model):
             else:
                 eur_repas_midi = eur_repas_midi_6_18m
                 _logger.info(pl( ">= 18, repas midi :",eur_repas_midi))
-            remarques += "age enfant : " + age_mois + "\n"
-            remarques += "tarif repas : " + eur_repas_midi + "\n"
+            remarques += "age enfant : " + `age_mois` + "\n"
+            remarques += "tarif repas : " + `eur_repas_midi` + "\n"
                 
             # calcul du mois de régul
             if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
