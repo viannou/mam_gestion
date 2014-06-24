@@ -120,6 +120,8 @@ class mam_mois_e(osv.Model):
                 m_pres_imprev += j_pres_imprev
                 m_absent += j_absent
                 m_excuse += j_excuse
+                # la ligne suivante avait été virée, mais je la remets.
+                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 if j_pres_prev + j_pres_imprev + j_absent > 0:
                     nb_jours_activite += 1
 
