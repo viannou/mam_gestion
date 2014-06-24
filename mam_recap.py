@@ -124,7 +124,7 @@ class mam_mois_e(osv.Model):
                     nb_jours_activite += 1
 
                 # pour un contrat normal, on compte les heures complémentaires et supplémentaires
-                if type_contrat == u'normal' && type_contrat != u'normal': ### DEBUG
+                if type_contrat == u'normal' and not type_contrat == u'normal': ### DEBUG
                     m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                     # le vendredi, calcul des jours complémentaires/supplémentaires
                     if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
