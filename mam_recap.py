@@ -149,13 +149,12 @@ class mam_mois_e(osv.Model):
                     m_complementaires = 0
 
                     
-                if type_contrat == u'normal':
-                    # calculs des frais d'entretiens
-                    if j_pres_prev + j_pres_imprev > 0:
-                        if j_pres_prev + j_pres_imprev < 9*60:
-                            indemnite_entretien += eur_entretien_0_9
-                        else:
-                            indemnite_entretien += eur_entretien_9_plus
+                # calculs des frais d'entretiens
+                if j_pres_prev + j_pres_imprev > 0:
+                    if j_pres_prev + j_pres_imprev < 9*60:
+                        indemnite_entretien += eur_entretien_0_9
+                    else:
+                        indemnite_entretien += eur_entretien_9_plus
 
                 # calcul des frais repas + autres
                 if jour_e.mange_midi:
@@ -219,7 +218,7 @@ class mam_mois_e(osv.Model):
             else:
                 salaire_hors_cp_abs_net = presences_net
                 # CP : 10% tous les mois
-                cp_net = 0
+                cp_net = salaire_hors_cp_abs_net * 0.1
 
             salaire_net = salaire_hors_cp_abs_net + cp_net - absences_net  + complementaires_net + supplementaires_net
             
