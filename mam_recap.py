@@ -140,14 +140,12 @@ class mam_mois_e(osv.Model):
                         # on remet le compteur à zero pour la semaine suivante
                         m_imprev_semaine = 0
 
-
-
-                # calculs des frais d'entretiens
-                if j_pres_prev + j_pres_imprev > 0:
-                    if j_pres_prev + j_pres_imprev < 9*60:
-                        indemnite_entretien += eur_entretien_0_9
-                    else:
-                        indemnite_entretien += eur_entretien_9_plus
+                    # calculs des frais d'entretiens
+                    if j_pres_prev + j_pres_imprev > 0:
+                        if j_pres_prev + j_pres_imprev < 9*60:
+                            indemnite_entretien += eur_entretien_0_9
+                        else:
+                            indemnite_entretien += eur_entretien_9_plus
 
                 # calcul des frais repas + autres
                 if jour_e.mange_midi:
@@ -156,11 +154,12 @@ class mam_mois_e(osv.Model):
                     indemnite_gouter += eur_repas_gouter
                 indemnite_frais += jour_e.frais_montant
 
-            # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
-            if indemnite_entretien < eur_entretien_minimum and not est_debut_avenant and not est_fin_avenant :
-                # TODO: a améliorer pour que si le début du contrat et le premier jour du mois ou fin = fin on prenne qd meme le minimum...
-                remarques += "Passage entretien minimum : " + `indemnite_entretien` + " --> " + `eur_entretien_minimum` + "\n"
-                indemnite_entretien = eur_entretien_minimum
+            if type_contrat == u'normal':
+                # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
+                if indemnite_entretien < eur_entretien_minimum and not est_debut_avenant and not est_fin_avenant :
+                    # TODO: a améliorer pour que si le début du contrat et le premier jour du mois ou fin = fin on prenne qd meme le minimum...
+                    remarques += "Passage entretien minimum : " + `indemnite_entretien` + " --> " + `eur_entretien_minimum` + "\n"
+                    indemnite_entretien = eur_entretien_minimum
 
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
 # cause am = comme quand malade
@@ -169,6 +168,8 @@ class mam_mois_e(osv.Model):
             salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
 
             m_effectif = m_contrat - m_excuse
+            # on arrondit au dessus :
+            m_effectif = (m_effectif + 59) / 60 * 60
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
             m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse + m_complementaires + m_supplementaires) % 60)) % 60 
@@ -181,11 +182,27 @@ class mam_mois_e(osv.Model):
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
             if type_contrat == u'normal':
-                salaire_hors_cp_abs_net = salaire_base_net
+                # TODO : le premier mois il est compté en présence_net
+                if est_debut_avenant:
+                    salaire_hors_cp_abs_net = presences_net
+                else:
+                    salaire_hors_cp_abs_net = salaire_base_net
+                # TODO :
+                # les congés payés ne sont pas pris en compte depuis le début jusqu'au 31 mais
+                # a partir du 1er juin qui suit le début du contrat, il faut ajouter les congés payés qui sont fonction du début du contrat
+                # les CP, c'est un montant fixe 1/12 de 1/10 de la rémunération net (salaire net) qui a eu lieu jusqu'à présent
+                # ce montant, c'est toujours le même pendant 1 an.
+                # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
+                
             else:
                 salaire_hors_cp_abs_net = presences_net
-            salaire_hors_abs_net = 0
+            salaire_hors_abs_net = 0 # en fait lui on n'en a pas besoin
             salaire_net = 0 #presences_net + absences_net
+            
+            # TODO : calcul de l'indemnité de rupture :
+            # il faut que le contrat ait plus d'un an d'ancienneté
+            # = 1/120 du total des salaires net perçus pendant la totalité du contrat
+            indemnite_rupture = 0
 
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
@@ -212,6 +229,7 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['salaire_hors_abs_net'] = salaire_hors_abs_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
+            result[mois_e.id]['indemnite_rupture'] = indemnite_rupture
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
             result[mois_e.id]['indemnite_midi'] = indemnite_midi
             result[mois_e.id]['indemnite_gouter'] = indemnite_gouter
@@ -415,7 +433,14 @@ class mam_mois_e(osv.Model):
         "indemnite_frais": fields.function(
             calculs_mois,
             type="float",
-            string="Indemnité kilométrique et de rupture",
+            string="Indemnité kilométrique",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "indemnite_rupture": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de rupture",
             store=None,
             multi='calculs_mois',
         ),

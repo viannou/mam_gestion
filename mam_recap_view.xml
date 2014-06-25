@@ -55,6 +55,7 @@
  					<field name="salaire_hors_abs_net"/>
  					<field name="salaire_brut"/>
  					<field name="salaire_net"/>
+					<field name="indemnite_rupture"/>
 					<field name="indemnite_entretien"/>
 					<field name="indemnite_midi"/>
 					<field name="indemnite_gouter"/>
