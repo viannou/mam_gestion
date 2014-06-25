@@ -124,22 +124,26 @@ class mam_mois_e(osv.Model):
                     nb_jours_activite += 1
 
                 # pour un contrat normal, on compte les heures complémentaires et supplémentaires
-                if type_contrat == u'normal':
-                    m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
-                    # le vendredi, calcul des jours complémentaires/supplémentaires
-                    if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
-                        # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
-                        # au delà, c'est des heures supplémentaires
-                        if m_imprev_semaine <= 46*60:
-                            m_complementaires += m_imprev_semaine
-                        else:
-                            m_complementaires += 46*60
-                            m_supplementaires += m_imprev_semaine - 46*60
-                        _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
-                        remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
-                        # on remet le compteur à zero pour la semaine suivante
-                        m_imprev_semaine = 0
+                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                # le vendredi, calcul des jours complémentaires/supplémentaires
+                if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
+                    # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
+                    # au delà, c'est des heures supplémentaires
+                    if m_imprev_semaine <= 46*60:
+                        m_complementaires += m_imprev_semaine
+                    else:
+                        m_complementaires += 46*60
+                        m_supplementaires += m_imprev_semaine - 46*60
+                    _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
+                    remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
+                    # on remet le compteur à zero pour la semaine suivante
+                    m_imprev_semaine = 0
+                # pour un contrat halte garderie, on ne compte que les heures supplémentaires
+                if type_contrat != u'normal':
+                    m_complementaires = 0
 
+                    
+                if type_contrat == u'normal':
                     # calculs des frais d'entretiens
                     if j_pres_prev + j_pres_imprev > 0:
                         if j_pres_prev + j_pres_imprev < 9*60:
@@ -164,17 +168,18 @@ class mam_mois_e(osv.Model):
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
 # cause am = comme quand malade
 
-            m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
-            salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
+                m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
+                salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
 
-            m_effectif = m_contrat - m_excuse
-            # on arrondit au dessus :
-            m_effectif = (m_effectif + 59) / 60 * 60
+                m_effectif = m_contrat - m_excuse
+                # on arrondit au dessus :
+                m_effectif = (m_effectif + 59) / 60 * 60
+            
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse + m_complementaires + m_supplementaires) % 60)) % 60 
+            m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse) % 60)) % 60 
             remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
-            remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_pres_prev-m_excuse + m_ajout_arrondi + m_complementaires + m_supplementaires) + "\n"
+            remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_pres_prev-m_excuse + m_ajout_arrondi) + "\n"
             complementaires_net = float(m_complementaires)/60 * eur_salaire_complementaire_net
             supplementaires_net = float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net
@@ -226,10 +231,10 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['nb_jours_activite'] = nb_jours_activite
             result[mois_e.id]['presences_brut'] = presences_net * coef_net_brut
             result[mois_e.id]['presences_net'] = presences_net
-            result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
-            result[mois_e.id]['absences_net'] = absences_net
             result[mois_e.id]['salaire_hors_cp_abs_brut'] = salaire_hors_cp_abs_net * coef_net_brut
             result[mois_e.id]['salaire_hors_cp_abs_net'] = salaire_hors_cp_abs_net
+            result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
+            result[mois_e.id]['absences_net'] = absences_net
             result[mois_e.id]['cp_brut'] = cp_net * coef_net_brut
             result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
