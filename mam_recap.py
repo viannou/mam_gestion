@@ -183,6 +183,7 @@ class mam_mois_e(osv.Model):
             # salaire_hors_cp_abs_net :
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
+            cp_net = 0
             if type_contrat == u'normal':
                 # TODO : le premier mois il est compté en présence_net
                 if est_debut_avenant:
@@ -198,6 +199,9 @@ class mam_mois_e(osv.Model):
                 cp_net = 0
             else:
                 salaire_hors_cp_abs_net = presences_net
+                # CP : 10% tous les mois
+                cp_net = 0
+
             salaire_net = salaire_hors_cp_abs_net + cp_net - absences_net  + complementaires_net + supplementaires_net
             
             # TODO : calcul de l'indemnité de rupture :
