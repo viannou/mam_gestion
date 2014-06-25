@@ -158,6 +158,9 @@ class mam_mois_e(osv.Model):
                     indemnite_gouter += eur_repas_gouter
                 indemnite_frais += jour_e.frais_montant
 
+            m_contrat = 0
+            salaire_base_net = 0
+            m_effectif = 0
             if type_contrat == u'normal':
                 # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
                 if indemnite_entretien < eur_entretien_minimum and not est_debut_avenant and not est_fin_avenant :
