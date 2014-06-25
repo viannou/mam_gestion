@@ -51,8 +51,8 @@
  					<field name="salaire_base_net"/>
  					<field name="salaire_hors_cp_abs_brut"/>
  					<field name="salaire_hors_cp_abs_net"/>
- 					<field name="salaire_hors_abs_brut"/>
- 					<field name="salaire_hors_abs_net"/>
+ 					<field name="cp_brut"/>
+ 					<field name="cp_net"/>
  					<field name="salaire_brut"/>
  					<field name="salaire_net"/>
 					<field name="indemnite_rupture"/>

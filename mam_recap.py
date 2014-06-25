@@ -175,10 +175,12 @@ class mam_mois_e(osv.Model):
             m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse + m_complementaires + m_supplementaires) % 60)) % 60 
             remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
             remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_pres_prev-m_excuse + m_ajout_arrondi + m_complementaires + m_supplementaires) + "\n"
-            presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            complementaires_net = float(m_complementaires)/60 * eur_salaire_complementaire_net
+            supplementaires_net = float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
-            # salaire_hors_cp_abs_net:
+            # salaire_hors_cp_abs_net :
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
             if type_contrat == u'normal':
@@ -193,11 +195,10 @@ class mam_mois_e(osv.Model):
                 # les CP, c'est un montant fixe 1/12 de 1/10 de la rémunération net (salaire net) qui a eu lieu jusqu'à présent
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
-                
+                cp_net = 0
             else:
                 salaire_hors_cp_abs_net = presences_net
-            salaire_hors_abs_net = 0 # en fait lui on n'en a pas besoin
-            salaire_net = 0 #presences_net + absences_net
+            salaire_net = salaire_hors_cp_abs_net + cp_net - absences_net  + complementaires_net + supplementaires_net
             
             # TODO : calcul de l'indemnité de rupture :
             # il faut que le contrat ait plus d'un an d'ancienneté
@@ -225,8 +226,8 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['absences_net'] = absences_net
             result[mois_e.id]['salaire_hors_cp_abs_brut'] = salaire_hors_cp_abs_net * coef_net_brut
             result[mois_e.id]['salaire_hors_cp_abs_net'] = salaire_hors_cp_abs_net
-            result[mois_e.id]['salaire_hors_abs_brut'] = salaire_hors_abs_net * coef_net_brut
-            result[mois_e.id]['salaire_hors_abs_net'] = salaire_hors_abs_net
+            result[mois_e.id]['cp_brut'] = cp_net * coef_net_brut
+            result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
             result[mois_e.id]['indemnite_rupture'] = indemnite_rupture
@@ -381,17 +382,17 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
-        "salaire_hors_abs_brut": fields.function(
+        "cp_brut": fields.function(
             calculs_mois,
             type="float",
-            string="Salaire avec CP hors absences brut",
+            string="CP brut",
             store=None,
             multi='calculs_mois',
         ),
-        "salaire_hors_abs_net": fields.function(
+        "cp_net": fields.function(
             calculs_mois,
             type="float",
-            string="Salaire avec CP hors absences net",
+            string="CP net",
             store=None,
             multi='calculs_mois',
         ),
