@@ -122,9 +122,15 @@ class mam_mois_e(osv.Model):
                 m_excuse += j_excuse
                 if j_pres_prev + j_pres_imprev + j_absent > 0:
                     nb_jours_activite += 1
+                
+                # pour les contrats halte garderie, il n'y a pas de prévu, seulement de l'imprévu ; on transfert tout dans l'imprévu.
+                if type_contrat != u'normal':
+                    m_pres_imprev += m_pres_prev
+                    m_pres_prev = 0
+
 
                 # pour un contrat normal, on compte les heures complémentaires et supplémentaires
-                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
+                m_imprev_semaine += j_pres_imprev
                 # le vendredi, calcul des jours complémentaires/supplémentaires
                 if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
                     # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
@@ -178,14 +184,19 @@ class mam_mois_e(osv.Model):
                 # on arrondit au dessus :
                 m_effectif = (m_effectif + 59) / 60 * 60
             
+            if type_contrat == u'normal':
+                m_a_comptabiliser = m_pres_prev-m_excuse
+            else:
+                m_a_comptabiliser = m_pres_imprev
+            
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            m_ajout_arrondi = (60 - ((m_pres_prev-m_excuse) % 60)) % 60 
+            m_ajout_arrondi = (60 - ((m_a_comptabiliser) % 60)) % 60 
             remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
-            remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_pres_prev-m_excuse + m_ajout_arrondi) + "\n"
+            remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_a_comptabiliser + m_ajout_arrondi) + "\n"
             complementaires_net = float(m_complementaires)/60 * eur_salaire_complementaire_net
             supplementaires_net = float(m_supplementaires)/60 * eur_salaire_supplementaire_net
-            presences_net = float(m_pres_prev-m_excuse + m_ajout_arrondi)/60 * eur_salaire_horaire_net
+            presences_net = float(m_a_comptabiliser + m_ajout_arrondi)/60 * eur_salaire_horaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
             # salaire_hors_cp_abs_net :
