@@ -23,6 +23,7 @@ class mam_mois_e(osv.Model):
         eur_salaire_supplementaire_net = 4.0 # 4.0€ / heure 
         eur_entretien_0_9 = 3.2 # 3.2€ / jour si moins de 9h
         eur_entretien_9_plus = 4.0 # 4.0€ / jour si plus de 9h
+        eur_entretien_minimum = 32.0 # 32 € d'entretien minimum
         eur_repas_midi_6_18m = 2.0
         eur_repas_midi_plus_18m = 3.0
         eur_repas_gouter = 1.0
@@ -37,15 +38,20 @@ class mam_mois_e(osv.Model):
             date_debut_avenant = mois_e.avenant_id.date_debut # au format yyyy-mm-dd
             date_fin_avenant = mois_e.avenant_id.date_fin # au format yyyy-mm-dd (ou false s'il n'y en a pas)
 
+            remarques = ""
             jour_debut = 1
+            est_debut_avenant = False
+            est_fin_avenant = False
             if date_debut_avenant[:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois du début du contrat, le jour_début est le premier jour du contrat.
                 jour_debut = int(date_debut_avenant[8:])
+                est_debut_avenant = True
             date_debut_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_debut)
             date_debut_mois_d = date(mois_e.annee, mois_e.mois, jour_debut)
 
             jour_fin = calendar.monthrange(mois_e.annee, mois_e.mois)[1] # dernier jour du mois = nombre de jours dans le mois
             if date_fin_avenant and date_fin_avenant [:7] == "{0}-{1:02d}".format(mois_e.annee, mois_e.mois): # le mois de fin du contrat, le jour_fin est le dernier jour du contrat.
                 jour_fin = int(date_fin_avenant[8:])
+                est_fin_avenant = True
             date_fin_mois = "{0}-{1:02d}-{2:02d}".format(mois_e.annee, mois_e.mois, jour_fin)
 
             _logger.info(pl("--- debut calcul mois :", mois_e.avenant_id.contrat_id.enfant_id.nomprenom, date_debut_mois, date_fin_mois))
@@ -58,7 +64,7 @@ class mam_mois_e(osv.Model):
                 lundi_mois_prec_d = date_debut_mois_d - timedelta(days=date_debut_mois_d.weekday())
 
             # tarif du repas du midi par rapport à l'age
-            age_mois = (datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30
+            age_mois = int((datetime.strptime(date_fin_mois,'%Y-%m-%d') - datetime.strptime(mois_e.avenant_id.contrat_id.enfant_id.date_naiss,'%Y-%m-%d')).days / 30.417)
             _logger.info(pl( "age du gamin", age_mois))
             if age_mois > 18:
                 eur_repas_midi = eur_repas_midi_plus_18m
@@ -66,7 +72,9 @@ class mam_mois_e(osv.Model):
             else:
                 eur_repas_midi = eur_repas_midi_6_18m
                 _logger.info(pl( ">= 18, repas midi :",eur_repas_midi))
-
+            remarques += "age enfant (mois) : " + `age_mois` + "\n"
+            remarques += "tarif repas : " + `eur_repas_midi` + "\n"
+                
             # calcul du mois de régul
             if date_debut_avenant[8:] == "01": # le contrat commence en début de mois
                 # calcul du mois de regul de l'avenant (mois précédant l'anniversaire)
@@ -81,7 +89,12 @@ class mam_mois_e(osv.Model):
             # faut-il faire une régul ce mois-ci ?
             faire_regul = (mois_de_regul_avenant == mois_e.mois)
             _logger.info(pl( "faire regul : ", faire_regul))
+            if faire_regul:
+                remarques += "il faut faire une régul ce mois-ci\n"
+            else:
+                remarques += "il ne faut pas faire une régul ce mois-ci\n"
 
+            
             # on parcourt les jours pour récupérer les infos
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             m_complementaires = m_supplementaires = m_imprev_semaine = 0
@@ -107,10 +120,17 @@ class mam_mois_e(osv.Model):
                 m_pres_imprev += j_pres_imprev
                 m_absent += j_absent
                 m_excuse += j_excuse
-                m_imprev_semaine += mam_tools.conv_str2minutes(jour_e.minutes_present_imprevu)
                 if j_pres_prev + j_pres_imprev + j_absent > 0:
                     nb_jours_activite += 1
+                
+                # pour les contrats halte garderie, il n'y a pas de prévu, seulement de l'imprévu ; on transfert tout dans l'imprévu.
+                if type_contrat != u'normal':
+                    m_pres_imprev += m_pres_prev
+                    m_pres_prev = 0
 
+
+                # pour un contrat normal, on compte les heures complémentaires et supplémentaires
+                m_imprev_semaine += j_pres_imprev
                 # le vendredi, calcul des jours complémentaires/supplémentaires
                 if datetime.strptime(jour_e.jour,'%Y-%m-%d').weekday() == 4:
                     # heure complémentaire : heure non prévue au contrat jusqu'à 46h par semaine # on stocke des minutes
@@ -120,15 +140,18 @@ class mam_mois_e(osv.Model):
                     else:
                         m_complementaires += 46*60
                         m_supplementaires += m_imprev_semaine - 46*60
-                    # on remet le compteur à zero pour la semaine suivante
                     _logger.error(pl( "semaine ",jour_e.jour,":", m_imprev_semaine, "compl:", m_complementaires, "suppl:",m_supplementaires))
+                    remarques += "imprevu semaine du " + jour_e.jour + ": "+ `m_imprev_semaine`+ " m, total compl:"+ `m_complementaires`+ " m, total suppl:"+`m_supplementaires`+" m\n"
+                    # on remet le compteur à zero pour la semaine suivante
                     m_imprev_semaine = 0
+                # pour un contrat halte garderie, on ne compte que les heures supplémentaires
+                if type_contrat != u'normal':
+                    m_complementaires = 0
 
-
-
+                    
                 # calculs des frais d'entretiens
                 if j_pres_prev + j_pres_imprev > 0:
-                    if j_pres_prev + j_pres_imprev <= 9*60:
+                    if j_pres_prev + j_pres_imprev < 9*60:
                         indemnite_entretien += eur_entretien_0_9
                     else:
                         indemnite_entretien += eur_entretien_9_plus
@@ -140,27 +163,69 @@ class mam_mois_e(osv.Model):
                     indemnite_gouter += eur_repas_gouter
                 indemnite_frais += jour_e.frais_montant
 
+            m_contrat = 0
+            salaire_base_net = 0
+            m_effectif = 0
+            if type_contrat == u'normal':
+                # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
+                if indemnite_entretien < eur_entretien_minimum and not est_debut_avenant and not est_fin_avenant :
+                    # TODO: a améliorer pour que si le début du contrat et le premier jour du mois ou fin = fin on prenne qd meme le minimum...
+                    remarques += "Passage entretien minimum : " + `indemnite_entretien` + " --> " + `eur_entretien_minimum` + "\n"
+                    indemnite_entretien = eur_entretien_minimum
+
 # quand enfant malade avec justif : les heures sont déduites du salaire de base mensuel + on décompte le nombre d'heures restantes du nombre total d'heures prévues au contrat
 # cause am = comme quand malade
 
-            m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
-            salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
+                m_contrat = mois_e.avenant_id.nb_h_par_an * (60/12) # on stocke des minutes par mois
+                salaire_base_net = float(m_contrat)/60 * eur_salaire_horaire_net
 
-            m_effectif = m_contrat - m_excuse
+                m_effectif = m_contrat - m_excuse
+                # on arrondit au dessus :
+                m_effectif = (m_effectif + 59) / 60 * 60
+            
+            if type_contrat == u'normal':
+                m_a_comptabiliser = m_pres_prev-m_excuse
+            else:
+                m_a_comptabiliser = m_pres_imprev
+            
             
             # Pour le premier mois, on compte comme en halte garderie : ce qui est du. Pas de congés ?
-            presences_net = float(m_pres_prev-m_excuse)/60 * eur_salaire_horaire_net + float(m_complementaires)/60 * eur_salaire_complementaire_net + float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            m_ajout_arrondi = (60 - ((m_a_comptabiliser) % 60)) % 60 
+            remarques += "Ajout minutes pour arrondi : " + `m_ajout_arrondi` + "\n"
+            remarques += "  Total minutes après arrondi : " + mam_tools.conv_minutes2str(m_a_comptabiliser + m_ajout_arrondi) + "\n"
+            complementaires_net = float(m_complementaires)/60 * eur_salaire_complementaire_net
+            supplementaires_net = float(m_supplementaires)/60 * eur_salaire_supplementaire_net
+            presences_net = float(m_a_comptabiliser + m_ajout_arrondi)/60 * eur_salaire_horaire_net
             absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
-            # salaire_hors_cp_abs_net:
+            # salaire_hors_cp_abs_net :
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
+            cp_net = 0
             if type_contrat == u'normal':
-                salaire_hors_cp_abs_net = salaire_base_net
+                # TODO : le premier mois il est compté en présence_net
+                if est_debut_avenant:
+                    salaire_hors_cp_abs_net = presences_net
+                else:
+                    salaire_hors_cp_abs_net = salaire_base_net
+                # TODO :
+                # les congés payés ne sont pas pris en compte depuis le début jusqu'au 31 mais
+                # a partir du 1er juin qui suit le début du contrat, il faut ajouter les congés payés qui sont fonction du début du contrat
+                # les CP, c'est un montant fixe 1/12 de 1/10 de la rémunération net (salaire net) qui a eu lieu jusqu'à présent
+                # ce montant, c'est toujours le même pendant 1 an.
+                # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
+                cp_net = 0
             else:
                 salaire_hors_cp_abs_net = presences_net
-            salaire_hors_abs_net = 0
-            salaire_net = 0 #presences_net + absences_net
+                # CP : 10% tous les mois
+                cp_net = salaire_hors_cp_abs_net * 0.1
+
+            salaire_net = salaire_hors_cp_abs_net + cp_net - absences_net  + complementaires_net + supplementaires_net
+            
+            # TODO : calcul de l'indemnité de rupture :
+            # il faut que le contrat ait plus d'un an d'ancienneté
+            # = 1/120 du total des salaires net perçus pendant la totalité du contrat
+            indemnite_rupture = 0
 
             result[mois_e.id] = {}
             result[mois_e.id]['jour_debut'] = jour_debut
@@ -179,18 +244,20 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['nb_jours_activite'] = nb_jours_activite
             result[mois_e.id]['presences_brut'] = presences_net * coef_net_brut
             result[mois_e.id]['presences_net'] = presences_net
-            result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
-            result[mois_e.id]['absences_net'] = absences_net
             result[mois_e.id]['salaire_hors_cp_abs_brut'] = salaire_hors_cp_abs_net * coef_net_brut
             result[mois_e.id]['salaire_hors_cp_abs_net'] = salaire_hors_cp_abs_net
-            result[mois_e.id]['salaire_hors_abs_brut'] = salaire_hors_abs_net * coef_net_brut
-            result[mois_e.id]['salaire_hors_abs_net'] = salaire_hors_abs_net
+            result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
+            result[mois_e.id]['absences_net'] = absences_net
+            result[mois_e.id]['cp_brut'] = cp_net * coef_net_brut
+            result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
+            result[mois_e.id]['indemnite_rupture'] = indemnite_rupture
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
             result[mois_e.id]['indemnite_midi'] = indemnite_midi
             result[mois_e.id]['indemnite_gouter'] = indemnite_gouter
             result[mois_e.id]['indemnite_frais'] = indemnite_frais
+            result[mois_e.id]['remarques'] = remarques
         return result
     _columns = {
         'annee': fields.integer('Année',required=True, help='L''année'),
@@ -337,17 +404,17 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
-        "salaire_hors_abs_brut": fields.function(
+        "cp_brut": fields.function(
             calculs_mois,
             type="float",
-            string="Salaire avec CP hors absences brut",
+            string="CP brut",
             store=None,
             multi='calculs_mois',
         ),
-        "salaire_hors_abs_net": fields.function(
+        "cp_net": fields.function(
             calculs_mois,
             type="float",
-            string="Salaire avec CP hors absences net",
+            string="CP net",
             store=None,
             multi='calculs_mois',
         ),
@@ -389,7 +456,21 @@ class mam_mois_e(osv.Model):
         "indemnite_frais": fields.function(
             calculs_mois,
             type="float",
-            string="Indemnité kilométrique et de rupture",
+            string="Indemnité kilométrique",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "indemnite_rupture": fields.function(
+            calculs_mois,
+            type="float",
+            string="Indemnité de rupture",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "remarques": fields.function(
+            calculs_mois,
+            type="text",
+            string="Remarques",
             store=None,
             multi='calculs_mois',
         ),
