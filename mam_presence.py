@@ -105,10 +105,10 @@ class mam_jour_e(osv.Model):
                 elif not est_excuse and type == 'e':
                     #assert est_debut == True
                     est_excuse = est_debut
-                elif est_abus and type == 'e':
+                elif est_abus and type == 'a':
                     #assert est_debut == False
                     est_abus = est_debut
-                elif not est_abus and type == 'e':
+                elif not est_abus and type == 'a':
                     #assert est_debut == True
                     est_abus = est_debut
                 hdebut = heure
