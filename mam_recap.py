@@ -380,6 +380,20 @@ class mam_mois_e(osv.Model):
             store=None,
             multi='calculs_mois',
         ),
+        "excuse_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Excuse brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "excuse_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Excuse net",
+            store=None,
+            multi='calculs_mois',
+        ),
         "salaire_base_brut": fields.function(
             calculs_mois,
             type="float",
