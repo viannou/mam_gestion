@@ -67,11 +67,13 @@ class mam_jour_e(osv.Model):
                     liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'r',True), (mam_tools.conv_str2minutes(reel.heure_fin),'r',False)]
                 if reel.type in [u'malade',u'cause_am']: # e = excusé
                     liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'e',True), (mam_tools.conv_str2minutes(reel.heure_fin),'e',False)]
+                if reel.type in [u'abus',u'absent']: # a = abus
+                    liste += [(mam_tools.conv_str2minutes(reel.heure_debut),'a',True), (mam_tools.conv_str2minutes(reel.heure_fin),'a',False)]
             liste.sort()
             # print liste
             
             hdebut = 0
-            est_prevu = est_present = est_excuse = False
+            est_prevu = est_present = est_excuse = est_abus = False
             m_pres_prev = m_pres_imprev = m_absent = m_excuse = 0
             for (heure,type,est_debut) in liste:
                 # print (heure,type,est_debut)
@@ -82,7 +84,7 @@ class mam_jour_e(osv.Model):
                     m_excuse += delta
                 elif not est_prevu and est_present:
                     m_pres_imprev += delta
-                elif est_prevu and not est_present and not est_excuse:
+                elif (est_prevu and not est_present and not est_excuse) or est_abus:
                     m_absent += delta
 
                 if est_prevu and type == 'p':
@@ -103,6 +105,12 @@ class mam_jour_e(osv.Model):
                 elif not est_excuse and type == 'e':
                     #assert est_debut == True
                     est_excuse = est_debut
+                elif est_abus and type == 'a':
+                    #assert est_debut == False
+                    est_abus = est_debut
+                elif not est_abus and type == 'a':
+                    #assert est_debut == True
+                    est_abus = est_debut
                 hdebut = heure
             # print "minutes_present_prevu ", m_pres_prev
             # print "minutes_present_imprevu ", m_pres_imprev

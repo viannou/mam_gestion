@@ -51,6 +51,8 @@
  					<field name="salaire_hors_cp_abs_net"/>
  					<field name="absences_brut"/>
  					<field name="absences_net"/>
+ 					<field name="excuse_brut"/>
+ 					<field name="excuse_net"/>
  					<field name="cp_brut"/>
  					<field name="cp_net"/>
  					<field name="salaire_brut"/>

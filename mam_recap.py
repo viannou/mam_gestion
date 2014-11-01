@@ -165,6 +165,8 @@ class mam_mois_e(osv.Model):
 
             m_contrat = 0
             salaire_base_net = 0
+            absences_net = 0
+            excuse_net = 0
             m_effectif = 0
             if type_contrat == u'normal':
                 # indemnité d'entretien minimum : 32€ (si le contrat ne se termine pas ou ne commence pas)
@@ -196,7 +198,6 @@ class mam_mois_e(osv.Model):
             complementaires_net = float(m_complementaires)/60 * eur_salaire_complementaire_net
             supplementaires_net = float(m_supplementaires)/60 * eur_salaire_supplementaire_net
             presences_net = float(m_a_comptabiliser + m_ajout_arrondi)/60 * eur_salaire_horaire_net
-            absences_net = float(m_absent)/60 * eur_salaire_horaire_net
 
             # salaire_hors_cp_abs_net :
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
@@ -215,12 +216,15 @@ class mam_mois_e(osv.Model):
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
                 cp_net = 0
+                excuse_net = float(m_excuse)/60 * eur_salaire_horaire_net
+                salaire_net = salaire_hors_cp_abs_net + cp_net - excuse_net  + complementaires_net + supplementaires_net
             else:
                 salaire_hors_cp_abs_net = presences_net
+                absences_net = float(m_absent)/60 * eur_salaire_horaire_net
                 # CP : 10% tous les mois
-                cp_net = salaire_hors_cp_abs_net * 0.1
+                cp_net = (salaire_hors_cp_abs_net + absences_net) * 0.1
+                salaire_net = salaire_hors_cp_abs_net + absences_net + cp_net  + complementaires_net + supplementaires_net
 
-            salaire_net = salaire_hors_cp_abs_net + cp_net - absences_net  + complementaires_net + supplementaires_net
             
             # TODO : calcul de l'indemnité de rupture :
             # il faut que le contrat ait plus d'un an d'ancienneté
@@ -248,6 +252,8 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['salaire_hors_cp_abs_net'] = salaire_hors_cp_abs_net
             result[mois_e.id]['absences_brut'] = absences_net * coef_net_brut
             result[mois_e.id]['absences_net'] = absences_net
+            result[mois_e.id]['excuse_brut'] = excuse_net * coef_net_brut
+            result[mois_e.id]['excuse_net'] = excuse_net
             result[mois_e.id]['cp_brut'] = cp_net * coef_net_brut
             result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
@@ -373,6 +379,20 @@ class mam_mois_e(osv.Model):
             calculs_mois,
             type="float",
             string="Absences net",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "excuse_brut": fields.function(
+            calculs_mois,
+            type="float",
+            string="Excuse brut",
+            store=None,
+            multi='calculs_mois',
+        ),
+        "excuse_net": fields.function(
+            calculs_mois,
+            type="float",
+            string="Excuse net",
             store=None,
             multi='calculs_mois',
         ),
