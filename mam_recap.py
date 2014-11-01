@@ -219,11 +219,11 @@ class mam_mois_e(osv.Model):
                 excuse_net = float(m_excuse)/60 * eur_salaire_horaire_net
                 salaire_net = salaire_hors_cp_abs_net + cp_net - excuse_net  + complementaires_net + supplementaires_net
             else:
-                absences_net = float(m_absent)/60 * eur_salaire_horaire_net
                 salaire_hors_cp_abs_net = presences_net
+                absences_net = float(m_absent)/60 * eur_salaire_horaire_net
                 # CP : 10% tous les mois
-                cp_net = salaire_hors_cp_abs_net * 0.1
-                salaire_net = salaire_hors_cp_abs_net + cp_net + absences_net  + complementaires_net + supplementaires_net
+                cp_net = (salaire_hors_cp_abs_net + absences_net) * 0.1
+                salaire_net = salaire_hors_cp_abs_net + absences_net + cp_net  + complementaires_net + supplementaires_net
 
             
             # TODO : calcul de l'indemnité de rupture :
