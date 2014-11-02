@@ -271,7 +271,7 @@ class mam_mois_e(osv.Model):
         'avenant_id': fields.many2one('mam.avenant','Avenant',required=True, help='Avenant concerné par le mois'),
 
         # this is a special field used if you want to force the recalculation of all fileds.function fields
-        "force_update_date": fields.datetime('force_update_date', size=36),
+        "force_update_date": fields.datetime('Mise à jour'),
  
  
         "jour_debut": fields.function(
@@ -545,6 +545,16 @@ class mam_mois_e(osv.Model):
     _defaults = {
         'avenant_id': lambda self,cr,uid,context: context.get('avenant_id', 0), 
         # here we force the calculation on creation 
-        "force_update_date": lambda *a: datetime.today(),
+        #"force_update_date": lambda *a: datetime.today(),
     }
+    def action_update(self, cr, uid, ids, context=None):
+        """Faire tous les calculs du mois : invoquer force_update"""
+
+        #for mois_e in self.browse(cr, uid, ids, context=context):
+        for id in ids:
+            self.write(
+                cr, uid, id,
+                {'force_update_date': datetime.today()},
+                context=context
+            )
 mam_mois_e()

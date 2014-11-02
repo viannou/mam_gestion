@@ -12,8 +12,8 @@
 				<field name="annee"/>
 				<field name="mois"/>
 				<field name="avenant_id"/>
-				<field name="jour_debut"/>
-				<field name="jour_fin"/>
+				<field name="salaire_brut"/>
+				<field name="salaire_net"/>
 				<field name="minutes_present_prevu"/>
 				<field name="minutes_present_imprevu"/>
 				<field name="minutes_absent"/>
@@ -28,6 +28,8 @@
 		<field name="arch" type="xml">
 			<form string="Mois">
 				<group col="2" colspan="2">
+					<field name="force_update_date"/>
+					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" />
 					<field name="annee"/>
 					<field name="mois"/>
 					<field name="avenant_id"/>
