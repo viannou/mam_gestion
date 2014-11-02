@@ -580,7 +580,7 @@ class mam_mois_e(osv.Model):
                     mois_e_ids = self.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', annee),('mois','=', mois)], context=context)
                     if not mois_e_ids: # le mois de l'avenant n'existe pas encore
                         print "cree mois avenant ", avenant.id, " annee ", annee, " mois ", mois
-                        mam_mois_e.create(cr, uid,{ 'annee': annee,'mois': mois,'avenant_id' : avenant.id,})
+                        self.create(cr, uid,{ 'annee': annee,'mois': mois,'avenant_id' : avenant.id,})
         return True
             
 mam_mois_e()
