@@ -579,8 +579,8 @@ class mam_mois_e(osv.Model):
                 if (avenant.date_debut < "{0}-{1}-28".format(annee, mois)) and (avenant.date_fin < "{0}-{1}-01".format(annee, mois)):
                     mois_e_ids = self.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', annee),('mois','=', mois)], context=context)
                     if not mois_e_ids: # le mois de l'avenant n'existe pas encore
-                        print "cree mois avenant ", avenant.id, " annee ", jour.year, " mois ", jour.month 
-                        mam_mois_e.create(cr, uid,{ 'annee': jour.year,'mois': jour.month,'avenant_id' : avenant.id,})
+                        print "cree mois avenant ", avenant.id, " annee ", annee, " mois ", mois
+                        mam_mois_e.create(cr, uid,{ 'annee': annee,'mois': mois,'avenant_id' : avenant.id,})
         return True
             
 mam_mois_e()
