@@ -545,6 +545,6 @@ class mam_mois_e(osv.Model):
     _defaults = {
         'avenant_id': lambda self,cr,uid,context: context.get('avenant_id', 0), 
         # here we force the calculation on creation 
-        "force_update": lambda *a: datetime.today(),
+        "force_update_date": lambda *a: datetime.today(),
     }
 mam_mois_e()
