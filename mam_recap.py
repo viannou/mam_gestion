@@ -577,7 +577,7 @@ class mam_mois_e(osv.Model):
                 datetime.strptime(avenant.date_debut,'%Y-%m-%d')
                 # si le mois a des jours dans l'avenant (on triche, on met la fin du mois le 28 (il y a un 28 tous les mois)
                 print avenant.date_debut, "{0}-{1}-28".format(annee, mois), avenant.date_fin, "{0}-{1}-01".format(annee, mois)
-                if (avenant.date_debut < "{0}-{1}-28".format(annee, mois)) and (avenant.date_fin > "{0}-{1}-01".format(annee, mois)):
+                if (avenant.date_debut < "{0}-{1}-28".format(annee, mois)) and (avenant.date_fin == False or avenant.date_fin > "{0}-{1}-01".format(annee, mois)):
                     mois_e_ids = self.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', annee),('mois','=', mois)], context=context)
                     if not mois_e_ids: # le mois de l'avenant n'existe pas encore
                         print "cree mois avenant ", avenant.id, " annee ", annee, " mois ", mois
