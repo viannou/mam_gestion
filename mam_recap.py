@@ -6,6 +6,8 @@ import mam_tools
 from mam_tools import pl, ppl
 import pprint
 import logging
+import mam_enfant
+from mam_enfant import mam_avenant
 
 _logger = logging.getLogger("recap ::::")
 
