@@ -273,6 +273,7 @@ class mam_mois_e(osv.Model):
         # this is a special field used if you want to force the recalculation of all fileds.function fields
         "force_update_date": fields.datetime('force_update_date', size=36),
  
+ 
         "jour_debut": fields.function(
             calculs_mois,
             type="integer",
