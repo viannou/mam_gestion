@@ -38,6 +38,8 @@ def verif_heures(hdebut, hfin, fin_obligatoire=False):
         return False
 
 def conv_str2minutes(str):
+    if str == False or str == "":
+        str = "0:0"
     if ":" in str:
         (h,m) = str.split(":") # 11:45
     else:
