@@ -177,7 +177,9 @@ class mam_avenant(osv.Model):
             nb_m = 0
             mam_mois_e = self.pool.get('mam.mois_e')
             mois_e_ids = mam_mois_e.search(cr, uid, [('avenant_id','=',record.id)], context=context)
-            for mois_e in mam_mois_e.browse(cr, uid, mois_e_ids, context=context):
+            for mois_e in mam_mois_e.browse(cr, uid, mois_e_ids, context=context):  
+                print "mois ", mois_e, " , h ", mois_e.minutes_present_prevu
+                
                 nb_m += mam_tools.conv_str2minutes(mois_e.minutes_present_prevu) + mam_tools.conv_str2minutes(mois_e.minutes_absent) + mam_tools.conv_str2minutes(mois_e.minutes_excuse)
 
             result[record.id]= mam_tools.conv_minutes2str(nb_m)
