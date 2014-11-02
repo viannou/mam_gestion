@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date,timedelta
+from mam_tools import pl, ppl
 import logging
 
 _logger = logging.getLogger("enfant ::::")
