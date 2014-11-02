@@ -557,4 +557,12 @@ class mam_mois_e(osv.Model):
                 {'force_update_date': datetime.today()},
                 context=context
             )
+    def action_creer_mois_suivant(self, cr, uid, ids, context=None):
+        """Créer le mois suivant de l'avenant : j'essaie d'invoquer l'action de l'avenant..."""
+        mam_avenant = self.pool.get('mam.avenant')
+
+        #for mois_e in self.browse(cr, uid, ids, context=context):
+        for id in ids:
+            mam_avenant.action_creer_mois(cr, uid, id, context=context)
+            
 mam_mois_e()
