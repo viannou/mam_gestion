@@ -278,7 +278,6 @@ class mam_mois_e(osv.Model):
             type="integer",
             string="jour début",
             store={'mam.mois_e': (lambda self, cr, uid, ids, context: ids, ['force_update_date'], 10),
-            },
             multi='calculs_mois',
         ),
         "jour_fin": fields.function(
