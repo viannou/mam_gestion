@@ -1,6 +1,8 @@
 # -*- coding: utf8 -*-
 from osv import fields,osv
 from datetime import datetime,date,timedelta
+import mam_tools
+from mam_tools import pl, ppl
 import logging
 
 _logger = logging.getLogger("enfant ::::")
@@ -168,6 +170,20 @@ class mam_avenant(osv.Model):
         for record in self.browse(cr, uid, ids, context=context):
             result[record.id]= record.contrat_id.enfant_id.nomprenom + " " + str(record.date_debut)
         return result
+    def _get_nb_m_effectif(self, cr, uid, ids, name, args, context=None):
+        """nombre d'heures dans les mois associés à l'avenant """
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            nb_m = 0
+            mam_mois_e = self.pool.get('mam.mois_e')
+            mois_e_ids = mam_mois_e.search(cr, uid, [('avenant_id','=',record.id)], context=context)
+            for mois_e in mam_mois_e.browse(cr, uid, mois_e_ids, context=context):  
+                print "mois ", mois_e, " , h ", mois_e.minutes_present_prevu
+                
+                nb_m += mam_tools.conv_str2minutes(mois_e.minutes_present_prevu) + mam_tools.conv_str2minutes(mois_e.minutes_absent) + mam_tools.conv_str2minutes(mois_e.minutes_excuse)
+
+            result[record.id]= mam_tools.conv_minutes2str(nb_m)
+        return result
     # def _get_calculs(self, cr, uid, ids, name, args, context=None):
         # """nom affichable de la presence """
         # result = {}
@@ -197,6 +213,13 @@ class mam_avenant(osv.Model):
         # "nb_h_par_an": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
         # "nb_h_total": fields.function(_get_calculs, type="integer", string="Nombre d'heures total de présence", store=True, multi='les_calculs', ),
         # "nb_h_par_s": fields.function(_get_calculs, type="integer", string="Nombre d'heures par semaine", store=True, multi='les_calculs', ),
+        'nb_m_effectif': fields.function(
+            _get_nb_m_effectif,
+            type="char",
+            string="Nombre d'heures effectives",
+            store=None,
+            #select=True,
+        ),
 # montant mensualisé net
 # montant mensualisé brut
     }

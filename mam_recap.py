@@ -557,4 +557,31 @@ class mam_mois_e(osv.Model):
                 {'force_update_date': datetime.today()},
                 context=context
             )
+    def action_creer_mois_suivant(self, cr, uid, ids, context=None):
+        """Créer le mois suivant de l'avenant : j'essaie d'invoquer l'action de l'avenant..."""
+        mam_avenant = self.pool.get('mam.avenant')
+
+        #for id in ids:
+        #    mam_avenant.action_creer_mois(cr, uid, id, context=context)
+        """crée les mois inexistant pour l'avenant"""
+        for mois_e in self.browse(cr, uid, ids, context=context):
+            mois = mois_e.mois + 1
+            if mois == 13:
+                mois = 1
+                annee = mois_e.annee + 1
+            else:
+                annee = mois_e.annee
+            print "mois ", mois, " année ", annee 
+            avenant_ids = mam_avenant.search(cr, uid, [('contrat_id','=',mois_e.avenant_id.contrat_id.id)], context=context)
+            for avenant in mam_avenant.browse(cr, uid, avenant_ids, context=context):
+                datetime.strptime(avenant.date_debut,'%Y-%m-%d')
+                # si le mois a des jours dans l'avenant (on triche, on met la fin du mois le 28 (il y a un 28 tous les mois)
+                print avenant.date_debut, "{0}-{1}-28".format(annee, mois), avenant.date_fin, "{0}-{1}-01".format(annee, mois)
+                if (avenant.date_debut < "{0}-{1}-28".format(annee, mois)) and (avenant.date_fin == False or avenant.date_fin > "{0}-{1}-01".format(annee, mois)):
+                    mois_e_ids = self.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', annee),('mois','=', mois)], context=context)
+                    if not mois_e_ids: # le mois de l'avenant n'existe pas encore
+                        print "cree mois avenant ", avenant.id, " annee ", annee, " mois ", mois
+                        self.create(cr, uid,{ 'annee': annee,'mois': mois,'avenant_id' : avenant.id,})
+        return True
+            
 mam_mois_e()
