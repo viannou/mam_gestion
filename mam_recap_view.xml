@@ -29,7 +29,7 @@
 			<form string="Mois">
 				<group col="2" colspan="2">
 					<field name="force_update_date"/>
-					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" />
+					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" colspan="2"/>
 					<field name="annee"/>
 					<field name="mois"/>
 					<field name="avenant_id"/>
