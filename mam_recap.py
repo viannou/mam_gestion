@@ -6,8 +6,6 @@ import mam_tools
 from mam_tools import pl, ppl
 import pprint
 import logging
-import mam_enfant
-from mam_enfant import mam_avenant
 
 _logger = logging.getLogger("recap ::::")
 
@@ -563,8 +561,24 @@ class mam_mois_e(osv.Model):
         """Créer le mois suivant de l'avenant : j'essaie d'invoquer l'action de l'avenant..."""
         mam_avenant = self.pool.get('mam.avenant')
 
-        #for mois_e in self.browse(cr, uid, ids, context=context):
-        for id in ids:
-            mam_avenant.action_creer_mois(cr, uid, id, context=context)
+        #for id in ids:
+        #    mam_avenant.action_creer_mois(cr, uid, id, context=context)
+        """crée les mois inexistant pour l'avenant"""
+        for mois_e in self.browse(cr, uid, ids, context=context):
+            mois = mois_e.annee + 1
+            if mois == 13:
+                mois = 1
+                annee = mois_e.annee + 1
+            else:
+                annee = mois_e.annee + 1
+            avenant_ids = mam_avenant.search(cr, uid, [('contrat_id','=',mois_e.avenant_id.contrat_id.id)], context=context)
+            for avenant in mam_avenant.browse(cr, uid, avenant_ids, context=context):
+                # si le mois a des jours dans l'avenant (on triche, on met la fin du mois le 28 (il y a un 28 tous les mois)
+                if avenant.date_debut < datetime.strptime("{0}-{1}-28".format(annee, mois),'%Y-%m-%d') and avenant.date_fin < datetime.strptime("{0}-{1}-01".format(annee, mois),'%Y-%m-%d')
+                    mois_e_ids = mam_mois_e.search(cr, uid, [('avenant_id','=',avenant.id),('annee','=', annee),('mois','=', mois)], context=context)
+                    if not mois_e_ids: # le mois de l'avenant n'existe pas encore
+                        print "cree mois avenant ", avenant.id, " annee ", jour.year, " mois ", jour.month 
+                        mam_mois_e.create(cr, uid,{ 'annee': jour.year,'mois': jour.month,'avenant_id' : avenant.id,})
+        return True
             
 mam_mois_e()
