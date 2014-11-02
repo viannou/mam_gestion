@@ -570,7 +570,7 @@ class mam_mois_e(osv.Model):
                 mois = 1
                 annee = mois_e.annee + 1
             else:
-                annee = mois_e.annee + 1
+                annee = mois_e.annee
             print "mois ", mois, " année ", annee 
             avenant_ids = mam_avenant.search(cr, uid, [('contrat_id','=',mois_e.avenant_id.contrat_id.id)], context=context)
             for avenant in mam_avenant.browse(cr, uid, avenant_ids, context=context):
