@@ -27,7 +27,7 @@
 		<field name="model">mam.mois_e</field>
 		<field name="arch" type="xml">
 			<form string="Mois">
-				<group col="2" colspan="2">
+				<group col="4" colspan="2">
 					<field name="force_update_date"/>
 					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" colspan="2"/>
 					<button name="action_creer_mois_suivant" type="object" class="oe_highlight" string="Créer le mois suivant" colspan="2"/>
