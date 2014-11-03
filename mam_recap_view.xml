@@ -27,25 +27,26 @@
 		<field name="model">mam.mois_e</field>
 		<field name="arch" type="xml">
 			<form string="Mois">
-				<group col="2" colspan="2">
+				<group col="4" colspan="2">
 					<field name="force_update_date"/>
-					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" colspan="2"/>
-					<button name="action_creer_mois_suivant" type="object" class="oe_highlight" string="Créer le mois suivant" colspan="2"/>
+					<button name="action_update" type="object" class="oe_highlight" string="Mettre à jour" colspan="1"/>
+					<button name="action_creer_mois_suivant" type="object" class="oe_highlight" string="Créer le mois suivant" colspan="1"/>
+					<field name="remarques" colspan="4"/>
 					<field name="annee"/>
 					<field name="mois"/>
-					<field name="avenant_id"/>
+					<field name="avenant_id" colspan="4"/>
 					<field name="jour_debut"/>
 					<field name="jour_fin"/>
-					<field name="type_contrat"/>
+					<field name="type_contrat" colspan="4"/>
 					<field name="minutes_present_prevu"/>
 					<field name="minutes_present_imprevu"/>
 					<field name="minutes_absent"/>
 					<field name="minutes_excuse"/>
-					<field name="nb_heures_mois_contrat"/>
-					<field name="nb_heures_mois_effectif"/>
-					<field name="nb_heures_complementaires"/>
-					<field name="nb_heures_supplementaires"/>
-					<field name="nb_jours_activite"/>
+					<field name="nb_heures_mois_contrat" colspan="4"/>
+					<field name="nb_heures_mois_effectif" colspan="4"/>
+					<field name="nb_heures_complementaires" colspan="4"/>
+					<field name="nb_heures_supplementaires" colspan="4"/>
+					<field name="nb_jours_activite" colspan="4"/>
  					<field name="presences_brut"/>
  					<field name="presences_net"/>
  					<field name="salaire_base_brut"/>
@@ -60,11 +61,11 @@
  					<field name="cp_net"/>
  					<field name="salaire_brut"/>
  					<field name="salaire_net"/>
-					<field name="indemnite_rupture"/>
-					<field name="indemnite_entretien"/>
-					<field name="indemnite_midi"/>
-					<field name="indemnite_gouter"/>
-					<field name="indemnite_frais"/>
+					<field name="indemnite_rupture" colspan="4"/>
+					<field name="indemnite_entretien" colspan="4"/>
+					<field name="indemnite_midi" colspan="4"/>
+					<field name="indemnite_gouter" colspan="4"/>
+					<field name="indemnite_frais" colspan="4"/>
 				</group>
 			</form>
 		</field>
