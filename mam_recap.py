@@ -216,11 +216,15 @@ class mam_mois_e(osv.Model):
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
                 cp_net = 0
-                excuse_net = float(m_excuse)/60 * eur_salaire_horaire_net
+                # on arrondit au dessus :
+                m_excuse_arrondi = (m_excuse + 59) / 60 * 60
+                excuse_net = float(m_excuse_arrondi)/60 * eur_salaire_horaire_net
                 salaire_net = salaire_hors_cp_abs_net + cp_net - excuse_net  + complementaires_net + supplementaires_net
             else:
                 salaire_hors_cp_abs_net = presences_net
-                absences_net = float(m_absent)/60 * eur_salaire_horaire_net
+                # on arrondit au dessus :
+                m_absent_arrondi = (m_absent + 59) / 60 * 60
+                absences_net = float(m_absent_arrondi)/60 * eur_salaire_horaire_net
                 # CP : 10% tous les mois
                 cp_net = (salaire_hors_cp_abs_net + absences_net) * 0.1
                 salaire_net = salaire_hors_cp_abs_net + absences_net + cp_net  + complementaires_net + supplementaires_net
