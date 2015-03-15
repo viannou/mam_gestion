@@ -225,11 +225,10 @@ class mam_jour_e(osv.Model):
         return True
     def action_copier_presence_prevue(self, cr, uid, ids, context=None):
         """Cliquer ici pour copier les présences prévisionnelles dans les présences réelles"""
-        print "copie des jours prev"
-        # for jour_e in self.browse(cr, uid, ids, context=context):
-            # print jour_e.jour, jour_e.enfant_id.prenom, jour_e.presence_prevue_ids
-            # for presence_prevue in jour_e.presence_prevue_ids:
-                # self.pool.get('mam.presence_prevue').unlink(cr, uid, presence_prevue.id, context=context)
+        for jour_e in self.browse(cr, uid, ids, context=context):
+            print jour_e.jour, jour_e.enfant_id.prenom, jour_e.presence_prevue_ids
+            for presence_prevue in jour_e.presence_prevue_ids:
+                print "copie des jours prev", presence_prevue.heure_debut, presence_prevue.heure_fin
         return True
 mam_jour_e()
 
