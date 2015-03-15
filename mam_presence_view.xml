@@ -50,6 +50,8 @@
 							<field name="heure_fin" on_change="on_change_heure(heure_debut,heure_fin )"/>
 						</tree> 
 					</field>
+					<separator string="" colspan="1"/>
+					<button name="action_copier_presence_prevue" type="object" class="oe_highlight" string="Cliquer ici pour copier les présences prévisionnelles dans les présences réelles" />
 					<field name="presence_e_ids" string="Presences/absences reelles" > 
 						<tree editable='bottom'> 
 							<field name="type"/>
