@@ -229,6 +229,7 @@ class mam_jour_e(osv.Model):
             print jour_e.jour, jour_e.enfant_id.prenom, jour_e.presence_prevue_ids
             for presence_prevue in jour_e.presence_prevue_ids:
                 print "copie des jours prev", presence_prevue.heure_debut, presence_prevue.heure_fin
+                self.pool.get('mam.presence_e').create(cr, uid,{'jour_e_id': jour_e.id, 'type': u'normal', 'heure_debut': presence_prevue.heure_debut, 'heure_fin': presence_prevue.heure_fin, 'libelle': presence_prevue.libelle})
         return True
 mam_jour_e()
 
