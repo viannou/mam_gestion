@@ -216,10 +216,18 @@ class mam_mois_e(osv.Model):
                 # les CP, c'est un montant fixe 1/12 de 1/10 de la rémunération net (salaire net) qui a eu lieu jusqu'à présent
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
+                # en fait on fait le calcul à chaque mois, donc on cherche le mois de mai précédent et le moi de juin de l'année -1
+                if mois_e.mois > 6:
+                    date_cp_annee_debut = mois_e.annee - 1
+                else:
+                    date_cp_annee_debut = mois_e.annee - 2
+                
                 mam_mois_e2 = self.pool.get('mam.mois_e')
                 mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
                     _logger.error(pl( "----- CP annee: ",mois_e2.annee, ", mois: ",mois_e2.mois))
+                    if (mois_e2.annee == date_cp_annee_debut and mois_e2.mois >= 6) or (mois_e2.annee == date_cp_annee_debut + 1 and mois_e2.mois < 6):
+                        _logger.error(pl( "----- on la compte"))
                 cp_net = 0
                 
                 # on arrondit au dessus :
