@@ -57,6 +57,8 @@
  					<field name="absences_net"/>
  					<field name="excuse_brut"/>
  					<field name="excuse_net"/>
+ 					<field name="cumul_salaire_brut_encours"/>
+ 					<field name="cumul_salaire_net_encours"/>
  					<field name="cp_brut"/>
  					<field name="cp_net"/>
  					<field name="salaire_brut"/>
