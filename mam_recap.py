@@ -217,14 +217,10 @@ class mam_mois_e(osv.Model):
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
                 # en fait on fait le calcul à chaque mois, donc on cherche le mois de mai précédent et le moi de juin de l'année -1
-                if mois_e.mois > 6:
+                if mois_e.mois >= 6:
                     date_cp_annee_debut = mois_e.annee - 1
                 else:
                     date_cp_annee_debut = mois_e.annee - 2
-                    
-                # pour le debug !!!
-                date_cp_annee_debut = date_cp_annee_debut + 1
-                
                 mam_mois_e2 = self.pool.get('mam.mois_e')
                 mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
