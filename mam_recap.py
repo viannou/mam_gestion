@@ -230,7 +230,8 @@ class mam_mois_e(osv.Model):
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
                     _logger.error(pl( "----- CP annee: ",mois_e2.annee, ", mois: ",mois_e2.mois))
                     if (mois_e2.annee == date_cp_annee_debut and mois_e2.mois >= 6) or (mois_e2.annee == date_cp_annee_debut + 1 and mois_e2.mois < 6):
-                        _logger.error(pl( "----- on la compte "))
+                        _logger.error(pl( "----- on la compte = + ", mois_e2.salaire_net))
+                        cumul_salaire_net_encours += mois_e2.salaire_net
                 cp_net = 0
                 
                 # on arrondit au dessus :
