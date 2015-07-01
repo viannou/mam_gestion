@@ -203,6 +203,7 @@ class mam_mois_e(osv.Model):
             # Pour les contrats CDI : salaire de base prévu au contrat (sauf pour le premier mois où c’est le salaire au réel, càd en fonction du nombre d’heures réalisées dans le mois
             # Pour les contrats occasionnels : nb d’heures réalisées dans le mois x 3,20€
             cp_net = 0
+            cumul_salaire_net_encours = 0
             if type_contrat == u'normal':
                 # TODO : le premier mois il est compté en présence_net
                 if est_debut_avenant:
@@ -219,7 +220,6 @@ class mam_mois_e(osv.Model):
                 mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
                     _logger.error(pl( "----- CP annee: ",mois_e2.annee, ", mois: ",mois_e2.mois))
-                cumul_salaire_net_encours = 0
                 cp_net = 0
                 
                 # on arrondit au dessus :
