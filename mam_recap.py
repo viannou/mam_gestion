@@ -219,7 +219,7 @@ class mam_mois_e(osv.Model):
                 mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
                     _logger.error(pl( "----- CP annee: ",mois_e2.annee, ", mois: ",mois_e2.mois))
-
+                cumul_salaire_net_encours = 0
                 cp_net = 0
                 
                 # on arrondit au dessus :
@@ -268,7 +268,7 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
-            result[mois_e.id]['cumul_salaire_brut_encours'] = cumul_salaire_brut_encours
+            result[mois_e.id]['cumul_salaire_brut_encours'] = cumul_salaire_net_encours * coef_net_brut
             result[mois_e.id]['cumul_salaire_net_encours'] = cumul_salaire_net_encours
             result[mois_e.id]['indemnite_rupture'] = indemnite_rupture
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
