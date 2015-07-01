@@ -221,6 +221,7 @@ class mam_mois_e(osv.Model):
                     date_cp_annee_debut = mois_e.annee - 1
                 else:
                     date_cp_annee_debut = mois_e.annee - 2
+                    
                 mam_mois_e2 = self.pool.get('mam.mois_e')
                 mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
                 for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
