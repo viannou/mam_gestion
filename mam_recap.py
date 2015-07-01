@@ -210,12 +210,18 @@ class mam_mois_e(osv.Model):
                 else:
                     salaire_hors_cp_abs_net = salaire_base_net
                 # TODO :
-                # les congés payés ne sont pas pris en compte depuis le début jusqu'au 31 mais
+                # les congés payés ne sont pas pris en compte depuis le début jusqu'au 31 mai
                 # a partir du 1er juin qui suit le début du contrat, il faut ajouter les congés payés qui sont fonction du début du contrat
                 # les CP, c'est un montant fixe 1/12 de 1/10 de la rémunération net (salaire net) qui a eu lieu jusqu'à présent
                 # ce montant, c'est toujours le même pendant 1 an.
                 # L'année d'après, on refait le calcul (et pour l'histoire, le salaire net comprend les congés payés de l'année précédente...)
+                mam_mois_e2 = self.pool.get('mam.mois_e')
+                mam_mois_e2_ids = mam_mois_e2.search(cr, uid, [('avenant_id','=',mois_e.avenant_id.id)], order='annee, mois', context=context)
+                for mois_e2 in mam_mois_e2.browse(cr, uid, mam_mois_e2_ids, context=context):
+                    _logger.error(pl( "----- CP annee: ",mois_e2.annee, ", mois: ",mois_e2.mois))
+
                 cp_net = 0
+                
                 # on arrondit au dessus :
                 m_excuse_arrondi = (m_excuse + 59) / 60 * 60
                 excuse_net = float(m_excuse_arrondi)/60 * eur_salaire_horaire_net
@@ -262,6 +268,8 @@ class mam_mois_e(osv.Model):
             result[mois_e.id]['cp_net'] = cp_net
             result[mois_e.id]['salaire_brut'] = salaire_net * coef_net_brut
             result[mois_e.id]['salaire_net'] = salaire_net
+            result[mois_e.id]['cumul_salaire_brut_encours'] = cumul_salaire_brut_encours
+            result[mois_e.id]['cumul_salaire_net_encours'] = cumul_salaire_net_encours
             result[mois_e.id]['indemnite_rupture'] = indemnite_rupture
             result[mois_e.id]['indemnite_entretien'] = indemnite_entretien
             result[mois_e.id]['indemnite_midi'] = indemnite_midi
@@ -457,6 +465,20 @@ class mam_mois_e(osv.Model):
             calculs_mois,
             type="float",
             string="Salaire net",
+            store={'mam.mois_e': (lambda self, cr, uid, ids, context: ids, ['force_update_date'], 10),},
+            multi='calculs_mois',
+        ),
+        "cumul_salaire_brut_encours": fields.function(
+            calculs_mois,
+            type="float",
+            string="Cumul salaire brut depuis le 01/06",
+            store={'mam.mois_e': (lambda self, cr, uid, ids, context: ids, ['force_update_date'], 10),},
+            multi='calculs_mois',
+        ),
+        "cumul_salaire_net_encours": fields.function(
+            calculs_mois,
+            type="float",
+            string="Cumul salaire net depuis le 01/06",
             store={'mam.mois_e': (lambda self, cr, uid, ids, context: ids, ['force_update_date'], 10),},
             multi='calculs_mois',
         ),
