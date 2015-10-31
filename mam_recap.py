@@ -17,6 +17,7 @@ class mam_mois_e(osv.Model):
         # Problème du début de contrat (d'avenants) en milieu de mois : on considère que le premier mois est une régul. 
         # L'année commence le mois suivant.
 
+
         # Valeurs partagées
         eur_salaire_horaire_net = 3.2 # 3.2€ / heure 
         eur_salaire_complementaire_net = 3.2 # 3.2€ / heure 
